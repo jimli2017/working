@@ -1,0 +1,85 @@
+<!--
+  Generated template for the StoreBugReportPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>故障报修</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="commit()">
+        提交
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <button ion-item (click)="clickMe()">
+    选择设备
+    <img style="width: 24px;height: 24px;" item-right src="assets/icon/scan.png">
+  </button>
+
+
+  <ion-list>
+
+    <ion-item>
+      故障描述(语音)
+      <img [hidden]="!hasRecord" src="assets/icon/talk.png" style="margin-right: 10%;width: 24px;height: 24px;" (tap)="playRecord()">
+    </ion-item>
+
+    <ion-item>
+      <label>发生时间</label>
+      <span>{{time}}</span>
+      <!-- <img src="assets/icon/next.png"> -->
+    </ion-item>
+
+    <ion-item (click)="levelAlert($event)">
+      <label>故障等级</label>
+      <span>{{level}}</span>
+      <img src="assets/icon/next.png">
+    </ion-item>
+
+    <ion-item (click)="typeAlert($event)">
+      <label>故障类别</label>
+      <span>{{type}}</span>
+      <img src="assets/icon/next.png">
+    </ion-item>
+
+    <ion-item (click)="stateAlert($event)">
+      <label>设备状态</label>
+      <span>{{state}}</span>
+      <img src="assets/icon/next.png">
+    </ion-item>
+
+    <ion-item>
+      <label>设备地址</label>
+      <input #addrinput type="text" [(ngModel)]="address" style="border: 0ch;margin: 0%;float: right;">
+    </ion-item>
+
+    <ion-item>
+      <label>故障描述</label>
+      <span>{{des}}</span>
+      <img src="assets/icon/next.png">
+    </ion-item>
+
+    <ion-item (click)="takephoto($event)">
+      <label>故障图片</label>
+      <span>{{size}}张</span>
+      <img src="assets/icon/next.png">
+    </ion-item>
+
+  </ion-list>
+
+  <br>
+
+  <button ion-button block (tap)="record($event)">
+    {{firstClick?"开始录音":"结束录音"}}
+  </button>
+
+</ion-content>

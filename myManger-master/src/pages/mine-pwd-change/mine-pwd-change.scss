@@ -1,0 +1,30 @@
+page-mine-pwd-change {
+
+  //Android标题右间距
+  .toolbar-content-md {
+    margin-right: 44px;
+  }
+
+  ion-footer{
+    width: 100%;
+    height: 50px;
+    background: #1e70ab;
+    color: white;
+
+    text-align: center;
+    align-items: center;
+    display: flex;
+
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  label{
+    width: 100px;
+  }
+
+  .item{
+    min-height: 3.4rem;
+    margin: 0%;
+  }
+}

@@ -1,0 +1,31 @@
+page-my-order-detail {
+
+  //Android标题右间距
+  .toolbar-content-md {
+    margin-right: 44px;
+  }
+
+  div{
+    display: flex;
+    padding: 10px 0px ;
+  }
+
+  span{
+    width: 50%;
+    font-size: 1.4rem;
+  }
+
+  label{
+    width: 40%;
+    font-size: 1.4rem;
+    margin: 0%;
+    padding-left: 16px;
+  }
+
+  img{
+    width: 18px;
+    height: 18px;
+    float: right;
+  }
+
+}

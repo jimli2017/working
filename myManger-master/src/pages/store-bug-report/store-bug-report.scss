@@ -1,0 +1,31 @@
+page-store-bug-report {
+  img{
+    width: 18px;
+    height: 18px;
+    float: right;
+  }
+
+  .item{
+    margin: 0%;
+    padding-right: 10px;
+  }
+
+  .item-md.item-block .item-inner{
+    padding-right: 0%;
+  }
+
+  .label-md{
+    margin: 13px 0;
+  }
+
+  .button{
+    width: 70%;
+    left: 15%;
+  }
+
+  span{
+    font-size: 13px;
+    margin-left: 20%;
+  }
+
+}
