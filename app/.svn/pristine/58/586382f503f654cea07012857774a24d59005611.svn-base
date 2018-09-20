@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>订单详情</title>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/function.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/new_file.css" />
+		<style type="text/css">
+			body {
+				background-color: #fff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<!--导航部分-->
+			<header class="mui-bar mui-bar-nav g-header-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title u-title">订单详情 </h1>
+			</header>
+			<!--导航部分结束-->
+			<!--内容部分-->
+			<div class="mui-g-content">
+				<!--选项卡-->
+				<div id="segmentedControl" class="mui-segmented-control z-clear-border z-display-none">
+					<a class="mui-control-item mui-active z-table-style" href="#item1">订单信息</a>
+					<a class="mui-control-item z-table-style" href="#item2">用户信息</a>
+				</div>
+				<!--选项卡结束-->
+				<div class="z-line"></div>
+				<div id="item1" class="mui-active mui-control-content g-form-comtent">
+					<!--内容部分-->
+					<ul class="mui-table-view m-ul-order">
+						<li class="mui-table-view-cell">
+							<span>订单编号：</span>&nbsp;&nbsp;
+							<div><span class="u-orderDe-chtext" id="ordNo"></span></div>
+						</li>
+						<li class="mui-table-view-cell">
+							<span>订单来源：</span>&nbsp;&nbsp;<span id="typeOder"> </span>
+						</li>
+						<li class="mui-table-view-cell">
+							<span>订单金额：</span>&nbsp;&nbsp;<span id="sumMoney"></span>
+						</li>
+						<!--<li class="mui-table-view-cell">
+							<span>订单状态：</span>&nbsp;&nbsp;<span class="z-prompt-color" id="payStatue"></span><button type="button" class="mui-btn mui-btn-primary">重做</button>
+						</li>-->
+						<li class="mui-table-view-cell">
+							<span>订单时间：</span>&nbsp;&nbsp;<span id="createTime"></span>
+						</li>
+						<!--<li class="mui-table-view-cell">
+							<span>订单产品：</span>&nbsp;&nbsp;<span></span>
+						</li>-->
+					</ul>
+					<!--/内容部分-->
+					<div class="g-ditail-bar">
+						<button type="button" class="mui-btn mui-btn-primary bottom_btn u-location-btn">申请退单</button>
+					</div>
+				</div>
+				<div id="item2" class="mui-control-content g-form-comtent">
+					<!--内容部分-->
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<span>会员名称：</span><span class="u-orDetail-right" id="nickname"></span>
+						</li>
+						<li class="mui-table-view-cell">
+							<span>会员入住：</span><span class="u-orDetail-right" id="joinTime">&nbsp;</span>
+						</li>
+						<li class="mui-table-view-cell">
+							<span>本店消费：</span><span class="u-orDetail-right" id="totalConsumption"></span>
+						</li>
+					</ul>
+					<!--/内容部分-->
+				</div>
+				<!--内容部分结束-->
+			</div>
+			<script type="text/javascript" src="js/immersed.js"></script>
+			<script type="text/javascript">
+				$(document).ready(function() {
+					var locations = localStorage.getItem("locations");
+					var cotoken = localStorage.getItem("cotoken");
+					var Authorization = "Bearer " + cotoken;
+					//订单id详情接口调用 order_detail.html
+					function orderDdtails() {
+						var ordId = localStorage.getItem("ordId");
+						var html = "";
+						$.ajax({
+							type: 'post',
+							headers: {
+								"Content-Type": "application/x-www-form-urlencoded",
+								"Authorization": Authorization
+							},
+							url: locations + '/system/orderdetail.action', //订单id详情接口
+							data: {
+								"orderid": ordId
+							},
+							dataType: 'json',
+							success: function(data) {
+								if(data.data.orderdetail == "") {
+									alert("数据为空！");
+								};
+								if(data.data.orderdetail.ordSource == 2) {
+									$("#segmentedControl").hide();
+								} else {
+									$("#segmentedControl").show();
+								}
+								switch(data.data.orderdetail.ordSource) {
+									case "1":
+										var ordSource = "会员订单";
+										break;
+									case "2":
+										var ordSource = "大屏订单";
+										break;
+									case "3":
+										var ordSource = "其它";
+										break;
+									default:
+										break;
+								}
+								$("#ordNo").html(data.data.orderdetail.ordNo);
+								$("#sumMoney").html(data.data.orderdetail.totalPrice + "元");
+								$("#payStatue").html(data.data.orderdetail.ordSource);
+								$("#createTime").html(data.data.orderdetail.createTime);
+								$("#typeOder").html(ordSource);
+								$("#nickname").html(data.data.member.nickname);
+								$("#joinTime").html(data.data.member.joinTime);
+								$("#totalConsumption").html(data.data.orderdetail.totalPrice + "元");
+								b = 0;
+								for(i in data.data.orderdetail.pros) {
+									b++;
+									html += "<li class='mui-table-view-cell'>"
+									html += "<a class='mui-navigate-right f-jupe-detail' id-proId='" + data.data.orderdetail.pros[i].cups[0].cupId + "'> <span>" + "&nbsp;&nbsp;&nbsp;&nbsp" + "饮品" + "&nbsp;&nbsp;" + b + "：</span>" + "&nbsp;&nbsp;" + "<span>" + data.data.orderdetail.pros[i].proName + "</span></a>"
+									html += "</li>"
+
+								}
+								$(".m-ul-order").append(html);
+
+								$(".f-jupe-detail").click(function() { //跳页处理
+									var cupId = $(this).attr("id-proId");
+									localStorage.setItem("cupId", cupId); //单杯Id
+									mui.openWindow({
+										url: 'order_details_goods.html',
+										id: 'order_details_goods',
+									});
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert(XMLHttpRequest.status);
+								alert(XMLHttpRequest.readyState);
+								alert(textStatus);
+							}
+						})
+					}
+					orderDdtails(); //调用订单详情接口方法。
+					$(".u-location-btn").click(function() {
+						var webview = mui.openWindow({
+							url: 'goods_refundment_page.html',
+						});
+					});
+				});
+			</script>
+
+	</body>
+
+</html>

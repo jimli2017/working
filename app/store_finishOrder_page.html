@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>生成订购单</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+	</head>
+
+	<body>
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">生成订购单</h1>
+		</header>
+		<!--导航部分结束-->
+		<div class="mui-content">
+			<div class="mui-card">
+				<!--页眉，放置标题-->
+				<div class="m-storeCf-hd g-finishOr-hd"><span class="z-float-left operatePeople">操作员：费德勒</span><span class="z-folt-right operateTime">操作时间：2018-6-1</span></div>
+				<!--内容区-->
+				<div class="mui-card-content z-clear-both">
+					<div class="mui-row g-storeCf-content">
+						<div class="mui-col-sm-9 mui-col-xs-9 m-storecF-ctLeft">
+							<ul class="u-finishOr-ul">
+								<li class="matName">原料：土豆</li>
+								<li class="u-ctLeft-list nowValue">现存值：100g</li>
+								<li class="u-ctLeft-list warningValue">预警值：100g</li>
+								<li class="u-ctLeft-list price">单价：100元/g</li>
+								<li class="u-ctLeft-list sumPrice">总价：100元</li>
+							</ul>
+						</div>
+						<div class="mui-col-sm-3 mui-col-xs-3 m-storecF-ctLeft">
+							<ul>
+								<li>订货量</li>
+								<li><input type="number" name="" id="orderNumber" value="" /><span class="unitName">g</span></li>
+							</ul>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!--底部按钮-->
+		<div class="g-ditail-bar g-bottom-bar">
+			<a class="clickget"><button type="button" class="mui-btn mui-btn-primary bottom_btn u-bottom-btn">生成订单</button></a>
+		</div>
+		<!--/底部按钮-->
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			$(document).ready(function() {
+				var locations=localStorage.getItem("locations");
+				var cotoken = localStorage.getItem("cotoken");
+				var Authorization = "Bearer " + cotoken;
+				var shopId = localStorage.getItem("shopID"); //门店id
+				var enterpriseID = localStorage.getItem("pid"); //企业id
+				var pinpaiID = localStorage.getItem("cid"); //品牌id
+				var matIds = localStorage.getItem("matId"); //物料id
+				function matOrderList() {
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations+'/store/matStore.action',
+						data: {
+							"shopId": shopId,
+							"enterpriseID": enterpriseID,
+							"pinpaiID": pinpaiID,
+							"matIds": matIds
+						},
+						dataType: 'json',
+						success: function(data) {
+							$(".operatePeople").html("操作员：" + data.data[0].operatePeople);
+							$(".operateTime").html("操作时间：" + data.data[0].operateTime);
+							$(".matName").html("原料：" + data.data[0].matName);
+							$(".nowValue").html("现存值：" + data.data[0].nowValue + data.data[0].unitName);
+							$(".warningValue").html("预警值：" + data.data[0].warningValue + data.data[0].unitName);
+							$(".price").html("单价：" + data.data[0].price + "/" + data.data[0].unitName);
+							$(".unitName").html(data.data[0].unitName);
+							//总价计算
+							$("#orderNumber").keyup(function(){
+							    var orderNumber = $("#orderNumber").val();
+								var price=data.data[0].price;
+								var sumPrice=orderNumber*price;
+								$(".sumPrice").html(sumPrice+"元");
+							});
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(XMLHttpRequest.status);
+							alert(XMLHttpRequest.readyState);
+							alert(textStatus);
+						}
+					})
+				}
+				matOrderList();
+				$(".clickget").click(function() {
+					var orderNumber = $("#orderNumber").val();
+					if (orderNumber=="") {
+						alert("请输入订货量！");
+					} else{
+						localStorage.setItem("orderNumber",orderNumber);
+						mui.openWindow({
+							url:'store_sendOrder_page.html',
+							id:'store_sendOrder_page'
+						})
+						//location.assign("store_sendOrder_page.html");
+					}
+				})
+			})
+		</script>
+	</body>
+
+</html>

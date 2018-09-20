@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>生成订购单</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+	</head>
+
+	<body>
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">生成订购单</h1>
+		</header>
+		<!--导航部分结束-->
+		<div class="mui-content">
+			<div class="mui-card">
+				<!--页眉，放置标题-->
+				<div class="m-storeCf-hd g-finishOr-hd"><span class="z-float-left peopleToday">操作员：</span><span class="z-folt-right todayTime">操作时间：</span></div>
+				<!--内容区-->
+				<div class="mui-card-content z-clear-both">
+
+					<!--<div class="mui-row g-storeCf-content" data-matId='"+data.data[p].matId+"'>
+						<div class="mui-col-sm-9 mui-col-xs-9 m-storecF-ctLeft data-unitId" data-unitId='"+data.data[p].unitId+"'>
+							<ul class="u-finishOr-ul">
+								<li>原料：土豆</li>
+								<li class="u-ctLeft-list">现存值：100g</li>
+								<li class="u-ctLeft-list">预警值：100g</li>
+								<li class="u-ctLeft-list">单价：<span class="u-finish-price">100</span>元/g</li>
+								<li class="u-ctLeft-list u-finish-sumPrice">总价：100元</li>
+							</ul>
+						</div>
+						<div class="mui-col-sm-3 mui-col-xs-3 m-storecF-ctLeft">
+							<ul>
+								<li>订货量</li>
+								<li><input type="number" name="" class="u-finish-input" value="" /><span>g</span></li>
+							</ul>
+						</div>
+					</div>-->
+
+				</div>
+			</div>
+		</div>
+
+		<div class="m-jjj">
+		</div>
+		<!--底部按钮-->
+		<div class="g-ditail-bar g-bottom-bar">
+			<a class="clickget"><button type="button" class="mui-btn mui-btn-primary bottom_btn u-bottom-btn">生成订单</button></a>
+		</div>
+		<!--/底部按钮-->
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+
+			//$(document).ready(function() {
+			//window.location.reload();
+
+			var locations = localStorage.getItem("locations");
+			var marIdsM = [];
+			var jjjj = [];
+			var cotoken = localStorage.getItem("cotoken");
+			var Authorization = "Bearer " + cotoken;
+			var shopId = localStorage.getItem("shopID"); //门店id
+			var enterpriseID = localStorage.getItem("pid"); //企业id
+			var pinpaiID = localStorage.getItem("cid"); //品牌id
+			var matIdjj = localStorage.getItem("matIds"); //多个物料id
+			var html = "";
+
+			function matOrderListMore() { //详情接口
+				$.ajax({
+					type: 'post',
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": Authorization
+					},
+					url: locations + '/store/matStore.action',
+					data: {
+						"shopId": shopId,
+						"enterpriseID": enterpriseID,
+						"pinpaiID": pinpaiID,
+						"matIds": matIdjj
+					},
+					dataType: 'json',
+					success: function(data) {
+						//console.log(JSON.stringify(data.data));
+						html = "";
+						for(p in data.data) {
+							html += "<div class='mui-row g-storeCf-content' data-matId='" + data.data[p].matId + "'>"
+							html += "<div class='mui-col-sm-9 mui-col-xs-9 m-storecF-ctLeft data-unitId' data-unitId='" + data.data[p].unitId + "'>"
+							html += "<ul class='u-finishOr-ul' data-time='" + data.data[p].operateTime + "'>"
+							html += "<li class='u-store-matName' data-matName='" + data.data[p].matName + "'>" + "原料：" + data.data[p].matName + "</li>"
+							html += "<li class='u-ctLeft-list u-store-nowValue' data-nowValue='" + data.data[p].nowValue + "'>" + "现存值：" + data.data[p].nowValue + data.data[p].unitName + "</li>"
+							html += "<li class='u-ctLeft-list u-store-warningValue' data-warningValue='" + data.data[p].warningValue + "'>" + "预警值：" + data.data[p].warningValue + data.data[p].unitName + "</li>"
+							html += "<li class='u-ctLeft-list u-store-price' data-price='" + data.data[p].price + "'>" + "单价：" + "<span class='u-finish-price'>" + data.data[p].price + "</span>" + "元" + "/" + data.data[p].priceUnitName + "</li>"
+							html += "<li class='u-ctLeft-list u-finish-sumPrice'>总价：<span class='sum-price'></span>元</li>"
+							html += "</ul>"
+							html += "</div>"
+							html += "<div class='mui-col-sm-3 mui-col-xs-3 m-storecF-ctLeft u-store-unitName' data-unitName='" + data.data[p].unitName + "'>"
+							html += "<ul>"
+							html += "<li>订货量</li>"
+							html += "<li>" + "<input type='number' name='' class='u-finish-input' value='' />" + "<span>" + data.data[p].priceUnitName + "</span>" + "</li>"
+							html += "</ul>"
+							html += "</div>"
+							html += "</div>"
+
+						}
+						$('.z-clear-both').html(html);
+
+						$('.peopleToday').html("操作员：" + data.data[0].operatePeople);
+						$('.todayTime').html("操作时间：" + data.data[0].operateTime);
+
+						//总价计算							
+						$(".u-finish-input").keyup(function() {
+							var orderNumber = $(this).val();
+							var q = $(this).parents('.g-storeCf-content').index();
+							var price = $(".g-storeCf-content").eq(q).find('.u-finish-price').text();
+							var sumPrice = parseInt(orderNumber) * parseInt(price);
+							$(".g-storeCf-content").eq(q).find('.sum-price').html(sumPrice);
+						});
+
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						//alert(XMLHttpRequest.status);
+						//alert(XMLHttpRequest.readyState);
+						//alert(textStatus);
+					}
+				})
+			}
+			matOrderListMore();
+
+			$(".clickget").click(function() {
+				$(".u-finish-input").each(function() {
+					numberInput = $(this).val();
+				});
+				if(numberInput !== "") {
+					var inputLength = $(".u-finish-input").length; //获取输入框的个数
+					for(var i = 0; i < inputLength; i++) { //获取页面所需内容详情，并创建数组用于放置获取内容
+						var matId = $(".g-storeCf-content").eq(i).attr("data-matId");
+						var unitId = $(".g-storeCf-content").eq(i).find('.data-unitId').attr("data-unitId");
+						var matCount = $(".g-storeCf-content").eq(i).find('.u-finish-input').val();
+						var matName = $(".g-storeCf-content").eq(i).find('.u-store-matName').attr("data-matName");
+						var nowValue = $(".g-storeCf-content").eq(i).find('.u-store-nowValue').attr("data-nowValue");
+						var warningValue = $(".g-storeCf-content").eq(i).find('.u-store-warningValue').attr("data-warningValue");
+						var price = $(".g-storeCf-content").eq(i).find('.u-store-price').attr("data-price");
+						var unitName = $(".g-storeCf-content").eq(i).find('.u-store-unitName').attr("data-unitName");
+						var time = $(".g-storeCf-content").eq(i).find('.u-finishOr-ul').attr("data-time");
+						var sumPrice = $(".g-storeCf-content").eq(i).find('.sum-price').html();
+						var all = {
+							matId: JSON.parse(matId),
+							matCount: JSON.parse(matCount),
+							unitId: JSON.parse(unitId),
+							matName: matName,
+							nowValue: JSON.parse(nowValue),
+							warningValue: JSON.parse(warningValue),
+							price: JSON.parse(price),
+							unitName: unitName,
+							time: time,
+							sumPrice: sumPrice,
+						};
+						var alld = {
+							matId: JSON.parse(matId),
+							matCount: JSON.parse(matCount),
+							unitId: JSON.parse(unitId),
+						};
+						marIdsM.push(all);
+						jjjj.push(alld);
+
+					};
+					localStorage.setItem("matIdss", JSON.stringify(marIdsM)); //存储数组
+					localStorage.setItem("jjjj", JSON.stringify(jjjj));
+					location.assign("store_sendOrderMore_page.html");
+				} else {
+					alert("存在未填的订货量！");
+					return false;
+				}
+
+			});
+			$(".mui-action-back").click(function() {
+				localStorage.removeItem("matIdss");
+				localStorage.removeItem("matIds");
+				localStorage.removeItem("jjjj");
+			});
+
+			//})
+		</script>
+	</body>
+
+</html>

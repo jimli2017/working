@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>订单进度</title>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/function.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/new_file.css" />
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<!--导航部分-->
+			<header class="mui-bar mui-bar-nav g-header-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left back"></a>
+				<h1 class="mui-title u-title">订单进度 </h1>
+				<span><img id="reach" src="img/reach.png"/></span>
+			</header>
+			<!--导航部分结束-->
+			<!--搜索框-->
+			<div class="m-focus-bg z-display-none">
+			</div>
+			<div class="mui-card m-rideo-scheduleContent z-display-none">
+				<form class="mui-input-group m-input-group">
+					<div class="mui-input-row mui-radio  send">
+						<label>发起</label>
+						<input class="a2" name="radio1" type="radio" value="0" checked="checked">
+					</div>
+					<div class="mui-input-row mui-radio send">
+						<label>删除</label>
+						<input class="a2" name="radio1" type="radio" value="1">
+					</div>
+					<div class="mui-input-row mui-radio  send">
+						<label>已确认</label>
+						<input class="a2" name="radio1" type="radio" value="2">
+					</div>
+					<div class="mui-input-row mui-radio  send">
+						<label>处理中</label>
+						<input class="a2" name="radio1" type="radio" value="3">
+					</div>
+					<div class="mui-input-row mui-radio  send">
+						<label>完结</label>
+						<input class="a2" name="radio1" type="radio" value="4">
+					</div>
+					<div class="mui-input-row mui-radio  send">
+						<label>确认完结</label>
+						<input class="a2" name="radio1" type="radio" value="5">
+					</div>
+					<div class="mui-input-row mui-radio  send">
+						<label>退回</label>
+						<input class="a2" name="radio1" type="radio" value="6">
+					</div>
+					<div class="mui-input-row mui-radio mui-disabled m-buttom-box">
+						<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined u-bottom-switch confirm">
+							确定
+						</button>
+						<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined u-bottom-switch cancel">
+							取消
+						</button>
+					</div>
+				</form>
+			</div>
+			<!--搜索框-->
+			<!--内容部分-->
+			<div class="mui-g-content">
+
+				<ul class="mui-table-view m-content-bottom g-history-list">
+					<!--<li class="mui-table-view-cell mui-media">
+						<a class="m-a-jupe">
+							<img class="mui-media-object mui-pull-left u-pull-img" src="img/hostry_coder_03.png">
+							<div class="mui-media-body">
+								<p class="u-detail-bot"><span class="u-title-hd" id="goodNumber">订单号：cc1225423124</span>&nbsp;</p>
+								<p class="mui-ellipsis u-top-line"><span>订购员：张丹</span><span class="z-folt-right">2017-03-01</span></p>
+							</div>
+						</a>
+					</li>-->
+
+				</ul>
+
+			</div>
+			<!--内容部分结束-->
+
+		</div>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var cotoken = localStorage.getItem("cotoken");
+			var Authorization = "Bearer " + cotoken;
+			var html = "";
+			var shopId = localStorage.getItem("shopID"); //门店id
+			var enterpriseID = localStorage.getItem("pid"); //企业id
+			var pinpaiID = localStorage.getItem("cid"); //品牌id
+			var locations = localStorage.getItem("locations");
+			$(document).ready(function() {
+				$('.back').click(function() {
+					location.href = "zhuye.html";
+				});
+				//订单进度接口，接口传递订单状态来确定接口调用内容，做简易搜索功能
+				function schedule(n) {
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/store/indentList.action',
+						data: {
+							"shopId": shopId,
+							"enterpriseID": enterpriseID,
+							"pinpaiID": pinpaiID,
+							"state": n,
+						},
+						dataType: 'json',
+						success: function(data) {
+								html="";
+							for(i in data.data.rows) {
+								//console.log(JSON.stringify(data));
+								var str = data.data.rows[i].indNo
+								var ordNo = str.substring(18);
+								html += "<li class='mui-table-view-cell mui-media'>"
+								html += "<a class='m-a-jupe' data-indetId='" + data.data.rows[i].indId + "'>"
+
+								if(n == 0) { //筛选操作
+									html += "<img class='mui-media-object mui-pull-left u-pull-img' src='img/hostry_coder_03.png'>"
+								} else if(n == 1) {
+									html += "<img class='mui-media-object mui-pull-left u-pull-img' src='img/hostry_coder_06.png'>"
+								} else if(n == 2) {
+									html += "<img class='mui-media-object mui-pull-left u-pull-img' src='img/hostry_coder_06.png'>"
+								} else if(n == 3) {
+									html += "<img class='mui-media-object mui-pull-left u-pull-img' src='img/hostry_coder_03.png'>"
+								} else if(n == 4) {
+									html += "<img class='mui-media-object mui-pull-left u-pull-img' src='img/hostry_coder_06.png'>"
+								}else if(n == 5) {
+									html += "<img class='mui-media-object mui-pull-left u-pull-img' src='img/hostry_coder_08.png'>"
+								}else if(n == 6) {
+									html += "<img class='mui-media-object mui-pull-left u-pull-img' src='img/hostry_coder_08.png'>"
+								}
+
+								//html += "<img class='mui-media-object mui-pull-left u-pull-img' src='img/hostry_coder_03.png'>"
+								html += "<div class='mui-media-body'>"
+								html += "<p class='u-detail-bot'>"
+								html += "<span class='u-title-hd' id='goodNumber'>订单号：" + ordNo + "</span>" + "&nbsp;"
+								html += "</p>"
+								html += "<p class='mui-ellipsis u-top-line'>"
+								html += "<span>" + "订购员：" + data.data.rows[i].orderpeople + "</span>"
+								html += "<span class='z-folt-right'>" + data.data.rows[i].orderTime + "</span>"
+								html += "</p>"
+								html += "</div>"
+								html += "</a>"
+								html += "</li>"
+
+							}
+							$('.g-history-list').html(html);
+							//页面间跳转
+							$(".m-a-jupe").on('click', function() {
+								var indetId = $(this).attr("data-indetId");
+								localStorage.setItem("indetId", indetId); //获取订货号
+								mui.openWindow({
+									url: 'dingdanjindu.html',
+									id: 'dingdanjindu'
+								});
+
+							});
+
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(XMLHttpRequest.status);
+							alert(XMLHttpRequest.readyState);
+							alert(textStatus);
+						}
+					})
+				};
+				schedule(0);
+
+				//搜索框
+				$('#reach').click(function() {//搜索发起按钮
+					$(".m-focus-bg,.m-rideo-scheduleContent").show();
+				});
+				$('.cancel').click(function() {//取消按钮
+					$(".m-focus-bg,.m-rideo-scheduleContent").hide();
+				});
+				$('.confirm').click(function() {//确认按钮，代参调用接口
+					var typen = $("input[name='radio1']:checked").val();
+					$(".m-focus-bg,.m-rideo-scheduleContent").hide();
+					schedule(typen);
+				});
+
+				$(".mui-action-back").click(function() {//清除缓存数据
+					localStorage.removeItem("indetId");
+				});
+			});
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>清洗操作</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+	</head>
+
+	<body style="background-color: #fff;">
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">清洗操作 </h1>
+		</header>
+		<!--导航部分结束-->
+		<div class="mui-content">
+			<!--物料箱状态-->
+			<div class="g-instruct-statue">
+				<div class="mui-row">
+					<div class="mui-col-sm-5 mui-col-xs-5 m-wuliao-mb">
+						<img src="img/wuliaozonglan_06.png" />
+						<div class="u-wuliao-minBg">
+							<div class="u-wuliao-number">
+							</div>
+						</div>
+						<div class="u-wuliao-sumVal">
+							
+						</div>
+						<div class="u-wuliao-alertVal">
+							
+						</div>
+						<div class="u-wuliao-stopVal">
+							
+						</div>
+						<div class="u-wuliao-yuan">
+							<img src="img/instruct-operate_06.png"/>
+						</div>
+					</div>
+					<div class="mui-col-sm-7 mui-col-xs-7 m-instruct-right">
+						<div class="m-instruct-h4">
+							<h4 class="liaoguiNumber"></h4>
+							<h4 class="u-operate-circular">物料箱状态：<img src="img/instruct-operate_06.png" /> </h4>
+							<h4 class="u-liaoType"></h4>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--/物料箱状态-->
+			<!--确认指令-->
+			<div class="g-instruct-operate">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell m-listFour-content">
+						<div class="mui-row mode-one" id-one="0x11">
+							<div class="mui-col-sm-4 mui-col-xs-4">
+								<span>顺时针点动</span>
+							</div>
+							<div class="mui-col-sm-2 mui-col-xs-2 u-poerate-img">
+								<img src="img/instruct-operate_11.png" />
+							</div>
+							<div class="mui-col-sm-3 mui-col-xs-3">
+								<input class="u-confirm-input" type="number" name="" id="" value="" placeholder="次" value="" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+							</div>
+							<div class="mui-col-sm-3 mui-col-xs-3">
+								<span class="u-confirm-operate">确认指令</span>
+							</div>
+						</div>
+					</li>
+					<li class="mui-table-view-cell m-listFour-content">
+						<div class="mui-row mode-two" id-one="0x12">
+							<div class="mui-col-sm-4 mui-col-xs-4">
+								<span>逆时针点动</span>
+							</div>
+							<div class="mui-col-sm-2 mui-col-xs-2 u-poerate-img">
+								<img src="img/instruct-operate_15.png" />
+							</div>
+							<div class="mui-col-sm-3 mui-col-xs-3">
+								<input class="u-confirm-input" type="number" name="" id="" value="" placeholder="次" value="" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+							</div>
+							<div class="mui-col-sm-3 mui-col-xs-3">
+								<span class="u-confirm-operate">确认指令</span>
+							</div>
+						</div>
+					</li>
+					<li class="mui-table-view-cell m-listFour-content">
+						<div class="mui-row mode-three" id-one="0x21">
+							<div class="mui-col-sm-4 mui-col-xs-4">
+								<span>顺时针点动</span>
+							</div>
+							<div class="mui-col-sm-2 mui-col-xs-2 u-poerate-img">
+								<img src="img/instruct-operate_19.png" />
+							</div>
+							<div class="mui-col-sm-3 mui-col-xs-3">
+								<input class="u-confirm-input" type="number" name="" id="" value="" placeholder="秒" value="" vonkeyup="value=value.replace(/[^\d]/g,'')"/>
+							</div>
+							<div class="mui-col-sm-3 mui-col-xs-3">
+								<span class="u-confirm-operate">确认指令</span>
+							</div>
+						</div>
+					</li>
+					<li class="mui-table-view-cell m-listFour-content">
+						<div class="mui-row mode-four" id-one="0x22">
+							<div class="mui-col-sm-4 mui-col-xs-4">
+								<span>逆时针点动</span>
+							</div>
+							<div class="mui-col-sm-2 mui-col-xs-2 u-poerate-img">
+								<img src="img/instruct-operate_23.png" />
+							</div>
+							<div class="mui-col-sm-3 mui-col-xs-3">
+								<input class="u-confirm-input" type="number" name="" id="" value="" placeholder="秒" value="" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+							</div>
+							<div class="mui-col-sm-3 mui-col-xs-3">
+								<span class="u-confirm-operate">确认指令</span>
+							</div>
+						</div>
+					</li>
+					<li class="mui-table-view-cell m-listFour-content">
+						<div class="mui-row mode-stop" id-one="0x23">
+							<div class="mui-col-sm-4 mui-col-xs-4">
+								<span>停止</span>
+							</div>
+							<div class="mui-col-sm-2 mui-col-xs-2 u-poerate-img">
+								<img src="img/instruct-operate_27.png" />
+							</div>
+							<div class="mui-col-sm-3 mui-col-xs-3">
+
+							</div>
+							<div class="mui-col-sm-3 mui-col-xs-3">
+								<span class="u-confirm-operate">确认指令</span>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<!--/确认指令-->
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			$(document).ready(function() {
+				var shopId = localStorage.getItem("shopID");
+				var cabId = localStorage.getItem("cabId"); //料仓id
+				var locations=localStorage.getItem("locations");
+				var cotoken = localStorage.getItem("cotoken");
+				var Authorization = "Bearer " + cotoken;
+				var isProcessed=localStorage.getItem("isProcessed");//料是否加工
+				$(".liaoguiNumber").html("物料箱编号:"+cabId);
+				$(".u-wuliao-number").html(cabId);
+				if (isProcessed==0) {
+					$(".u-liaoType").html("物料箱类型：合成");
+				} else{
+					$(".u-liaoType").html("物料箱类型：单料");
+				}
+				$(".u-confirm-operate").click(function(){
+					var mode=$(this).parents(".m-listFour-content").find(".mui-row").attr("id-one");
+					var amount=$(this).parents(".m-listFour-content").find(".u-confirm-input").val();
+					if (amount==undefined) {
+						var amount=0;
+					} 
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/eqp/sendOrder.action',
+						data: {
+							"shopId": shopId,
+							"cabId": cabId,
+							"mode": mode,
+							"amount": amount
+						},
+						dataType: 'json',
+						success: function(data) {
+							if (data.msg=="yes") {
+								alert("操作成功！");
+								setTimeout(function(){
+									$(".u-confirm-input").val("");
+								},1000);
+							} else{
+								alert(data.msg);
+								setTimeout(function(){
+									$(".u-confirm-input").val("");
+								},1000);
+							}
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							//alert(XMLHttpRequest.status);
+							//alert(XMLHttpRequest.readyState);
+							//alert(textStatus);
+						}
+					});
+				})
+				function liaoguiDt() {
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/store/cabDetail.action',
+						data: {
+							"cabId": cabId,
+							"shopId": shopId
+						},
+						dataType: 'json',
+						success: function(data) {
+							$(".u-wuliao-sumVal").html(data.data.sumInventory+data.data.unitName);
+							$(".u-wuliao-alertVal").html(data.data.alarmPercent+data.data.unitName);
+							$(".u-wuliao-stopVal").html(data.data.stopPercent+data.data.unitName);
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							//alert(XMLHttpRequest.status);
+							//alert(XMLHttpRequest.readyState);
+							//alert(textStatus);
+						}
+					});
+				}
+				liaoguiDt();
+			})
+		</script>
+	</body>
+
+</html>

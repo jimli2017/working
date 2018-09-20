@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>订单入库史</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title" style="color:white ;">订单入库史</h1>
+		</header>
+		<!--<div class="frist" style="text-align:center ;">
+			--------2017-04-01--------
+		</div>-->
+		<div class="mui-content">
+
+			<!--<div class="mui-card m-history-box">
+				<div class="mui-card-header mui-card-header1">
+					<span>物流单号:526526526</span>
+
+				</div>
+
+				<div class="mui-card-content">
+
+					<ul style="list-style:none;">
+						<li>
+							物流签收：208-04-14 10：30:02
+						</li>
+						<li>
+							物流配件：19件
+						</li>
+						<li>
+							物流签收：振动品牌代理
+						</li>
+						<li>
+							关联订单：<span class="u-history-marId">1121215451</span>
+						</li>
+					</ul>
+
+					<div class="div2">
+						<ul class="m-history-ul">
+							<li>土豆x16</li>
+						</ul>
+
+					</div>
+				</div>
+
+				<div class="mui-card-footer">
+
+					<span class="u-ftHistory-btn">
+		     			展开/收回
+	     			</span>
+
+				</div>
+
+			</div>-->
+
+			
+		</div>
+
+
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js "></script>
+		<script type="text/javascript">
+			mui.init();
+			$(document).ready(function() {
+				var cotoken = localStorage.getItem("cotoken");
+				var Authorization = "Bearer " + cotoken;
+				var shopId = localStorage.getItem("shopID"); //门店id
+				var locations=localStorage.getItem("locations");
+				
+				function historya(){
+					var html=""
+					$.ajax({
+						type:"post",
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url:locations+"/store/stockOutHistory.action",
+						data: {
+							"shopId": shopId,
+						},
+						dataType: 'json',
+						success: function(data) {
+							//console.log(JSON.stringify(data.data));
+							for (var i in data.data.rows) {
+								if (data.data.rows[i].indentNo==null) {
+									var indentNo="";
+								} else{
+									var indentNo=data.data.rows[i].indentNo;
+								}
+								if (data.data.rows[i].stockOutNo==null) {
+									var stockOutNo="";
+								} else{
+									var stockOutNo=data.data.rows[i].stockOutNo;
+								}
+								html2 = "";
+								for (var j in data.data.rows[i].stockOutDetails) {
+									html2 +="<li>"+data.data.rows[i].stockOutDetails[j].matName+"x"+data.data.rows[i].stockOutDetails[j].matCount+"</li>"
+								}
+								html+="<div class='mui-card m-history-box'>"
+								html+="<div class='mui-card-header mui-card-header1'>"
+								html+="<span>物流单号:"+indentNo+"</span>"
+								html+="</div>"
+								html+="<div class='mui-card-content'>"
+								html+="<ul style='list-style:none;'>"
+								html+="<li>物流签收："+data.data.rows[i].sendTime
+								html+="</li>"
+								html+="<li>物流配件："+data.data.rows[i].stockOutId+"件"
+								html+="</li>"
+								html+="<li>物流签收：振动品牌代理"
+								html+="</li>"
+								html+="<li>关联订单："+"<span class='u-history-marId'>"+stockOutNo+"</span>"
+								html+="</li>"
+								html+="</ul>"
+								html+="<div class='div2'>"
+								html+="<ul class='m-history-ul'>"
+								html+=html2
+								html+="</ul>"
+								html+="</div>"
+								html+="</div>"
+								html+="<div class='mui-card-footer'>"
+								html+="<span class='u-ftHistory-btn'>展开"
+	     						html+="</span>"
+								html+="</div>"
+								html+="</div>"
+							}
+							$(".mui-content").append(html);
+							
+							$(".u-ftHistory-btn").click(function() {
+								$(this).parents(".m-history-box").find(".div2").toggle('slow');
+								//$(".div2").toggle('slow');  // 改变显隐状态
+								$(this).text($(this).text()=="展开"?"收起":"展开"); // 改变按钮的文字说明
+							});
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(XMLHttpRequest.status);
+							alert(XMLHttpRequest.readyState);
+							alert(textStatus);
+						}
+					});
+				}
+				historya();
+			})
+		</script>
+	</body>
+
+</html>

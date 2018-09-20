@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>品牌菜品</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+	</head>
+
+	<body>
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav ">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">品牌菜品</h1>
+		</header>
+		<!--导航部分结束-->
+		<div class="mui-g-content">
+
+			<!--<ul class="mui-table-view mui-table-view-chevron m-brand-marBot">
+				<li class="mui-table-view-cell mui-media">
+					<a href="caipin.html" class="mui-navigate-right">
+						<img class="m-media-object mui-pull-left" src="img/brand-menu_08.jpg">
+						<div class="mui-media-body">
+							<p class="z-list-fontStyle z-brand-p">菜名：珍珠奶茶</p>
+							<p class="z-list-fontStyle z-brand-p">
+								<div class="u-switch-right">价格：￥30</div>
+							</p>
+							<p class="z-list-fontStyle z-brand-p">做法：加冰&nbsp;<span class="u-brand-b">(常规)</span></p>
+						</div>
+					</a>
+				</li>
+				<ul class="mui-table-view">
+					<li class="m-table-view-cell">
+						<span>饮品状态：</span>
+						<img class="u-switch-img" src="img/upLine.png" />
+					</li>
+				</ul>
+			</ul>-->
+			<!--点击事件的背景层-->
+			<div class="m-focus-bg z-display-none">
+			</div>
+			<!--点击事件的背景层-->
+			<!--弹窗-->
+			<div class="mui-card m-rideo-content z-display-none">
+				<form class="mui-input-group m-input-group">
+					<div class="mui-input-row mui-radio  send">
+						<label>上架</label>
+						<input class="a2" id="a1" name="radio1" type="radio" value="0" checked="checked">
+					</div>
+					<div class="mui-input-row mui-radio send">
+						<label>下架</label>
+						<input class="a2" id="a2" name="radio1" type="radio" value="1">
+					</div>
+					<div class="mui-input-row mui-radio mui-disabled m-buttom-box">
+
+						<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined u-bottom-switch confirm">
+							确定
+						</button>
+						<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined u-bottom-switch cancel">
+							取消
+						</button>
+					</div>
+				</form>
+			</div>
+			<!--弹窗-->
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				mui.init();
+				var n = "";
+				var val = '';
+				var html = "";
+
+				var proId = "";
+				var cotoken = localStorage.getItem("cotoken");
+				var Authorization = "Bearer " + cotoken;
+				var locations = localStorage.getItem("locations"); //动态地址
+				var shopId = localStorage.getItem("shopID"); //门店id
+				var enterpriseID = localStorage.getItem("pid"); //企业id
+				var pinpaiID = localStorage.getItem("cid"); //品牌id
+
+				function btandMenu() { //调菜品详情接口方法
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/product/shopproduct.action',
+						data: {
+							"shopID": shopId,
+							"enterpriseID": enterpriseID,
+							"pinpaiID": pinpaiID,
+							"isIgnoreSaled": 1
+						},
+						dataType: 'json',
+						success: function(data) {
+							var html2 = ""
+							for(var i in data.data.products) {
+								for(var g in data.data.products[i].makes) { //饮品的做法，目前数组为空，将其隐藏
+									html2 += data.data.products[i].makes[g].practiceName;
+								}
+								html += "<ul class='mui-table-view mui-table-view-chevron m-brand-marBot'>"
+								html += "<li class='mui-table-view-cell mui-media caiping-proId' id-proId='" + data.data.products[i].proId + "'>"
+								html += "<a class='mui-navigate-right' id-proNo='" + data.data.products[i].proNo + "'>" //产品编号
+								html += "<img class='m-media-object mui-pull-left' src='" + data.data.products[i].imgs[0].path + "' id-proType='" + data.data.products[i].proType + "'>" //产品类型
+								html += "<div class='mui-media-body' id-startTime='" + data.data.products[i].startTime + "'>" //创建时间
+								html += "<p class='z-list-fontStyle z-brand-p id-proName' id-proName='" + data.data.products[i].proName + "'>菜名：" + data.data.products[i].proName + "</p>" //产品名称
+								html += "<p class='z-list-fontStyle z-brand-p'>"
+								html += "<div class='u-switch-right price' id-price='" + data.data.products[i].price + "'>价格：￥" + data.data.products[i].price + "</div>" //菜品价格
+								html += "</p>"
+								//做法需要循环，此处注意
+								html += "<p class='z-list-fontStyle z-brand-p'>做法：&nbsp;" + html2 + "<span class='u-brand-b'></span></p>"
+								html += "</div>"
+								html += "</a>"
+								html += "</li>"
+								html += "<ul class='mui-table-view'>"
+								html += "<li class='m-table-view-cell' id-makes='" + data.data.products[i].makes + "'>" //产品做法
+								html += "<span class='isSaled' id-isSaled='" + data.data.products[i].isSaled + "'>饮品状态：</span>" //是否在售
+								if(data.data.products[i].isSaled == 0) {
+									html += "<img class='u-switch-img' src='img/upLine.png'/>"
+								} else {
+									html += "<img class='u-switch-img' src='img/downLine.png'/>"
+								}
+								//html+="<img class='u-switch-img' src='img/upLine.png' />"
+								html += "</li>"
+								html += "</ul>"
+								html += "</ul>"
+							}
+							$(".mui-g-content").append(html);
+							//点击上下架样式模块
+							$('.u-switch-img').click(function() { //弹窗的点击显示功能
+								n = $(this).parents(".m-brand-marBot").index();
+								$(".m-focus-bg,.m-rideo-content").show();
+							});
+
+							$(".a2").click(function() { //确定是否上架功能
+								$(this).attr("checked", true).parent().siblings().find('.a2').attr("checked", false);
+								var radioVal = $(this).val();
+								$(".m-brand-marBot").eq(n - 2).attr("data-val", radioVal);
+
+							});
+
+							$('.cancel').click(function() { //关闭弹窗
+								$(".m-focus-bg,.m-rideo-content").hide();
+							});
+
+							$('.confirm').click(function() { //确定按钮
+								var pushVal = $(".m-brand-marBot").eq(n - 2).attr("data-val"); //获取父级元素ul的存储val值
+								var proType = $(".m-brand-marBot").eq(n - 2).find(".mui-pull-left").attr("id-proType"); //菜品类型
+								val = $("input[name='radio1']:checked").val();
+								proId = $(".caiping-proId").eq(n - 2).attr("id-proId");
+								if(val == 0) {
+									$(".m-brand-marBot").eq(n - 2).find(".u-switch-img").attr('src', 'img/upLine.png');
+								} else {
+									$('.m-brand-marBot').eq(n - 2).find(".u-switch-img").attr('src', 'img/downLine.png');
+								}
+								$(".m-focus-bg,.m-rideo-content").hide();
+
+								upDown(shopId, enterpriseID, pinpaiID, proType, proId, val); //调上下架接口，并传递参数，0或1
+							});
+
+							//跳转部分，获取菜品详情
+							$(".mui-navigate-right").click(function() {
+								//var detailCai=[];
+								var proType = $(this).parents(".m-brand-marBot").find(".mui-pull-left").attr("id-proType"); //产品类型
+								var proNo = $(this).attr("id-proNo"); //产品编号
+								var price = $(this).parents(".m-brand-marBot").find(".price").attr("id-price"); //产品价格
+								var proName = $(this).parents(".m-brand-marBot").find(".id-proName").attr("id-proName"); //产品名称
+								var startTime = $(this).parents(".m-brand-marBot").find(".mui-media-body").attr("id-startTime"); //创建时间
+								var makes = $(this).parents(".m-brand-marBot").find(".m-table-view-cell").attr("id-makes"); //产品做法
+								var isSaled = $(this).parents(".m-brand-marBot").find(".isSaled").attr("id-isSaled"); //产品做法
+								var caipingdata = {
+									proName: proName, //名称
+									proNo: proNo, //编号
+									proType: proType, //类型
+									price: JSON.parse(price), //价格
+									startTime: startTime, //创建时间RR
+									makes: makes, //做法
+									isSaled: isSaled //是否在售
+								}
+								localStorage.setItem("cooktest", JSON.stringify(caipingdata));
+
+								mui.openWindow({
+									url: 'caipin.html',
+									id: 'caipin'
+								})
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(XMLHttpRequest.status);
+							alert(XMLHttpRequest.readyState);
+							alert(textStatus);
+						}
+					});
+				}
+				btandMenu();
+
+				function upDown(shopId, enterpriseID, pinpaiID, proType, proId, val) { //菜品上下架接口
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/subject/statusChange.action',
+						data: {
+							"shopId": shopId,
+							"enterpriseID": enterpriseID,
+							"pinpaiID": pinpaiID,
+							"tpyeId": proType,
+							"proId": proId, //饮品id
+							"status": val //0上架/1下架
+						},
+						dataType: 'json',
+						success: function(data) {
+							if(data.msg == "yes") {
+								if(val == 0) {
+									alert("上架成功");
+								} else {
+									alert("下架成功");
+								}
+							} else {
+								alert("抱歉，未成功修改！")
+							}
+
+							window.location.reload();
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(XMLHttpRequest.status);
+							alert(XMLHttpRequest.readyState);
+							alert(textStatus);
+						}
+					});
+				}
+
+				//清除缓存数据
+				$(".mui-action-back").click(function() {
+					localStorage.removeItem("caipingdata");
+
+				});
+			});
+		</script>
+	</body>
+
+</html>

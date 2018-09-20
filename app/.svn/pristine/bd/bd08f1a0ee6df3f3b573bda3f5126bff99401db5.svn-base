@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>退单详情</title>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/function.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/new_file.css" />
+
+		<style type="text/css">
+			body {
+				background-color: #fff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<!--导航部分-->
+			<header class="mui-bar mui-bar-nav g-header-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title u-title">退单详情 </h1>
+			</header>
+			<!--导航部分结束-->
+			<!--内容部分-->
+			<div class="mui-g-content">
+				<!--选项卡-->
+				<div id="segmentedControl" class="mui-segmented-control z-clear-border">
+					<a class="mui-control-item mui-active z-table-style" href="#item1">订单信息</a>
+					<a class="mui-control-item z-table-style" href="#item2">退单信息</a>
+				</div>
+				<!--选项卡结束-->
+				<div class="z-line"></div>
+				<div id="item1" class="mui-active mui-control-content g-form-comtent">
+					<!--内容部分-->
+					<ul class="mui-table-view m-ul-order">
+						<li class="mui-table-view-cell">
+							<span>订单编号：</span>&nbsp;&nbsp;<div><span class="u-orderDe-chtext" id="ordNo"></span></div>
+						</li>
+						<li class="mui-table-view-cell">
+
+							<span>订单类型：</span>&nbsp;&nbsp;<span id="ordStyle"></span>
+
+						</li>
+						<li class="mui-table-view-cell">
+
+							<span>订单金额：</span>&nbsp;&nbsp;<span id="sumMoney"></span>
+
+						</li>
+						<li class="mui-table-view-cell">
+
+							<span>订单状态：</span>&nbsp;&nbsp;<span class="z-prompt-color" id="payStatue"></span>
+
+						</li>
+						
+						<!--<li class="mui-table-view-cell">
+
+							<span>订单产品：</span>&nbsp;&nbsp;<span class="orderName"></span>
+
+						</li>-->
+					</ul>
+					<!--/内容部分-->
+				</div>
+				<!--第二页内容-->
+				<div id="item2" class="mui-control-content g-form-comtent">
+					<!--内容部分-->
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<span>门店名称：</span><span class="u-orDetail-right" id="refundMent-name"></span>
+						</li>
+						<li class="mui-table-view-cell">
+							<span>退单理由：</span><span class="u-orDetail-right" id="refundMent-because"></span>
+						</li>
+						<li class="mui-table-view-cell">
+							<span>退单金额：</span><span class="u-orDetail-right" id="refundMent-money"></span>
+						</li>
+						<!--<li class="mui-table-view-cell">
+							<span>申请时间：</span><span class="u-orDetail-right" id="refundMent-time">2018年1月1日&nbsp;20:0:0</span>
+						</li>-->
+						<li class="mui-table-view-cell">
+							<span>处理时间：</span><span class="u-orDetail-right" id="refundMent-dotime"></span>
+						</li>
+						<!--<li class="mui-table-view-cell">
+
+							<span>退单描述：</span><span class="u-orDetail-right" id="refundMent-detail"></span>
+
+						</li>-->
+
+					</ul>
+					<!--/内容部分-->
+				</div>
+				<!--/第二页内容-->
+				<!--内容部分结束-->
+
+			</div>
+			<script type="text/javascript" src="js/immersed.js"></script>
+			<script type="text/javascript">
+				mui.init();
+				$(document).ready(function() {
+					var locations=localStorage.getItem("locations");
+					var cotoken = localStorage.getItem("cotoken");
+					var Authorization = "Bearer " + cotoken;
+					$("#refundMent-name").text(JSON.parse(localStorage.getItem("shopName")));//名称来自主页
+					//订单id详情接口调用 order_detail.html
+					function refundmentDdtails() {//门店退单详情接口
+						var ordId = localStorage.getItem("ordId");
+						var shopId=localStorage.getItem("shopID");
+						var html = "";
+						$.ajax({
+							type: 'post',
+							headers: {
+								"Content-Type": "application/x-www-form-urlencoded",
+								"Authorization": Authorization
+							},
+							url: locations+'/order/refundDetail.action',
+							data: {
+								"ordId": ordId,
+								"shopId": shopId
+							},
+							
+							dataType: 'json',
+							success: function(data) {
+								//console.log(JSON.stringify(data.data));
+								if (data.data.ordSource==2) {
+									$("#ordStyle").html("大屏订单");
+								} else if(data.data.ordSource==1){
+									$("#ordStyle").html("会员订单");
+								}else{
+									$("#ordStyle").html("其他");
+								}
+								$("#ordNo").html(data.data.orderNo);//订单编号
+								$("#sumMoney").html(data.data.totalFee+"元");//订单金额
+								$("#payStatue").html("已退单");//订单状态
+//								$("#refundMent-name").html();//门店名称
+								$("#refundMent-because").html(data.data.refundReason);//退单理由
+								$("#refundMent-money").html(data.data.totalFee+"元");//退单金额
+								$("#refundMent-time").html(data.data.refundTime);//申请时间
+								$("#refundMent-dotime").html(data.data.refundTime);//处理时间
+								//$("#refundMent-detail").html(data.data.refundReason);//退单理由
+//								for(i in data.data.orderdetail.pros) {//订单产品,目前没有数据。
+//									html += "<li class='mui-table-view-cell'>"
+//									html += "<span>" + "订单产品：" + "</span>" + "&nbsp;&nbsp;" + "<span>" + data.data.orderdetail.pros[i].proName + "</span>"
+//									html += "</li>"
+//								}
+//								$(".m-ul-order").append(html);
+
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert(XMLHttpRequest.status);
+								alert(XMLHttpRequest.readyState);
+								alert(textStatus);
+							}
+						})
+					}
+					refundmentDdtails(); //调用订单详情接口方法,在new_file.js中已定义。
+				})
+			</script>
+
+	</body>
+
+</html>

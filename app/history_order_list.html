@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>订单历史</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/function.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/new_file.css" />
+		<link rel="stylesheet" href="css/mui.picker.min.css" />
+
+	</head>
+
+	<body>
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">订单历史 </h1>
+			<span><img id="reach" src="img/reach.png"/></span>
+		</header>
+		<!--导航部分结束-->
+		<!--搜索框-->
+		<div class="m-focus-bg z-display-none">
+		</div>
+		<div class="mui-card m-rideo-goodsContent z-display-none">
+			<form class="mui-input-group m-input-group">
+				<div class="mui-input-row mui-radio  send">
+					<label>会员订单</label>
+					<input class="a2" name="radio1" type="radio" value="1" checked="checked">
+				</div>
+				<div class="mui-input-row mui-radio send">
+					<label>大屏订单</label>
+					<input class="a2" name="radio1" type="radio" value="2">
+				</div>
+				<div class="ui-m-botLlie">
+					<button id='demo4' data-options='{"type":"date"}' class="btn ui-dataTime">
+						选择时间
+						</button>
+					<div id='result' class="ui-alert ui-text"></div>
+				</div>
+				<div class="mui-input-row mui-radio mui-disabled m-buttom-box">
+
+					<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined u-bottom-switch confirm">
+							确定
+						</button>
+					<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined u-bottom-switch cancel">
+							取消
+						</button>
+				</div>
+			</form>
+		</div>
+		<!--搜索框-->
+		<!--内容部分-->
+		<div class="mui-g-content">
+			<ul class="mui-table-view m-content-bottom g-history-list">
+				<!--<li class="mui-table-view-cell mui-media">
+					<a>
+						<img class="mui-media-object mui-pull-left u-pull-img" src="img/hostry_coder_03.png">
+						<div class="mui-media-body">
+							<p class="u-detail-bot"><span class="u-title-hd" id="goodNumber">订单号：cc1225423124</span>&nbsp;</p>
+							<p class="mui-ellipsis u-top-line"><span>点单台</span><span class="z-folt-right">2017-03-01</span></p>
+						</div>
+					</a>
+				</li>-->
+			</ul>
+			<ul class="mui-table-view m-content-bottom" id="g-history-tuidan">
+				
+			</ul>
+		</div>
+		<!--内容部分结束-->
+		</div>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/new_file.js"></script>
+		<script type="text/javascript" src="js/mui.picker.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var locations = localStorage.getItem("locations");
+			var cotoken = localStorage.getItem("cotoken");
+			var Authorization = "Bearer " + cotoken;
+			var html = "";
+			(function($) {
+				$.init();
+				var result = $('#result')[0];
+				var btns = $('.btn');
+				btns.each(function(i, btn) {
+					btn.addEventListener('tap', function() {
+						var optionsJson = this.getAttribute('data-options') || '{}';
+						var options = JSON.parse(optionsJson);
+						var id = this.getAttribute('id');
+						var picker = new $.DtPicker(options);
+						picker.show(function(rs) {
+							result.innerText = rs.text;
+							picker.dispose();
+						});
+					}, false);
+				});
+			})(mui);
+
+			function getList(ordSource,result) {
+				$.ajax({
+					type: 'post',
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": Authorization
+					},
+					url: locations + '/system/orderon.action',
+					data: {
+						"type": 5,
+						"ordSource":ordSource,
+						"ordDate":result
+					},
+					dataType: 'json',
+					success: function(data) {
+						html = '';
+						if(data.data.rows.length == "") {
+							alert("无相应订单信息！");
+						}
+						for(i in data.data.rows) {
+							var str = data.data.rows[i].ordNo;
+							var ordNo = str.substring(18);
+							var tim = data.data.rows[i].createTime;
+							var times = tim.substring(0, 10);
+
+							switch(data.data.rows[i].ordSource) {
+								case "1":
+									var ordSource = "会员订单";
+									break;
+								case "2":
+									var ordSource = "大屏订单";
+									break;
+								case "3":
+									var ordSource = "其它";
+									break;
+								default:
+									break;
+							}
+							html += "<li class='mui-table-view-cell mui-media'>"
+							html += "<input type='hidden' name='' class='gg' value='" + times + "' />"
+							html += "<a>"
+							html += "<img class='mui-media-object mui-pull-left u-pull-img' src='img/wite_money_4.jpg'>"
+							html += "<div class='mui-media-body'>"
+							html += "<p class='u-detail-bot'>"
+							html += "<span class='u-title-hd' id='goodNumber'>订单号：" + ordNo + "</span>"
+							html += "<input class='u-input-vip' type='hidden' value='" + data.data.rows[i].ordId + "'>"
+							html += "<span class='z-folt-right u-title-money'>￥" + data.data.rows[i].totalPrice + "</span>"
+							html += "</p>"
+							html += "<p class='mui-ellipsis u-top-line'>"
+							html += "<span>" + ordSource + "</span>"
+							html += "<span class='z-folt-right'>" + data.data.rows[i].createTime + "</span>"
+							html += "</p>"
+							html += "</div>"
+							html += "</a>"
+							html += "</li>"
+						}
+						mui.init();
+						$('.g-history-list').html(html);
+						$(".mui-media").click(function() {
+							var orderNum = $(this).find(".u-input-vip").val();
+							localStorage.setItem("ordId", orderNum);
+							var webview = mui.openWindow({
+								url: 'order_details_history.html',
+							});
+						})
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest.status);
+						alert(XMLHttpRequest.readyState);
+						alert(textStatus);
+					}
+				})
+			}
+			getList();
+
+			function historyt() {
+				html2 = "";
+				$.ajax({
+					type: 'post',
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": Authorization
+					},
+					url: locations + '/system/orderon.action',
+					data: {
+						"type": 6,
+					},
+					dataType: 'json',
+					success: function(data) {
+						for(i in data.data.rows) {
+							var str = data.data.rows[i].ordNo
+							var ordNo = str.substring(18);
+							switch(data.data.rows[i].ordSource) {
+								case "1":
+									var ordSource = "会员订单";
+									break;
+								case "2":
+									var ordSource = "大屏订单";
+									break;
+								case "3":
+									var ordSource = "其它";
+									break;
+								default:
+									break;
+							}
+							html2 += "<li class='mui-table-view-cell mui-media'>"
+							html2 += "<img class='mui-media-object mui-pull-left u-pull-img' src='img/yituidan_03.png'>"
+							html2 += "<div class='mui-media-body'>"
+							html2 += "<p class='u-detail-bot'>"
+							html2 += "<span class='u-title-hd' >订单号：" + ordNo + "</span>"
+							html2 += "<input class='u-input-vip' type='hidden' value='" + data.data.rows[i].ordId + "'>"
+							html2 += "<span class='z-folt-right u-title-money'>￥" + data.data.rows[i].totalPrice + "</span>"
+							html2 += "</p>"
+							html2 += "<p class='mui-ellipsis u-top-line'>"
+							html2 += "<span>" + ordSource + "</span>"
+							html2 += "<span class='z-folt-right'>" + data.data.rows[i].createTime + "</span>"
+							html2 += "</p>"
+							html2 += "</div>"
+							html2 += "</li>"
+						}
+
+						$('#g-history-tuidan').html(html2);
+						$(".mui-media").click(function() { //点击跳转功能，获取订货单id
+							var orderNum = $(this).find(".u-input-vip").val();
+							localStorage.setItem("ordId", orderNum);
+							mui.openWindow({
+								url: 'order_details_history.html',
+								id: 'order_details_history'
+							});
+						})
+
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						//alert(XMLHttpRequest.status);
+						//alert(XMLHttpRequest.readyState);
+						//alert(textStatus);
+					}
+				})
+			}
+			//historyt();
+			$(".mui-action-back").click(function() {
+				localStorage.removeItem("ordId");
+			})
+//			筛选框
+			$('.confirm').click(function() {
+				var ordSource = $("input[name='radio1']:checked").val();
+				$(".m-focus-bg,.m-rideo-goodsContent").hide();
+				var result = $("#result").html();
+				getList(ordSource,result);
+				$("#result").html("");
+			});
+			$('#reach').click(function() {
+				$(".m-focus-bg,.m-rideo-goodsContent").show();
+
+			});
+			$('.cancel').click(function() {
+				$(".m-focus-bg,.m-rideo-goodsContent").hide();
+				$("#result").html("");
+			});
+		</script>
+
+	</body>
+
+</html>

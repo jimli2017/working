@@ -1,0 +1,214 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+	</head>
+
+	<body>
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav g-statue-box">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">原料添料</h1>
+		</header>
+		<!--导航部分结束-->
+		<div class="mui-content">
+
+			<!--<div class="m-wuliao-content index-number">
+				<div class="m-wuliao-conLift">
+					<span class="u-conLift-dian">.</span><span class="u-wuliao-title">当前量：300ml</span><br />
+					<span class="u-conLift-dian">.</span><span class="u-wuliao-alarmPercent">预警值：50ml</span>
+				</div>
+
+				<div class="m-wuliao-conRight">
+					<span class="u-conLift-dian">.</span><span class="u-wuliao-sumInventory">原料：椰奶</span><br />
+					<input class="u-number-input" type="number" name="" id="u-wuliaoguiMore-numBtn" value="" />g &nbsp;
+					<span class="u-conLift-dian"></span>
+				</div>
+				<div class="f-box-wuliaoMore"></div>
+			</div>-->
+
+		</div>
+
+		<!--底部-->
+		<nav class="mui-bar mui-bar-tab g-ditail-barTwo">
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block m-btn-bottom" id="ordActive">指令操作</button>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block m-btn-bottom" id="addmar">添加</button>
+		</nav>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			$(document).ready(function() {
+				var locations = localStorage.getItem("locations");
+				var cotoken = localStorage.getItem("cotoken");
+				var Authorization = "Bearer " + cotoken;
+				var matIds = localStorage.getItem("textMatIds"); //原料Id
+				var shopId = localStorage.getItem("shopID"); //门店id
+				var enterpriseID = localStorage.getItem("pid"); //企业id
+				var pinpaiID = localStorage.getItem("cid"); //品牌id
+				var cabId = localStorage.getItem("cabId"); //物料柜id
+				var eqpId = localStorage.getItem("eqpId"); //设备id
+				var orgArray = [];
+				$("#ordActive").click(function() {
+					mui.openWindow({
+						url: 'instruct_operate_list.html',
+						id: 'instruct_operate_list'
+					});
+				});
+
+				function orging() { //门店原料库存接口
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/store/matStore.action',
+						data: {
+							"shopId": shopId,
+							"enterpriseID": enterpriseID,
+							"pinpaiID": pinpaiID,
+							"matIds": matIds
+						},
+						dataType: 'json',
+						success: function(data) {
+							var html = "";
+							for(var i in data.data) {
+								html += "<div class='m-wuliao-content index-number' id-matid='" + data.data[i].matId + "'>"
+								html += "<div class='m-wuliao-conLift' id-matName='"+data.data[i].matName+"'>"
+								html += "<span class='u-conLift-dian'>.</span><span class='u-wuliao-title' id-warningValue='" + data.data[i].warningValue + "'>当前量：" + data.data[i].nowValue + data.data[i].unitName + "</span><br />"
+								html += "<span class='u-conLift-dian'>.</span><span class='u-wuliao-alarmPercent' id-unitName='"+data.data[i].unitName+"'>预警值：" + data.data[i].warningValue + data.data[i].unitName + "</span>"
+								html += "</div>"
+								html += "<div class='m-wuliao-conRight'>"
+								html += "<span class='u-conLift-dian'>.</span><span class='u-wuliao-sumInventory'>原料：" + data.data[i].matName + "</span><br />"
+								html += "<input class='u-number-input' type='number' name='' id='u-wuliaoguiMore-numBtn' value='' /><span>" + data.data[i].unitName + "</span>&nbsp;"
+								html += "<span class='u-conLift-dian'></span>"
+								html += "</div>"
+								html += "<div class='f-box-wuliaoMore'></div>"
+								html += "</div>"
+							};
+							$(".mui-content").append(html);
+							$(".u-number-input").click(function() {
+								var nowgoods = $(this).parents(".m-wuliao-content").find(".u-wuliao-title").attr("id-warningValue");
+								var wuliaoMatId = $(this).parents(".m-wuliao-content").attr("id-matid");
+								var wuliaoName = $(this).parents(".m-wuliao-content").find(".m-wuliao-conLift").attr("id-matName");
+								var wuliaoMatName=$(this).parents(".m-wuliao-content").find(".u-wuliao-alarmPercent").attr("id-unitName");
+								if(nowgoods == 0) {
+									mui.alert('您需要先设置预警值！', '预警值为空', function() {
+										localStorage.setItem("wuliaoMatId",wuliaoMatId);
+										localStorage.setItem("wuliaoName",wuliaoName);
+										localStorage.setItem("wuliaoMatName",wuliaoMatName);
+										mui.openWindow({
+											url:'wuliao_addOriginal_page.html',
+											id:'addoriginal'
+										})
+									});
+								} else {
+
+								}
+							});
+							$("#addmar").click(function() { //添加物料接口
+								var indexs = $(".index-number").length; //原料输入框的个数
+								$(".u-number-input").each(function() { //判断是否输入数值
+									var a = $(this).val();
+									if(a == "") {
+										alert("有原料的添料数量未填写！");
+										return false;
+									}
+								});
+								for(var i = 0; i < indexs; i++) { //获取原料的添料量和原料id
+									var valueInput = $(".u-number-input").eq(i).val();
+									var orgId = $(".index-number").eq(i).attr("id-matid");
+									var orgArrayApply = {
+										orgId: JSON.parse(orgId),
+										amout: JSON.parse(valueInput)
+									}
+									orgArray.push(orgArrayApply);
+								}
+
+								$.ajax({
+									type: 'post',
+									headers: {
+										"Content-Type": "application/x-www-form-urlencoded",
+										"Authorization": Authorization
+									},
+									url: locations + '/store/cabAdd.action',
+									data: {
+										"shopId": shopId,
+										"enterpriseID": enterpriseID,
+										"pinpaiID": pinpaiID,
+										"eqpId": eqpId,
+										//"amount": amount,
+										"cabIndex": cabIndex,
+										"orgId": orgId,
+										"orgArray": JSON.stringify(orgArray)
+									},
+									dataType: 'json',
+									success: function(data) {
+										if(data.msg == "yes") {
+											alert("添料量已发送！");
+											mui.openWindow({
+												url: 'wuliaogui.html',
+												id: 'wuli'
+											})
+										} else {
+											alert(data.msg);
+										}
+									},
+									error: function(XMLHttpRequest, textStatus, errorThrown) {
+										//alert(XMLHttpRequest.status);
+										//alert(XMLHttpRequest.readyState);
+										//alert(textStatus);
+									}
+								});
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							//alert(XMLHttpRequest.status);
+							//alert(XMLHttpRequest.readyState);
+							//alert(textStatus);
+						}
+					});
+				}
+				orging();
+
+				function wuliaoDetail() { //物料柜详情接口
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/store/cabDetail.action',
+						data: {
+							"cabId": cabId,
+							"shopId": shopId
+						},
+						dataType: 'json',
+						success: function(data) {
+							cabIndex = data.data.cabIndex;
+							orgId = data.data.orgId;
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							//alert(XMLHttpRequest.status);
+							//alert(XMLHttpRequest.readyState);
+							//alert(textStatus);
+						}
+					});
+				}
+				wuliaoDetail();
+				$(".mui-action-back").click(function() {
+					localStorage.removeItem("textMatIds");
+				});
+			})
+		</script>
+	</body>
+
+</html>

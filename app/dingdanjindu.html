@@ -1,0 +1,366 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>订单详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/function.css" />
+		<link rel="stylesheet" type="text/css" href="css/new_file.css" />
+	</head>
+	<script type="text/javascript" charset="utf-8">
+		// H5 plus事件处理
+		function plusReady() {
+			// 隐藏滚动条
+			plus.webview.currentWebview().setStyle({ scrollIndicator: 'none' });
+			// Android处理返回键
+		}
+		if(window.plus) {
+			plusReady();
+		} else {
+			document.addEventListener('plusready', plusReady, false);
+		}
+	</script>
+	<body>
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">订单详情</h1>
+		</header>
+		<div class="mui-content g-schedualDt-content">
+			<div class="m-schedualDt-hdbtn">
+				<button id="bossFinishBtn"></button>
+			</div>
+			<div class="m-schedualDt-ulbox" style="clear:both ;">
+				<!--订单列表部分-->
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						订单编号
+						<span class="u-indNo"></span>
+					</li>
+					<li class="mui-table-view-cell">
+						订单时间
+						<span class="u-createTime"></span>
+					</li>
+					<li class="mui-table-view-cell">
+						订单发起人
+						<span class="u-creator"></span>
+					</li>
+					<li class="mui-table-view-cell">
+						订单物料
+						<span id="u-show">订单物料详情 ></span>
+					</li>
+				</ul>
+				<!--/订单列表部分-->
+			</div>
+			<!--弹出框-->
+			<div class="m-focus-bg z-display-none">
+			</div>
+			<div class="mui-card g-ding-detali z-display-none">
+				<span class="u-close"> x </span>
+				<div class="mui-card-content m-dingDetail">
+					<div class="mui-card-content-inner">
+						<div id="m-box-dingBox">
+							<span class="u-dingBox">
+								订单详情
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--弹出框-->
+			<div class="u-schedualDt-goodsBond">
+				关联发货<span class="u-goGood-right"></span>
+			</div>
+			<!--详情卡片部分-->
+			<!--<div class="m-schedualDt-div3">
+				<br />
+				<span class="u-font-careStyle">
+			          		发货编号：221458
+			          	</span>
+				<button class="u-schedualDt-btnJupe">订单入库</button>
+				<button>收货完成</button>
+				<br /><br />
+				<span class="u-font-careStyle">
+			          		发货时间：2018年1月13日 10:30:02
+			          	</span><br /><br />
+			    <span class="u-font-careStyle">物料清单：牛肉x1 土豆x1</span>  
+			    
+				<div class="m-schedualDt-div4">
+					<span class="u-font-careStyle">物料清单：牛肉x1 土豆x1</span>
+				</div>
+			</div>-->
+			<!--/详情卡片部分-->
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			$('#scroll').scroll({ indicators: false });
+			 
+			$(document).ready(function() {
+				var indentId = localStorage.getItem("indetId"); //获取订货号
+				var cotoken = localStorage.getItem("cotoken");
+				var shopId = localStorage.getItem("shopID"); //门店编码
+				var enterpriseID = localStorage.getItem("pid"); //企业id
+				var pinpaiID = localStorage.getItem("cid"); //品牌id
+				var Authorization = "Bearer " + cotoken;
+				var locations = localStorage.getItem("locations");
+				var html = "";
+				$(".u-close").click(function() {
+					$(".m-focus-bg,.g-ding-detali").hide();
+				})
+				$("#u-show").click(function() {
+					$(".m-focus-bg,.g-ding-detali").show();
+				})
+				//订单进度详情接口
+				function scheduleDetail() {
+
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/store/indentDetail.action',
+						data: {
+							"indentId": indentId,
+						},
+						dataType: 'json',
+						success: function(data) {
+							html3 = "";
+							if (data.data.status=="0") {
+								$("#bossFinishBtn").html("退单");
+								$("#bossFinishBtn").click(function() {
+									boosnogood();
+								})
+							} else{
+								$("#bossFinishBtn").html("订单完成");
+								$("#bossFinishBtn").click(function() {
+									boosBtn();
+								})
+							}
+							$(".u-indNo").html(data.data.indNo);
+							$(".u-createTime").html(data.data.createTime);
+							$(".u-creator").html(data.data.creator);
+							for(var k in data.data.indentDetails) {
+								html3 += "<div id='m-box-dingBox'>"
+								html3 += "<span class='u-matName u-dingBox'>" + data.data.indentDetails[k].matName
+								html3 += "</span>"
+								html3 += "<span class='u-matCount u-dingBox'>" + data.data.indentDetails[k].matCount + data.data.indentDetails[k].unitName
+								html3 += "</span>"
+								html3 += "<span class='u-price u-dingBox'>" + data.data.indentDetails[k].price + "元"
+								html3 += "</span>"
+								html3 += "</div>"
+							}
+							$(".mui-card-content-inner").append(html3);
+
+							var indentId = data.data.indentId;
+							scheduleDetails(indentId); //调相关联订单接口方法并传递订货单号id
+
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(XMLHttpRequest.status);
+							alert(XMLHttpRequest.readyState);
+							alert(textStatus);
+						}
+					});
+				}
+				scheduleDetail();
+				//关联订单信息
+				function scheduleDetails(indentId) {
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/store/stockOutHistory.action',
+						data: {
+							"shopId": shopId,
+							"indentId": indentId
+						},
+						dataType: 'json',
+						success: function(data) {
+							if(data.data.total == 0) {
+								$(".u-goGood-right").html("暂无发货详情！");
+							} else {
+
+							}
+							for(var u in data.data.rows) {
+								html2 = "";
+								for(var j in data.data.rows[u].stockOutDetails) {
+									html2 += "<span class='u-font-careStyle matName-length'>" + data.data.rows[u].stockOutDetails[j].matName + "、" + "&nbsp"
+
+									html2 += "<input type='hidden' name='' class='u-matName' value='" + data.data.rows[u].stockOutDetails[j].matName + "' />" //原料名称
+									html2 += "<input type='hidden' name='' class='u-stocks' value='" + data.data.rows[u].stockOutDetails[j].stocks + "' />" //仓储值
+									html2 += "<input type='hidden' name='' class='u-alarmAmount' value='" + data.data.rows[u].stockOutDetails[j].alarmAmount + "' />" //预警值
+									html2 += "<input type='hidden' name='' class='u-matCount' value='" + data.data.rows[u].stockOutDetails[j].matCount + "' />" //订货量
+									html2 += "<input type='hidden' name='' class='u-alivedMatCount' value='" + data.data.rows[u].stockOutDetails[j].alivedMatCount + "' />" //到货量
+									html2 += "<input type='hidden' name='' class='u-unitId' value='" + data.data.rows[u].stockOutDetails[j].unitId + "' />" //unitid
+									html2 += "<input type='hidden' name='' class='u-matId' value='" + data.data.rows[u].stockOutDetails[j].matId + "' />" //物料id
+
+									html2 += "</span>"
+								}
+
+								html += "<div class='m-schedualDt-div3' id-stockOutId='" + data.data.rows[u].stockOutId + "'>" //出库单id
+								html += "<input type='hidden' name='' class='u-stockOutNo' value='" + data.data.rows[u].stockOutNo + "' />" //单据号
+								html += "<input type='hidden' name='' class='u-status' value='" + data.data.rows[u].status + "' />" //订单状态，是否已完结，2为已完结。
+								html += "<br />"
+								html += "<span class='u-font-careStyle id-stockOutNo' id-stockOutNo='" + data.data.rows[u].stockOutNo + "'>发货编号：" + data.data.rows[u].stockOutNo //出库单号
+								html += "</span>"
+								if(data.data.rows[u].status == 3) {
+									html += "<button class='u-schedualDt-btnJupe' id-status='" + data.data.rows[u].status + "' disabled='disabled'>订单入库</button>"
+								} else if(data.data.rows[u].status == -1) {
+									html += "<button class='u-schedualDt-btnJupe' id-status='" + data.data.rows[u].status + "' disabled='disabled'>订单入库</button>"
+								} else {
+									html += "<button class='u-schedualDt-btnJupe' id-status='" + data.data.rows[u].status + "'>订单入库</button>"
+								}
+								//html += "<button class='u-schedualDt-btnJupe' id-status='"+data.data.rows[u].status+"'>订单入库</button>"
+								//html += "<button class='f-shouhuo'>收货完成</button>" //需要有动态的变化
+								html += "<br /><br />"
+								html += "<span class='u-font-careStyle'>发货时间：" + data.data.rows[u].sendTime
+								html += "</span>"
+								html += "<br /><br />"
+								html += "<span class='u-font-careStyle'>物料清单:</span>"
+								html += "<div class='m-schedualDt-div4'>"
+								html += html2
+								//html+="<span class='u-font-careStyle'>物料清单：牛肉x1 土豆x1</span>"
+								html += "</div>"
+
+								html += "</div>"
+								//console.log(data.data.rows[u].status);
+							}
+
+							$(".u-schedualDt-goodsBond").after(html);
+							//跳页处理
+							$(".u-schedualDt-btnJupe").on('click', function() {
+								var cools = [];
+								var stockOutId = $(this).parents(".m-schedualDt-div3").attr("id-stockOutId"); //出库单id
+								var stockOutNo = $(this).parents(".m-schedualDt-div3").find(".id-stockOutNo").attr("id-stockOutNo"); //出库待编号
+								var n = $(this).parents(".m-schedualDt-div3").find(".matName-length").length //物料个数
+								for(var i = 0; i < n; i++) {
+									var matName = $(this).parents(".m-schedualDt-div3").find(".matName-length").eq(i).children(".u-matName").val(); //原料名称
+									var stocks = $(this).parents(".m-schedualDt-div3").find(".matName-length").eq(i).children(".u-stocks").val(); //仓储值
+									var alarmAmount = $(this).parents(".m-schedualDt-div3").find(".matName-length").eq(i).children(".u-alarmAmount").val(); //预警值
+									var matCount = $(this).parents(".m-schedualDt-div3").find(".matName-length").eq(i).children(".u-matCount").val(); //到货量
+									var alivedMatCount = $(this).parents(".m-schedualDt-div3").find(".matName-length").eq(i).children(".u-alivedMatCount").val(); //到货量
+									var unitId = $(this).parents(".m-schedualDt-div3").find(".matName-length").eq(i).children(".u-unitId").val(); //unitId
+									var matId = $(this).parents(".m-schedualDt-div3").find(".matName-length").eq(i).children(".u-matId").val(); //unitId
+
+									var outOrder = {
+										stockOutId: stockOutId,
+										stockOutNo: stockOutNo,
+										matName: matName,
+										stocks: stocks,
+										alarmAmount: alarmAmount,
+										matCount: matCount,
+										alivedMatCount: alivedMatCount,
+										unitId: unitId,
+										matId: matId,
+									}
+									cools.push(outOrder);
+
+								};
+								localStorage.setItem("outOrder", JSON.stringify(cools));
+								location.href='store_confirmOrder_page.html'
+//								mui.openWindow({
+//									url: 'store_confirmOrder_page.html',
+//									id: 'store_confirmOrder_page'
+//								});
+							});
+
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(XMLHttpRequest.status);
+							alert(XMLHttpRequest.readyState);
+							alert(textStatus);
+						}
+					});
+				}
+
+				//总订单完成功能
+				function boosBtn() {
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/store/orderCompleted.action',
+						data: {
+							"shopID": shopId,
+							"enterpriseID": enterpriseID,
+							"pinpaiID": pinpaiID,
+							"identId": indentId, //订货单id
+						},
+						dataType: 'json',
+						success: function(data) {
+							if(data.msg == "yes") {
+								alert("订单完结");
+								mui.openWindow({
+									url: 'order_schedule_list.html',
+									id: 'order_schedule_list'
+								});
+								localStorage.removeItem("outOrder");
+								localStorage.removeItem("finish");
+							} else {
+								alert(data.msg);
+							}
+
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(XMLHttpRequest.status);
+							alert(XMLHttpRequest.readyState);
+							alert(textStatus);
+						}
+					});
+				}
+				
+				//总订单退单
+				function boosnogood() {
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/store/cancleIndent.action',
+						data: {
+							"indentId": indentId,
+						},
+						dataType: 'json',
+						success: function(data) {
+							if(data.msg == "yes") {
+								alert("订单退款成功！");
+								location.href='order_schedule_list.html'
+//								mui.openWindow({
+//									url: 'order_schedule_list.html',
+//									id: 'order_schedule_list'
+//								});
+							} else {
+								alert(data.msg);
+							}
+
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(XMLHttpRequest.status);
+							alert(XMLHttpRequest.readyState);
+							alert(textStatus);
+						}
+					});
+				}
+				
+				//清除缓存数据
+				$(".mui-action-back").click(function() {
+					localStorage.removeItem("outOrder");
+				});
+				mui.back = function() {
+				location.href = "order_schedule_list.html";
+			}  
+			})
+		</script>
+	</body>
+
+</html>

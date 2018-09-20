@@ -1,0 +1,1189 @@
+/*----订单详情页样式-----*/
+
+.g-form-comtent {
+	background-color: #fff;
+}
+
+.g-ditail-bar .u-location-btn {
+	top: 100px;
+	width: 80%;
+	border-radius: 10px;
+	position: relative;
+}
+
+.mui-segmented-control .mui-control-item {
+	border-left: none;
+}
+
+.mui-segmented-control {
+	margin: 0 auto;
+	clear: both;
+	margin-top: 10px;
+}
+
+.z-table-style {
+	background-color: #fff;
+}
+
+.u-orDetail-right {
+	padding-left: 5px;
+}
+
+.u-orderDe-chtext {
+	word-wrap: break-word;
+}
+.m-ul-odDeGos{
+	margin-top: 10px !important;
+}
+
+/*------大屏订单页样式------*/
+
+.mui-media-body .u-top-line {
+	border-top: 1px dashed #e1e1e1;
+	padding-top: 5px;
+}
+
+.mui-media-body .u-detail-bot {
+	margin-bottom: 5px;
+}
+
+.mui-media-body .u-detail-bot .u-title-hd {
+	font-size: 16px;
+	color: #4f4f4f;
+	font-weight: bold;
+	width: 82%;
+	white-space: pre-wrap;
+}
+
+.mui-media-body .u-detail-bot .u-title-money {
+	font-size: 14px;
+	color: #e42828;
+	font-weight: bold;
+}
+
+.m-content-bottom {
+	margin-bottom: 10px;
+}
+/*订单状态:删除*/
+.m-content-bottom .u-pull-img {
+	line-height: 54px;
+	max-width: 54px;
+	height: 54px;
+}
+/*订单状态:待支付*/
+.m-content-bottom .u-pull-imgTwo {
+	line-height: 54px;
+	width: 54px;
+	height: 54px;
+	background-color: #F19D3D;
+	border-radius: 10px;
+	text-align: center;
+	padding-left: 3px;
+	padding-right: 8px;
+	color: #fff;
+	font-size: 12px;
+}
+/*订单状态:等待——带制作*/
+.m-content-bottom .u-pull-imgThree {
+	line-height: 54px;
+	width: 54px;
+	height: 54px;
+	background-color: #3A8EF1;
+	border-radius: 10px;
+	text-align: center;
+	padding-left: 3px;
+	padding-right: 8px;
+	color: #fff;
+	font-size: 12px;
+}
+/*订单状态:等待——制作中*/
+.m-content-bottom .u-pull-imgFour{
+	line-height: 54px;
+	width: 54px;
+	height: 54px;
+	background-color: #FA3F84;
+	border-radius: 10px;
+	text-align: center;
+	padding-left: 3px;
+	padding-right: 8px;
+	color: #fff;
+	font-size: 12px;
+}
+/*订单状态:等待——已完成*/
+.m-content-bottom .u-pull-imgFive{
+	line-height: 54px;
+	width: 54px;
+	height: 54px;
+	background-color: #38B801;
+	border-radius: 10px;
+	text-align: center;
+	padding-left: 3px;
+	padding-right: 8px;
+	color: #fff;
+	font-size: 12px;
+}
+/*订单状态:等待——已退单*/
+.m-content-bottom .u-pull-imgFourSix{
+	line-height: 54px;
+	width: 54px;
+	height: 54px;
+	background-color: #999999;
+	border-radius: 10px;
+	text-align: center;
+	padding-left: 3px;
+	padding-right: 8px;
+	color: #fff;
+	font-size: 12px;
+}
+.startInput {
+	width: 40%;
+}
+
+.m-reach-line .line {
+	width: 20%;
+	position: relative;
+	top: 8px;
+}
+.m-rideo-goodsContent{
+	z-index: 100;
+    position: fixed;
+    width: 90%;
+    top: 50%;
+    left: 47%;
+    background-color: #F4F4F4;
+    transform: translate(-50%, -50%);
+}
+
+/*------------申请退单------------*/
+
+.u-refundment-potion {
+	margin-bottom: 0px;
+	padding: 0px;
+	font-size: 17px;
+	margin-top: -1px;
+}
+
+
+/*-------设备状态变更页样式----------*/
+
+.m-statue-padding {
+	padding-top: 0px !important;
+}
+
+.m-statue-bg {
+	background: linear-gradient(to right, #16B1FF, #0E85F8);
+}
+
+.g-statue-box {
+	box-shadow: 0 1px 6px #16b2ff;
+}
+
+.m-statue-bg .u-epuipment-name {
+	color: #fff;
+	font-size: 16px;
+}
+
+.u-btn-warning {
+	color: #fff;
+	border-radius: 16px;
+	background-color: #f0c915;
+	width: 108px;
+}
+
+.u-statue-img {
+	width: 100%;
+	height: 100%;
+}
+
+.change-care {
+	float: left;
+	width: 25%;
+	height: 70px;
+	padding: 5px 4px;
+}
+
+.m-statue-padding .u-btn-bg {
+	background-color: #16b2ff;
+}
+
+.u-statue-tline {
+	position: relative;
+	bottom: -6px;
+}
+
+.m-bot-mg {
+	margin-bottom: 10px;
+}
+
+.g-table-view-cell {
+	padding: 15px 15px;
+}
+
+
+/*--------设备状态变更详情页--------*/
+
+.g-detail-equipment {
+	margin-top: 0px !important;
+	margin-bottom: 28px;
+}
+
+.m-list-equipment textarea {
+	background-color: #F2F3F4;
+	border: none;
+}
+
+.push-picture {
+	margin-top: 5px;
+}
+
+.u-btn-option {
+	color: #8f8f94;
+}
+
+
+/*---------定单入库样式-----------*/
+
+.g-detailRel-box {
+	background-color: #fff;
+}
+
+.g-detailRel-box .m-detailRel-text {
+	margin-top: 26px;
+	margin-bottom: 26px;
+	text-align: center;
+}
+
+.g-detailRel-box .m-detailRel-text input {
+	width: 90%;
+	background-color: #F2F3F4;
+	border: none;
+}
+
+
+/*----------门店库存---------*/
+
+.m-store-bg {
+	background-color: #fff;
+}
+
+.m-store-interval {
+	margin-bottom: 5px;
+}
+
+
+/*---------订购列表-----------*/
+
+.g-order-type {
+	padding: 15px;
+	background-color: #F0F8FB;
+}
+
+.g-order-type .m-order-ul {
+	margin: 0px;
+	padding-left: 0px;
+	border-left: 1px solid #AFB4B5;
+	border-top: 1px solid #AFB4B5;
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: 5px;
+}
+
+.g-order-type .u-order-title {
+	font-size: 17px;
+	color: #000000;
+}
+
+.g-order-type .m-order-ul li {
+	list-style-type: none;
+	border-right: 1px solid #AFB4B5;
+	border-bottom: 1px solid #AFB4B5;
+	width: 25%;
+	text-align: center;
+	background-color: #fff;
+	padding-top: 16px;
+	padding-bottom: 16px;
+	color: #9C9C9C;
+	position: relative;
+}
+
+.u-order-listbg {
+	background-color: #0E85F8 !important;
+	color: #fff !important;
+}
+
+.g-order-type .u-order-title {
+	margin-bottom: 0px;
+}
+
+.m-order-ul .u-order-bgduigou {
+	width: 12px;
+	position: absolute;
+	bottom: 8px;
+	right: 8px;
+	display: none;
+}
+
+
+/*-----------品牌菜品---------*/
+
+.z-brand-p {
+	padding: 3px 0px;
+}
+
+.m-media-object {
+	margin-right: 10px;
+	width: 81px;
+}
+
+.m-brand-marBot {
+	margin-bottom: 10px;
+}
+
+.m-brand-marBot .u-brand-b {
+	font-weight: 400;
+	color: #8f8f94;
+}
+.u-makes-caipin{
+	margin-right: 3px;
+}
+
+/*--------指令操作----------*/
+
+.g-instruct-statue {
+	padding: 15px 20px;
+}
+
+.g-instruct-statue img {
+	width: 100%;
+}
+
+.g-instruct-statue .m-instruct-right {
+	padding-left: 30px;
+}
+
+.g-instruct-statue .m-instruct-h4 {
+	padding: 20px 0px;
+}
+
+.g-instruct-statue .m-instruct-h4 h4 {
+	margin-bottom: 10px;
+}
+
+.m-listFour-content .u-poerate-img img {
+	width: 26px;
+	margin-top: 4px;
+}
+
+.m-listFour-content .u-confirm-operate {
+	float: right;
+	color: #2993F9;
+}
+
+.m-listFour-content .u-confirm-input {
+	height: 32px !important;
+	margin-bottom: 0px !important;
+	padding: 5px 15px !important;
+}
+
+.m-listFour-content span {
+	line-height: 32px;
+}
+
+.m-instruct-h4 img {
+	height: 26px;
+	width: 26px;
+	position: absolute;
+	top: -5px;
+}
+
+.m-instruct-right .u-operate-circular {
+	position: relative;
+}
+.m-wuliao-mb{
+	position:relative;
+}
+.m-wuliao-mb .u-wuliao-minBg{
+	
+	background-color: #80ADE5;
+	position: absolute;
+	z-index: 2;
+	top: 0.7rem;
+	left:0rem;
+}
+.m-wuliao-mb .u-wuliao-minBg .u-wuliao-number{
+	padding: 8px;
+	background-color: #80ADE5;
+}
+.m-wuliao-mb .u-wuliao-sumVal{
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+}
+.m-wuliao-mb .u-wuliao-alertVal{
+	position: absolute;
+	top: 46%;
+	right: 1rem;
+	color: #fff;
+}
+.m-wuliao-mb .u-wuliao-stopVal{
+	position: absolute;
+	bottom: 1rem;
+	right: 1rem;
+	color: #E42828;
+}
+.m-wuliao-mb .u-wuliao-yuan{
+	position: absolute;
+	bottom: 1rem;
+	left: 1rem;
+}
+.m-wuliao-mb .u-wuliao-yuan img{
+	width: 1rem;
+}
+/*------门店销量-------*/
+
+.g-volune-box {
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-top: 36px;
+}
+
+.g-volune-list {}
+
+.g-volune-list .m-volune-list {
+	width: 97%;
+	background-color: #E9E9E9;
+	height: 98px;
+	padding: 20px 20px 20px 30px;
+	font-size: 16px;
+}
+
+.g-volune-list .m-volune-list {
+	width: 97%;
+	background-color: #E9E9E9;
+	padding: 22px 12px;
+	font-size: 16px;
+}
+
+.m-volune-list .u-volune-bok {
+	width: 46px;
+	background-color: red;
+	height: 16px;
+	float: right;
+	border-radius: 8px;
+}
+
+.m-volune-list .u-volune-yeallo {
+	background-color: #E0C722;
+}
+
+.m-volune-list .u-volune-blue {
+	background-color: #3785C7;
+}
+
+.m-volune-list .u-volune-green {
+	background-color: #46BC1D;
+}
+
+.m-volune-list p {
+	font-size: 16px;
+	color: #000;
+}
+
+.m-volune-list .u-volune-detail {
+	margin-bottom: 10px;
+}
+
+.g-volune-echarts {
+	backguound-color: #fff;
+	height: 300px;
+	width: 100%;
+	padding: 0px 20px;
+	margin-top: 30px;
+}
+
+
+/*-------物料柜总览-------*/
+
+.pailie {
+	width: auto;
+	height: auto;
+	background: white;
+	padding-left: 5%;
+}
+
+.jjj {
+	width: 24px;
+	position: relative;
+	float: right;
+	top: 1px;
+}
+
+.u-cupboard-relative {
+	position: relative;
+}
+
+.u-cupboard-num {
+	position: absolute;
+	top: 28px;
+	left: 15px;
+	color: #000;
+	font-size: 12px;
+	padding: 2px 6px;
+    background-color: #F4F4F4;
+    opacity: 0.4;
+}
+
+.u-cupboard-first {
+	position: absolute;
+	top: 28px;
+	right: 28px;
+	color: #000;
+	font-size: 10px;
+}
+
+.u-cupboard-second {
+	position: absolute;
+	top: 40%;
+	right: 28px;
+	color: #fff;
+	font-size: 10px;
+}
+
+.u-cupboard-third {
+	position: absolute;
+	bottom: 50px;
+	right: 28px;
+	color: #FF2F2F;
+	font-size: 10px;
+}
+
+.u-cupboard-round {
+	position: absolute;
+	bottom: 56px;
+	left: 22px;
+	background-color: #29D912;
+	border-radius: 6px;
+	width: 12px;
+	height: 12px;
+}
+
+.u-cupboard-bottom {
+	margin-top: 0px !important;
+}
+
+.z-bg-colorgreen {
+	background-color: red !important!;
+}
+
+
+/*----------管理库存-----------*/
+
+.m-stock-conBox {
+	list-style-type: none;
+	padding-left: 0px !important;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.u-storeCare-hdTitle {
+	text-align: center;
+	position: relative;
+}
+
+.u-storeCare-hdTitle:after {
+	position: absolute;
+	top: 26px;
+	right: 0;
+	left: 0;
+	height: 1px;
+	content: '';
+	-webkit-transform: scaleY(.5);
+	transform: scaleY(.5);
+	background-color: #c8c7cc;
+}
+
+.u-bottom-tp {
+	width: 100%;
+	color: #9D9D9D;
+}
+
+.u-bottom-tp ul {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.u-bottom-tp ul li {
+	list-style-type: none;
+}
+
+.u-bottom-tp ul li:first-child {
+	border-bottom: 1px solid #EFEFF4;
+}
+
+.u-bottom-tp ul li:last-child span {
+	padding-right: 16px;
+}
+/*-----------料仓添料---------*/
+.m-addBox-top{
+	line-height: 30px;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+}
+.m-addBox-box{
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 10px;
+}
+.u-addBox-unitValue{
+	width: 56px !important;
+    height: 24px !important;
+    margin-bottom: 0px !important;
+    padding: 0px !important;
+    float: right;
+    margin-top: 10px;
+    margin-right: 5px;
+}
+.u-addBox-unit{
+	margin-top: 14px;
+}
+/*-----------物料柜详情页面样式---------*/
+
+#u-wuliaogui-numBtn {
+	width: 36px;
+	height: 22px;
+	margin-bottom: 0px;
+	padding: 1px 0px 0px 0px;
+    color: #8f8f94;
+}
+#u-wuliaoguiMore-numBtn {
+	width: 56px;
+	height: 24px;
+	margin-bottom: 0px;
+	margin-top: 6px;
+	padding: 0px;
+}
+.m-wuliao-time {
+	text-align: center;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	background-color: #fff;
+}
+
+.m-wuliao-name {
+	text-align: center;
+	height: 20;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	background-color: #F5F5F5;
+}
+
+.m-wuliao-content {
+	background-color: white;
+	border-radius: 12px;
+}
+
+.f-box-wuliao {
+	height: 10px;
+	clear: both;
+	
+}
+.f-box-wuliaoMore{
+	height: 1px;
+	clear: both;
+	background-color: #DDDDDD;
+}
+.m-wuliao-conLift {
+	float: left;
+	margin-left: 15px;
+	margin-bottom: 5px;
+	width: 42%;
+}
+
+.u-conLift-dian {
+	color: orange;
+	font-size: 3em;
+}
+
+.m-wuliao-conRight {
+	float: right;
+	margin-right: 15px;
+	margin-bottom: 5px;
+	width: 49%;
+}
+
+.m-wuliao-div11 {
+	width: 3px;
+	height: 46px;
+	background-color: deepskyblue;
+	position: absolute;
+	left: -3px;
+}
+
+.u-wuliao-addnumber {
+	margin-right: 10px;
+}
+
+.m-wuliao-ft {
+	margin-top: 10px;
+	padding: 0px 25px;
+}
+
+.m-wuliao-ftcontent {
+	position: relative;
+	padding: 3px 5px;
+}
+
+.m-wuliao-houstryTime {}
+
+.u-wuliao-addBtn {
+	background-color: deepskyblue;
+	border-radius: 25px;
+    margin-top: 6px;
+}
+
+.m-wuliao-houstryContent {
+	text-align: center;
+}
+
+.u-wuliao-hourstyCon {
+	color: silver;
+}
+
+.z-display-none1 {
+	display: none;
+}
+
+.u-wuliao-nbsp {
+	width: 5px;
+}
+
+.m-wuliao-btnc {
+	width: 90%;
+}
+.m-wuliao-btncc{
+	width:80%;
+	margin-top: 30px;
+}
+/*------物料柜多原料添料界面-----*/
+.m-wuliao-botText{
+	margin-top: 3px;
+}
+/*--------订单入库------------*/
+
+.m-storeCf-hd {
+	color: #29599C;
+	padding: 10px 15px;
+}
+
+.m-storeCf-hd span {
+	padding: 10px 0px 14px 0px;
+}
+
+.g-storeCf-content ul {
+	padding-left: 15px;
+}
+
+.g-storeCf-content ul li {
+	list-style-type: none;
+}
+
+.m-storecF-ctLeft .u-ctLeft-list {
+	float: left;
+	width: 50%;
+}
+
+.g-storeCf-content {
+	border-top: 1px solid #DCDCDC;
+	padding-bottom: 10px;
+}
+
+.m-storecF-ctLeft input {
+	width: 70%;
+	padding: 3px;
+	margin-bottom: 0px;
+	vertical-align: bottom;
+}
+
+.m-storecF-ctLeft span {
+	margin-left: 3px;
+}
+
+
+/*-----------生成订单-------------*/
+
+.g-finishOr-hd span {
+	padding: 10px 0px 14px 0px;
+}
+
+.m-storecF-ctLeft .u-finishOr-ul li:last-child {
+	color: #FF2F2F;
+}
+
+
+/*------------发送订购单------------*/
+
+.u-sendOr-ul li:last-child {
+	font-size: 18px;
+	position: relative;
+	top: 18px;
+}
+
+
+/*-------------历史订单详情页面-------------*/
+
+.g-schedualDt-content {
+	background-color: #fff;
+	padding-bottom: 20px;
+}
+
+.m-schedualDt-hdbtn {
+	padding: 15px;
+}
+
+.m-schedualDt-hdbtn button {
+	width: 150px;
+	height: 40px;
+	background-color: #2093D5;
+	border-radius: 14px;
+	color: #fff;
+}
+
+.m-schedualDt-ulbox ul li span,.u-goGood-right {
+	float: right;
+	color: #C0BEBE;
+}
+
+.u-schedualDt-goodsBond {
+	padding: 15px;
+}
+
+.m-schedualDt-div3 {
+	background-color: #F2F3F4;
+	padding-left: 3px;
+	padding-right: 3px;
+	padding-bottom: 15px;
+	margin-left: 12px;
+	margin-right: 12px;
+	margin-bottom: 20px;
+}
+
+.m-schedualDt-div4 {
+	margin-right: 4px;
+	margin-left: 4px;
+	padding: 10px 4px;
+	background-color: #fff;
+	margin-top: 16px;
+}
+
+.m-schedualDt-div3 button {
+	float: right;
+	background-color: #53AFEF;
+	border-radius: 15px;
+	height: 30px;
+	margin-left: 6px;
+	color: #fff;
+}
+
+
+/*---------登录页样式----------*/
+
+.input01 {
+	margin-top: 30px;
+	border-radius: 19px;
+	height: 34px;
+	width: 210px;
+	text-indent: 2em;
+	border: 0px;
+}
+
+.input02 {
+	margin-top: 10px;
+	border-radius: 19px;
+	height: 34px;
+	width: 210px;
+	text-indent: 2em;
+	border: 0px;
+}
+
+.input03 {
+	border-radius: 19px;
+	height: 34px;
+	width: 150px;
+	text-indent: 2em;
+	margin-top: 10px;
+	border: 0px;
+}
+
+.u-index-titleImg {
+	text-align: center;
+	margin: 0 auto;
+	margin-top: 65px;
+}
+
+.u-index-titleImg img {
+	width: 100px;
+}
+
+.u-index-form {
+	text-align: center;
+	margin: 0 auto;
+}
+
+.u-index-forget {
+	margin-left: 70%;
+	margin-top: 50px;
+	border-bottom: 1px dashed beige;
+	font-size: 5px;
+	color: beige;
+}
+
+.u-index-loginBtn {
+	text-align: center;
+	margin: 0px auto;
+	margin-top: 60px;
+}
+
+.u-index-loginBtn button {
+	width: 60%;
+	height: 40px;
+	background-color: #09F709;
+	border-radius: 20px;
+	border: 0px;
+}
+
+.u-index-they {
+	text-align: center;
+	margin: 0px auto;
+	margin-top: 50px;
+}
+
+.u-index-they span {
+	color: bisque;
+	font-size: 0.6em;
+}
+
+.m-index-background {
+	width: 100%;
+	height: 100%;
+	background-size: 100%100%;
+	background-repeat: no-repeat;
+	position: absolute;
+}
+
+.u-index-input {
+	outline: none;
+}
+
+.u-code-img {
+	position: relative;
+	top: 14px;
+	width:60px;
+	height:38px; 
+	border-radius: 3px !important;
+}
+
+
+/*--------订单入库历史--------*/
+.frist {
+	margin-top: 70px;
+}
+.div2 {
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+	background-color: whitesmoke;
+	height: 100px;
+	list-style: none;
+	padding-top: 15px;
+	margin-bottom: 5%;
+	clear: both;
+	display: none;
+}
+.div2 ul {
+	list-style: none;
+}
+
+.div2 li {
+	float: left;
+	width: 25%;
+}
+.mui-card-header1 {
+	font-size: 1em;
+}
+.m-history-ul{
+	padding-bottom:10px ;font-size:12px ;color:silver;padding-left: 20px;
+}
+
+.u-history-marId{
+	color:#007AFF;
+}
+.u-ftHistory-btn{
+	float:right !important;margin-left:80% ; color:#007AFF ;
+}
+.m-buttom-lineBox{
+	margin-bottom: 40px;
+}
+
+.m-jjj{
+	height: 56px;
+}
+/*-------菜品样式-------*/
+.u-switch-img{
+	width: 80px;
+	float: right;
+	position: relative;
+	top: -3px;
+}
+.m-table-view-cell{
+	padding: 15px 15px;
+}
+.m-focus-bg{
+	z-index: 99;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: #000000;
+	opacity: 0.3;
+	top: 0;
+}	
+.m-rideo-content{
+	z-index: 100;
+	position: fixed;
+	width: 90%;
+	height: 140px;
+	top: 50%;
+	margin-top: -70px;
+	background-color: #F4F4F4;
+	margin-left: 5%;
+}
+.u-bottom-switch{
+	margin-right: 16px;
+	width: 27% !important;
+}
+.u-bottom-yesNo{
+	width: 27% !important;
+	margin-bottom: 6px;
+}
+.m-buttom-box{
+	height: 56px !important;
+	padding-top: 14px;
+}	
+.m-input-group{
+	height: 100% !important;
+}
+/*--------消息列表--------*/
+.u-xiaoxi-span{
+	font-size:14px;
+}
+/*---------订单进度--------*/
+.m-rideo-scheduleContent {
+    z-index: 100;
+    position: fixed;
+    width: 90%;
+    height: 340px;
+    top: 50%;
+    margin-top: -151px;
+    background-color: #F4F4F4;
+    margin-left: 5%;
+}
+.g-ding-detali{
+    z-index: 100;
+    position: fixed;
+    width: 95%;
+    top: 50%;
+    left: 47%;
+    transform: translate(-50%, -50%);
+}
+.u-dingBox{
+	margin-right: 10px;
+}
+/*-----个人中心-----*/
+.m-goback-login{
+	color: #686868;
+	text-align: center !important;
+}
+.m-gr-div1{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 150px;
+}
+.m-ge-line{
+	margin-top: 15px;
+}
+.m-version-bg{
+	width: 100%;
+	height: 100%;
+}
+/*-------主页-------*/
+.m-bottom-peopleMsg{
+	text-align: center;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	width: 100%;
+	height: 30px;
+	background-color: #0E85F8;
+}
+/*-----设置预警值-----*/
+.u-inputNu{
+	width: 40% !important;
+	margin-bottom: 0px !important;
+    height: 22px !important;
+    border: none !important;
+}
+.u-wuliao-btn{
+	padding-bottom: 10px;
+}
+/*-----门店图片上传-----*/
+.m-storeImg-box{
+	padding-left: 15px;
+	/*padding-right: 15px;*/
+}
+/*.m-flox-box{
+	display: flex !important;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 520px;
+    width: 100%;
+}
+.m-flox-box li{
+	margin: 0px 0px 5px 0px !important;
+}
+.m-adds{
+	
+}*/
+/*----补充设备信息----*/
+.m-input-height{
+    height: 51px !important;
+}
+.u-laber-padding{
+	padding: 15px 15px !important;
+}
+.u-input-text{
+	height: 50px !important;
+}
+/*-----设备维修历史-----*/
+.m-servicing-title{
+	max-height: 40px;
+}
+.u-servicing-img img{
+	max-width: 24%;
+}
+/*-----单杯详情-----*/
+.m-own-code{
+	text-align: center;
+}
+.m-own-code p{
+	padding: 10px 15px;
+	font-size: 17px;
+}
+.m-own-code .u-goods-code{
+	width: 140px;
+	height: 140px;
+	background-color: blueviolet;
+	margin:10px auto 0px auto;
+}
+.m-own-code .u-goods-code img{
+	width: 100%;
+	height: 100%;
+}

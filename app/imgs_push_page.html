@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/new_file.css" />
+		<link rel="stylesheet" href="css/function.css" />
+		<link rel="stylesheet" href="css/globle.css" />
+	</head>
+
+	<body>
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">图片上传 </h1>
+		</header>
+		<!--导航部分结束-->
+		<div class="mui-content">
+			<div class="m-storeImg-box">
+				<ul class="upload-ul clearfix m-flox-box">
+					<li class="upload-pick">
+						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+					</li>
+				</ul>
+
+				<!--<p>
+					<a class="upload-btn" href="javascript:;">提交</a>
+				</p>-->
+
+			</div>
+		</div>
+
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/webuploader.min.js"></script>
+		<script src="js/diyUpload.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var cotoken = localStorage.getItem("cotoken");
+			var Authorization = "Bearer " + cotoken;
+			var locations = localStorage.getItem("locations");
+			var shopId = localStorage.getItem("shopID"); //门店id
+			var enterpriseID = localStorage.getItem("pid"); //企业id
+			var pinpaiID = localStorage.getItem("cid"); //品牌id
+			$(function() {
+				//上传图片
+				var $tgaUpload = $('#goodsUpload').diyUpload({
+					url: '/uploadFilePath',
+					
+					success: function(data) {
+					},
+					error: function(err) {},
+					buttonText: '',
+					accept: {
+						title: "Images",
+						extensions: 'gif,jpg,jpeg,bmp,png'
+					},
+					thumb: {
+						width: 120,
+						height: 90,
+						quality: 100,
+						allowMagnify: true,
+						crop: true,
+						type: "image/jpeg"
+					}
+				});
+			});
+			$(document).ready(function() {
+				var html = "";
+
+				function imgs() {
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/system/fetchAttach.action',
+						data: {
+							"compId": shopId,
+							"fileType": 6,
+							"sourceType": 5
+						},
+						dataType: 'json',
+						success: function(data) {
+							//							alert(data.msg);
+							//							console.log(JSON.stringify(data));
+							//							$("#img").attr('src', "data:image/png;base64," + data.data);
+							for(var i in data) {
+								html += "<li class='mui-table-view-cell mui-media mui-col-xs-6'>"
+								html += "<a>"
+								html += "<img class='mui-media-object' src='img/brand-menu_08.jpg' data-preview-src='' data-preview-group='1'>"
+								html += "<div class='mui-media-body'>文字说明1</div>"
+								html += "</a>"
+								html += "</li>"
+							}
+							$(".m-top-margin").append(html);
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							//alert(XMLHttpRequest.status);
+							//alert(XMLHttpRequest.readyState);
+							//alert(textStatus);
+						}
+					});
+				}
+			})
+			var imgNumber = 0;
+
+			function putImgs(base64Str) { //				门店图片上传
+				var fileType = 6; //门店照片
+				var sourceType = 5; //照片来源，门店
+				var filename = "img_" + imgNumber; //图片名
+				var base64Str = base64Str;
+				$.ajax({
+					type: "post",
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": Authorization
+					},
+					url: locations + "/system/addAttach.action",
+					data: {
+						"compId": shopId,
+						"fileType": fileType,
+						"sourceType": sourceType,
+						"filename": filename,
+						"base64Str": base64Str
+					},
+					dataType: 'json',
+					success: function(data) {
+						if(data.msg == "yes") {
+							alert("图片提交成功！");
+							imgNumber++;
+						} else {
+							alert(data.msg);
+						}
+						//location.assign("statue_list_onlyOne.html");
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest.status);
+						alert(XMLHttpRequest.readyState);
+						alert(textStatus);
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

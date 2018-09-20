@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>订购列表</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/function.css" />
+		<link rel="stylesheet" type="text/css" href="css/new_file.css" />
+	</head>
+
+	<body style="background-color:#F0F8FB;">
+
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">订购列表 </h1>
+		</header>
+		<!--导航部分结束-->
+		<div class="mui-content">
+			<div class="content-mainList">
+				
+			</div>
+		</div>
+		<!--底部按钮-->
+		<div class="g-ditail-bar g-bottom-bar">
+			<a><button type="button" class="mui-btn mui-btn-primary bottom_btn u-bottom-btn">下一步</button></a>
+		</div>
+		<!--/底部按钮-->
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			$(document).ready(function() {
+				var locations=localStorage.getItem("locations");
+				var shopId = localStorage.getItem("shopID");
+				var cotoken = localStorage.getItem("cotoken");
+				var Authorization = "Bearer " + cotoken;
+				//var marId = [];
+				
+				function order() {//门店原料库存列表
+					var html = "";
+					var html2 = "";
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations+'/system/material.action',
+						data: {
+							"id": shopId
+						},
+						dataType: 'json',
+						success: function(data) {
+							for(q in data.data) {
+								html2 = "";
+								for(w in data.data[q]) {
+									html2 += "<li data-id='"+data.data[q][w].matId+"'>" + data.data[q][w].matName + "<img class='u-order-bgduigou' src='img/brand_03.png' /></li>"
+								}
+								html += "<div class='g-order-type'>"
+								html += "<p class='u-order-title'>" + data.data[q][w].smallName + "</p>"
+								html += "<ul class='m-order-ul'>"
+								html += html2
+								html += "</ul>"
+								html += "</div>"
+								
+							}
+							$('.content-mainList').html(html);
+							$('.m-order-ul li').click(function() {
+								if($(this).hasClass('u-order-listbg')) {
+									$(this).removeClass('u-order-listbg');
+								} else {
+									$(this).addClass('u-order-listbg');
+									$('.u-order-bgduigou').css('display', 'block');
+								}
+
+							});
+							
+							$(".u-bottom-btn").click(function() {
+								var marId = [];
+								$(".u-order-listbg").each(function() {
+									var jj = $(this).attr("data-id");
+									marId.push(jj);
+								});
+								if (marId=="") {
+									alert("您还没有选择任何原料！");
+								} else{
+									localStorage.setItem("matIds",marId);
+									location.assign("store_finishOrderMore_page.html");
+									//mui.openWindow('store_finishOrderMore_page.html','store_finishOrderMore');
+								}
+								
+							});
+
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							//alert(XMLHttpRequest.status);
+							//alert(XMLHttpRequest.readyState);
+							//alert(textStatus);
+						}
+					});
+				}
+				order();
+				$(".mui-action-back").click(function(){
+				localStorage.removeItem("matIds");
+				});
+			});
+		</script>
+	</body>
+
+</html>

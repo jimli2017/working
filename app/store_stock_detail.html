@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>管理库存</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/function.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/function.css" />
+		<link rel="stylesheet" type="text/css" href="css/new_file.css" />
+	</head>
+
+	<body>
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a href="store_stock_list.html" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">管理库存</h1>
+		</header>
+		<!--导航部分结束-->
+		<div class="mui-content title-color">
+			<div class="mui-card">
+				<div class="mui-card-header" id="stockYl">原料:土豆</div>
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<ul class="m-stock-conBox">
+							<!--<li id="stockBd">物料柜绑定：1号</li>-->
+							<li id="stockXc">现存量：</li>
+							<li id="stockYj">预警值：4g</li>
+							<li id="stockYs">运送中；100g</li>
+							<li id="stockRq">日期；12:12:12</li>
+						</ul>
+					</div>
+				</div>
+				<div class="mui-card-footer">
+					<div></div>
+					<div></div>
+					<button id="stockDt" type="button" class="mui-btn mui-btn-primary">点击订货</button>
+					<!--</a>-->
+				</div>
+				<div class="u-storeCare-hdTitle"><span>入库历史</span></div>
+				<!--<div class="u-bottom-tp">
+					<ul>
+						<li>1999-10-10 13:13:13</li>
+						<li><span>订单号：131313131</span></li>
+						<li><span>订货：131g</span><span>实到：131g</span></li>
+					</ul>
+				</div>-->
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			$(document).ready(function() {
+				var matId = localStorage.getItem("matId");
+				var shopId = localStorage.getItem("shopID"); //门店id
+				var enterpriseID = localStorage.getItem("pid"); //企业id
+				var pinpaiID = localStorage.getItem("cid"); //品牌id
+				var locations=localStorage.getItem("locations");
+				//console.log(matId);
+				var cotoken = localStorage.getItem("cotoken");
+				var Authorization = "Bearer " + cotoken;
+
+				$("#stockDt").click(function() {
+					mui.openWindow({
+						url:'store_finishOrder_page.html',
+						id:'store_finishOrder_page'
+					})
+					//location.href = 'store_finishOrder_page.html'
+				});
+				//获取库存原料详情
+				function stockDetail() {
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations+'/store/waredetailid.action',
+						data: {
+							"shopID": shopId,
+							"enterpriseID": enterpriseID,
+							"pinpaiID": pinpaiID,
+							"matId": matId,
+						},
+						dataType: 'json',
+						success: function(data) {
+							$("#stockYl").html("原料:" + data.data.matName);
+							//$("#stockBd").html("物料柜绑定:"+data.data.matName);
+							$("#stockXc").html("现存量:" + data.data.stocks);
+							$("#stockYj").html("预警值:" + data.data.alarmAmount + data.data.unitName);
+							$("#stockYs").html("运送中:" + data.data.matName);
+							$("#stockRq").html("日期:" + data.data.createTime);
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(XMLHttpRequest.status);
+							alert(XMLHttpRequest.readyState);
+							alert(textStatus);
+						}
+					})
+				}
+				stockDetail(); //获取库存原料库存
+
+				function stockHistory() {
+					var htmls = "";
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations+'/store/stockOutHistory.action',
+						data: {
+							"shopId": shopId,
+							"matId": matId,
+
+						},
+						dataType: 'json',
+						success: function(data) {
+							for(var i in data.data.rows) {
+								//console.log(JSON.stringify(data.data.rows[i]));
+								for (var j in data.data.rows[i].stockOutDetails) {
+									console.log(JSON.stringify(data.data.rows[i].stockOutDetails[j].matCount));
+								}
+								htmls += "<div class='u-bottom-tp'>"
+								htmls += "<ul>"
+								htmls += "<li>" + data.data.rows[i].sendTime + "</li>"
+								htmls += "<li>" + "<span>" + "订单号：" + data.data.rows[i].stockOutNo + "</span>" +  + "</li>"
+								htmls +="<li>"+"<span>" + "订货：" + 131 + "g" + "</span>" + "<span>" + "实到：" + 131 + "g" + "</span>"+"</li>"
+								htmls += "</ul>"
+								htmls += "</div>"
+							}
+							$(".u-storeCare-hdTitle").after(htmls);
+						}
+					})
+				}
+				stockHistory();
+			});
+		</script>
+	</body>
+
+</html>

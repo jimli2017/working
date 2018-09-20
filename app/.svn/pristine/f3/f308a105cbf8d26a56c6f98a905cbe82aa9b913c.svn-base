@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>报修历史</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+		<script type="text/javascript" charset="utf-8">
+			// H5 plus事件处理
+			function plusReady() {
+				// 隐藏滚动条
+				plus.webview.currentWebview().setStyle({ scrollIndicator: 'none' });
+				// Android处理返回键
+			}
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			}
+		</script>
+	</head>
+
+	<body>
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav g-statue-box">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">报修历史</h1>
+		</header>
+		<!--导航部分结束-->
+		<div class="mui-content">
+			<div class="mui-card">
+				<div class="mui-card-header mui-card-media m-servicing-title">
+					<p>super man1111号</p>
+				</div>
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<p>Posted on January 18, 2016</p>
+						<p style="color: #333;">这里显示文章摘要，让读者对文章内容有个粗略的概念......</p>
+						<div class="u-servicing-img">
+							<img src="img/store-stock.png" />
+							<img src="img/store-stock.png" />
+							<img src="img/store-stock.png" />
+							<img src="img/store-stock.png" />
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="mui-card">
+				<div class="mui-card-header mui-card-media m-servicing-title">
+					<p>Posted on January 18, 2016</p>
+				</div>
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<p>Posted on January 18, 2016</p>
+						<p style="color: #333;">这里显示文章摘要，让读者对文章内容有个粗略的概念......</p>
+						<div class="u-servicing-img">
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="mui-card">
+				<div class="mui-card-header mui-card-media m-servicing-title">
+					<p>Posted on January 18, 2016</p>
+				</div>
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<p>Posted on January 18, 2016</p>
+						<p style="color: #333;">这里显示文章摘要，让读者对文章内容有个粗略的概念......</p>
+						<div class="u-servicing-img">
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="mui-card">
+				<div class="mui-card-header mui-card-media m-servicing-title">
+					<p>Posted on January 18, 2016</p>
+				</div>
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<p>Posted on January 18, 2016</p>
+						<p style="color: #333;">这里显示文章摘要，让读者对文章内容有个粗略的概念......</p>
+						<div class="u-servicing-img">
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js" ></script>
+		<script type="text/javascript">
+			mui.init();
+		</script>
+	</body>
+
+</html>

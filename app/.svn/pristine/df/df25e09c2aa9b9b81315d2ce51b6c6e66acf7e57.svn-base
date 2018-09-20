@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>订单入库</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+	</head>
+
+	<body>
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">订单入库 </h1>
+		</header>
+		<!--导航部分结束-->
+		<div class="mui-content">
+			<div class="mui-card">
+				<!--页眉，放置标题-->
+				<div class="m-storeCf-hd"><span class="z-float-left u-stockOutNo"><!--单据号：1314--></span></div>
+				<!--内容区-->
+				<div class="mui-card-content z-clear-both">
+					
+					<!--<div class="mui-row g-storeCf-content">
+						<div class="mui-col-sm-9 mui-col-xs-9 m-storecF-ctLeft">
+							<ul>
+								<li>原料：土豆</li>
+								<li class="u-ctLeft-list">仓库值：100g</li>
+								<li class="u-ctLeft-list">预警值：100g</li>
+								<li class="u-ctLeft-list">订单量：100g</li>
+								<li class="u-ctLeft-list">到货量：100g</li>
+							</ul>
+						</div>
+						<div class="mui-col-sm-3 mui-col-xs-3 m-storecF-ctLeft">
+							<ul>
+								<li>实收量</li>
+								<li><input type="number" name="" id="" value="" /><span>g</span></li>
+							</ul>
+						</div>
+					</div>-->
+					
+				</div>
+			</div>
+		</div>
+		<!--底部按钮-->
+			<div class="g-ditail-bar g-bottom-bar">
+				<a><button type="button" class="mui-btn mui-btn-primary bottom_btn u-bottom-btn">确认入库</button></a>
+			</div>
+			<!--/底部按钮-->
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			$(document).ready(function(){
+				var html="";
+				var stockInDetails=[];
+				var locations=localStorage.getItem("locations");
+				var cotoken = localStorage.getItem("cotoken");
+				var Authorization = "Bearer " + cotoken;
+				var shopId=localStorage.getItem("shopID");//门店编码
+				var enterpriseID=localStorage.getItem("pid");//企业ID
+				var pinpaiID=localStorage.getItem("cid");//品牌id
+				var outOrder=JSON.parse(localStorage.getItem("outOrder"));
+				var deliveryNo=outOrder[0].stockOutNo;
+				var deliveryId=outOrder[0].stockOutId;
+				function ground(){//对数据进行循环，进行页面的渲染
+					$(".u-stockOutNo").html("单据号："+outOrder[0].stockOutNo);
+					for (var n in outOrder) {
+						html+="<div class='mui-row g-storeCf-content' id-matId='"+outOrder[n].matId+"'>"
+						html+="<div class='mui-col-sm-9 mui-col-xs-9 m-storecF-ctLeft m-id-matCount' id-matCount='"+outOrder[n].matCount+"'>"
+						html+="<ul class='u-unitid' id-unitid='"+outOrder[n].unitId+"'>"
+						html+="<li>原料："+outOrder[n].matName+"</li>"
+						html+="<li class='u-ctLeft-list'>仓库值："+outOrder[n].stocks+"</li>"
+						html+="<li class='u-ctLeft-list'>预警值："+outOrder[n].alarmAmount+"</li>"
+						html+="<li class='u-ctLeft-list'>订单量："+outOrder[n].matCount+"</li>"
+						html+="<li class='u-ctLeft-list'>到货量："+outOrder[n].alivedMatCount+"</li>"
+						html+="</ul>"
+						html+="</div>"
+						html+="<div class='mui-col-sm-3 mui-col-xs-3 m-storecF-ctLeft'>"
+						html+="<ul>"
+						html+="<li>实收量</li>"
+						html+="<li><input type='number' name='' id='u-number-input' value='' /><span>g</span></li>"
+						html+="</ul>"
+						html+="</div>"
+						html+="</div>"
+					}  
+					$(".z-clear-both").append(html);
+				}
+				ground();
+				$(".u-bottom-btn").click(function(){
+					justsoso();//订单入库参数
+					
+				})
+				//获取入库请求参数,注意作用域问题
+				function justsoso(){
+					var o=$("input").length;
+					
+					for (var i=0;i<o;i++) {
+						var matId=$(".g-storeCf-content").eq(i).attr("id-matId");
+						var matCount=$(".g-storeCf-content").eq(i).find("input").val();
+						var own=$(".g-storeCf-content").eq(i).find(".u-unitid").attr("id-unitid");
+						var ll={
+							matId:JSON.parse(matId),//物料id
+							matCount:JSON.parse(matCount),//实收量
+							unitId:JSON.parse(own)//单位id
+						}
+						stockInDetails.push(ll);
+					}
+					pushKu();
+				}
+				
+				//订单入库接口
+				function pushKu(){
+					var aaa=JSON.stringify(stockInDetails);
+					$.ajax({
+					type: 'post',
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": Authorization
+					},
+					url: locations+'/store/stockIn.action',
+					data: {
+						"shopId":shopId,
+						"enterpriseID":enterpriseID,
+						"pinpaiID":pinpaiID,
+						"deliveryId":deliveryId,
+						"deliveryNo":deliveryNo,
+						"stockInDetails":aaa
+					},
+					dataType: 'json',
+
+					success: function(data) {
+						if (data.msg=="yes") {
+							alert("订单已入库！");
+							localStorage.removeItem("outOrder");
+							location.href='dingdanjindu.html'
+//							mui.openWindow({
+//								url: 'dingdanjindu.html',
+//								id: 'dingdanjindu'
+//							});
+						} else{
+							alert(data.msg);
+						}
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest.status);
+						alert(XMLHttpRequest.readyState);
+						alert(textStatus);
+					}
+				});
+				};
+			})
+		</script>
+	</body>
+
+</html>

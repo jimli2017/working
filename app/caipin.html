@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>品牌菜品详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/function.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.picker.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:white"></a>
+			<h1 class="mui-title" style="color:white ;">菜品详情</h1>
+		</header>
+		<div class="mui-g-content">
+			<ul class="mui-table-view">
+
+				<li class="mui-table-view-cell">
+					<a>
+						<span class="z-float-left">
+	               	菜品
+	               </span>
+						<span class="z-folt-right" id="cpName">
+	               	
+	               </span>
+
+					</a>
+				</li>
+
+				<li class="mui-table-view-cell">
+					<a>
+						<span class="z-float-left">
+	               	菜品编号
+	               </span>
+						<span style="float:right ;" id="cpproNo">
+	             a141165131
+	               </span>
+
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a>
+						<span class="z-float-left">
+	              是否在售
+	               </span>
+						<span class="z-folt-right" id="isSaled">
+	               在售（停售/待售）
+	               </span>
+
+					</a>
+				</li>
+
+				<li class="mui-table-view-cell">
+					<a>
+						<span class="z-float-left">
+	               	菜品类型
+	               </span>
+						<span class="z-folt-right" id="proType">
+	               	xx类型
+	               </span>
+
+					</a>
+				</li>
+
+				<li class="mui-table-view-cell">
+					<a>
+						<span class="z-float-left" >
+	               	菜品价格
+	               </span>
+						<span class="z-folt-right" id="cpPrice">
+	               	￥18
+	               </span>
+
+					</a>
+				</li>
+
+				<li class="mui-table-view-cell">
+					<a>
+						<span class="z-float-left">
+	               	创建时间
+	               </span>
+						<span class="z-folt-right" id="startTime">
+	               2017-4-27
+	               </span>
+
+					</a>
+				</li>
+
+				<!--<li class="mui-table-view-cell">
+					<a>
+						<span class="z-float-left">
+	              历史出售
+	               </span>
+						<span class="z-folt-right">
+	               99份
+	               </span>
+
+					</a>
+				</li>-->
+
+				<li class="mui-table-view-cell">
+					<a>
+						<span class="z-float-left add-mskes-after">
+	               做法
+	               </span>
+						<!--<span class="z-folt-right u-makes-caipin">
+	           加冰
+	               </span>-->
+
+					</a>
+				</li>
+
+				<!--<li class="mui-table-view-cell">
+					<a>
+						<span class="z-float-left">
+	        菜品搭配
+	               </span>
+						<span class="z-folt-right">
+	           西红柿抄鸡蛋
+	               </span>
+
+					</a>
+				</li>-->
+			</ul>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			$(document).ready(function(){
+				var html="";
+				var cook=JSON.parse(localStorage.getItem("cooktest"));
+				if (cook.proType==1) {
+					$("#proType").html("大类");
+				} else{
+					$("#proType").html("小类");
+				}
+				if (cook.proNo=="null") {
+					$("#cpproNo").html("");
+				} else{
+					$("#cpproNo").html(cook.proNo);
+				}
+						$("#cpName").html(cook.proName);
+						//$("#cpproNo").html(cook.proNo);
+						//$("#proType").html(cook.proType);
+						$("#cpPrice").html(cook.price+"元");
+						//$("#isSaled").html(cook.isSaled);
+						$("#startTime").html(cook.startTime);
+						$("#cpName").html(cook.proName);//饮品的做法
+						for (var i in cook.makes) {
+							html+="<span class='z-folt-right u-makes-caipin'>"+cook.makes[i].practiceName
+	              			html+="</span>"
+						}
+						$(".add-mskes-after").after(html);
+						if (cook.isSaled==0) {
+							$("#isSaled").html("在售");
+						} else{
+							$("#isSaled").html("下架");
+						}
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,231 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>物料柜详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title u-wuliao-sumInventory"></h1>
+		</header>
+
+		<div class="mui-content">
+
+			<div class="m-wuliao-name">
+				<span class="u-wuliao-orgName">
+					物料柜
+				</span>
+			</div>
+
+			<div class="m-wuliao-content">
+
+				<div class="m-wuliao-conLift">
+					<span class="u-conLift-dian">.</span><span class="u-wuliao-title"></span><br />
+					<span class="u-conLift-dian">.</span><span class="u-wuliao-alarmPercent"></span>
+				</div>
+
+				<div class="m-wuliao-conRight">
+					<span class="u-conLift-dian">.</span><span class="u-wuliao-sumInventory"></span><br />
+					<input type="number" name="" id="u-wuliaogui-numBtn" value="" onkeyup="value=value.replace(/[^\d]/g,'')"/><span class="u-unit"></span>&nbsp;
+					<button class="u-wuliao-addBtn">料仓添料</button>
+					<span class="u-conLift-dian">
+				</div>
+				<div class="f-box-wuliao"></div>
+				<div class="u-wuliao-btn">
+					<div class="mui-segmented-control m-wuliao-btnc">
+						<a class="mui-control-item mui-active" id="clear-Box">清洗操作</a>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="m-wuliao-houstryContent">
+				<br />-----------历史信息-----------
+
+			</div>
+			
+			<div class="m-wuliao-ft">
+
+				<!--<div class="m-wuliao-ftcontent">
+					<div class="m-wuliao-div11"></div>
+					<p class="m-wuliao-houstryTime">
+						2016-5-25   13:23:15
+					</p>
+					<p class="u-wuliao-hourstyCon">
+						<span class="wuliaoName u-wuliao-addnumber">aaaaaaaaaaaa</span><span class="addnumber u-wuliao-addnumber">填料量：15ml</span><span class="addbefour u-wuliao-addnumber">填后量：45ml</span>
+					</p>
+				</div>-->
+
+			</div>
+
+			<!--/历史记录部分-->
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				mui.init();
+				var locations = localStorage.getItem("locations");
+				var cotoken = localStorage.getItem("cotoken");
+				var Authorization = "Bearer " + cotoken;
+				var cabId = localStorage.getItem("cabId"); //物料柜id
+				var shopId = localStorage.getItem("shopID"); //门店id
+				var enterpriseID = localStorage.getItem("pid"); //企业id
+				var pinpaiID = localStorage.getItem("cid"); //品牌id
+
+				$("#clear-Box").click(function() {
+					//location.assign("instruct_operate_list.html");
+					mui.openWindow({
+						url:'instruct_operate_list.html',
+						id:'instruct_operate_list'
+					})
+				});
+
+				//物料柜详情
+				function detali() {
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/store/cabDetail.action',
+						data: {
+							"cabId": cabId,
+							"shopId": shopId
+						},
+						dataType: 'json',
+						success: function(data) {
+							//alert(JSON.stringify(data.data));
+							$(".u-wuliao-sumInventory").html(cabId + "号物料柜");
+							$(".u-wuliao-orgName").html("原料：" + data.data.orgName);
+							$(".u-wuliao-alarmPercent").html("预警值：" + data.data.alarmPercent + data.data.unitName);
+							$(".u-wuliao-title").html("当前量：" + data.data.sumInventory + data.data.unitName);
+							$(".u-unit").html(data.data.unitName);
+							var cabIndex = data.data.cabIndex;
+							var orgId = data.data.orgId; //原料id
+							var eqpId = data.data.eqpId; //设备id
+
+							//历史信息
+							function historyAdd() {
+								$.ajax({
+									type: 'post',
+									headers: {
+										"Content-Type": "application/x-www-form-urlencoded",
+										"Authorization": Authorization
+									},
+									url: locations + '/store/cabHistory.action',
+									data: {
+										"cabIndex": cabIndex,
+										"eqpId": eqpId
+									},
+									dataType: 'json',
+									success: function(data) {
+										//alert(JSON.stringify(data.data));
+										var html = "";
+										for(var i in data.data.rows) {
+
+											html += "<div class='m-wuliao-ftcontent'>"
+											html += "<div class='m-wuliao-div11'>" + "</div>"
+											html += "<p class='m-wuliao-houstryTime'>" + data.data.rows[i].optTime
+											html += "</p>"
+											html += "<p class='u-wuliao-hourstyCon'>"
+											html += "<span class='wuliaoName u-wuliao-addnumber'>" + "原料：" + data.data.rows[i].orgName + "</span>"
+											html += "<span class='addnumber u-wuliao-addnumber'>" + "填料量：" + data.data.rows[i].amount + "</span>"
+											html += "<span class='addbefour u-wuliao-addnumber'>" + "填后量：" + data.data.rows[i].totalAmount + "</span>"
+											html += "</p>"
+											html += "</div>"
+										};
+										$(".m-wuliao-ft").append(html);
+									},
+									error: function(XMLHttpRequest, textStatus, errorThrown) {
+										//alert(XMLHttpRequest.status);
+										//alert(XMLHttpRequest.readyState);
+										//alert(textStatus);
+									}
+								});
+							}
+							historyAdd();
+
+							$(".u-wuliao-addBtn").click(function() {
+
+								if($("#u-wuliaogui-numBtn").val() == "") {
+									alert("未输入添料量。");
+								} else {
+
+									var orgArrayss = [];
+									var amount = $("#u-wuliaogui-numBtn").val(); //加料量
+									var Array = {
+										orgId: orgId,
+										amout: JSON.parse(amount)
+									}
+									orgArrayss.push(Array);
+									var orgArray=JSON.stringify(orgArrayss);
+									//确认添加
+									function contraladd() {
+										
+										$.ajax({
+											type: 'post',
+											headers: {
+												"Content-Type": "application/x-www-form-urlencoded",
+												"Authorization": Authorization
+											},
+											url: locations + '/store/cabAdd.action',
+											data: {
+												"shopId": shopId,
+												"enterpriseID": enterpriseID,
+												"pinpaiID": pinpaiID,
+												"eqpId": eqpId,
+												"amount": amount,
+												"cabIndex": cabIndex,
+												"orgId": orgId,
+												"orgArray": orgArray
+											},
+											dataType: 'json',
+											success: function(data) {
+												if(data.msg == "yes") {
+													alert("添料量已发送！");
+													mui.openWindow({
+														url:'wuliaoguizonglan.html',
+														id:'wuliaoguizonglano'
+													})
+												} else {
+													alert(data.msg);
+												}
+											},
+											error: function(XMLHttpRequest, textStatus, errorThrown) {
+												//alert(XMLHttpRequest.status);
+												//alert(XMLHttpRequest.readyState);
+												//alert(textStatus);
+											}
+										});
+									}
+									contraladd();
+								};
+
+							});
+
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							//alert(XMLHttpRequest.status);
+							//alert(XMLHttpRequest.readyState);
+							//alert(textStatus);
+						}
+					});
+				};
+				detali();
+
+			});
+		</script>
+	</body>
+
+</html>

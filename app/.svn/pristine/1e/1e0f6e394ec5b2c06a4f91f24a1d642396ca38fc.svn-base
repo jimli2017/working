@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>个人中心</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+		<link rel="stylesheet" type="text/css" href="css/globle.css" />
+		<script src="js/jquery-2.1.1.min.js"></script>
+		<style type="text/css">
+			.box {
+				float: right;
+				color: #686868;
+			}
+			
+			.box2 {
+				float: left;
+				color: #686868;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">个人信息 </h1>
+			<span class="mui-icon mui-icon-info z-folt-right z-color-white" id="version"></span>
+		</header>
+		<!--导航部分结束-->
+		<br /><br />
+		<!--主体-->
+		<div class="g-myself-box">
+			<div id="p1" class="m-gr-div1 g-header-nav">
+				<img id="img" src="img/QQtupian.png" style="width:100px;height:100px ;" />
+			</div>
+			<ul class="mui-table-view m-ge-line">
+				<li class="mui-table-view-cell">
+					<span class="box2">
+		         	人员名称
+			        </span>
+					<span class="box" id="myName">
+			         	
+			        </span>
+				</li>
+
+				<li class="mui-table-view-cell">
+					<span class="box2">
+		                                                身份证号		         
+					</span>
+					<span class="box" id="myId">
+		         		
+		         	</span>
+				</li>
+
+				<li class="mui-table-view-cell">
+					<span class="box2">
+		         	常用电话
+		         </span> <span class="box" id="myPhone">
+		         	
+		         </span>
+
+				</li>
+				<li class="mui-table-view-cell">
+					<span class="box2">
+		         	当前账号状态
+		         </span>
+					<span class="box" id="myStatue">
+		         	
+		         </span>
+
+				</li>
+			</ul>
+			<ul class="mui-table-view m-ge-line">
+				<li class="mui-table-view-cell">
+					<span class="box2">
+		         	账户密码
+			        </span>
+					<span class="box" id="myName">
+			         	<button class="u-reste-btn" style="background-color:#007AFF ; border-radius:20px ; color:white ; width:7em;height:2em;">点击重设</button>
+			        </span>
+				</li>
+			</ul>
+			<ul class="mui-table-view m-ge-line">
+				<li class="mui-table-view-cell z-text-align">
+					<span class="m-goback-login" id="goback">
+		         	退出账户
+			        </span>
+				</li>
+			</ul>
+		</div>
+		<!--/主体-->
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var shopId = localStorage.getItem("shopID");
+			var locations = localStorage.getItem("locations");
+			var cotoken = localStorage.getItem("cotoken");
+			var Authorization = "Bearer " + cotoken;
+			$(document).ready(function() {
+				$("#goback").click(function() {
+
+					plus.nativeUI.actionSheet({
+						cancel: "取消",
+						buttons: [{
+							title: "注销当前账号"
+						}, {
+							title: "直接关闭应用"
+						}]
+					}, function(e) {
+						var index = e.index;
+						switch(index) { //case 0: 取消
+							case 1: //
+								localStorage.clear();
+								plus.runtime.restart();
+								break;
+							case 2: //
+								plus.runtime.quit();
+								break;
+						}
+					});
+
+				});
+				$(".u-reste-btn").click(function() {
+					mui.openWindow({
+						url: 'resetPassword_page.html',
+						id: 'resetPassword'
+					})
+				});
+				$("#version").click(function() {
+					mui.openWindow({
+						url: 'version_information_page.html',
+						id: 'versionInformation'
+					})
+				})
+
+				//获取个人信息
+				function mySelf() {
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/system/store.action',
+						data: {
+
+						},
+						dataType: 'json',
+						success: function(data) {
+							if(data.data.member.isWorkOn == true) {
+								var statue = "当班中";
+							} else {
+								var statue = "非当班";
+							}
+							$("#myName").html(data.data.member.name);
+							$("#myId").html(data.data.member.idCode);
+							$("#myPhone").html(data.data.member.mobile);
+							$("#myStatue").html(statue);
+
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(XMLHttpRequest.status);
+							alert(XMLHttpRequest.readyState);
+							alert(textStatus);
+						}
+					})
+
+				}
+				mySelf();
+
+				if(localStorage.getItem("jj") == 1) {
+					code(); //方法
+				}
+				//code();
+
+				//二维码
+				function code() {
+					var cotoken = localStorage.getItem("cotoken");
+					var Authorization = "Bearer " + cotoken;
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/system/join.action',
+						data: {
+
+						},
+						dataType: 'json',
+						success: function(data) {
+							if(data.code == 0) {
+								$("#img").attr('src', "data:image/png;base64," + data.data);
+							} else if(data.code == 1) {
+								alert(data.msg); //状态1为错误权限
+								location.href = "zhuye.html";
+							} else if(data.code == 2) { //状态为2，则是非当前当班人员无法获取二维码
+								alert(data.msg); //非当值人员
+								//if(sessionStorage.getItem("xxx") != 1) { //本地存储一个x属性 属性不为1说明首页未变更离店状态
+								location.href = "zhuye.html";
+							}
+
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							//alert("1:" + XMLHttpRequest.status);
+							//alert("2:" + XMLHttpRequest.readyState);
+							//alert("3:" + textStatus);
+						}
+					});
+				}
+				//				每三秒执行一次
+				//				var t1 = window.setTimeout(code, 1000);
+				//				var t2 = window.setTimeout("code()", 3000); //使用字符串执行方法
+
+			})
+		</script>
+
+	</body>
+
+</html>

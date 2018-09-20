@@ -1,0 +1,254 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>设备报修</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+		<link rel="stylesheet" type="text/css" href="css/globle.css" />
+		<link rel="stylesheet" href="css/mui.picker.css" />
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+	</head>
+
+	<body style="font-size:17px">
+
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav g-statue-box">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">设备报修</h1>
+		</header>
+		<!--导航部分结束-->
+		<!--设备内容-->
+		<div class="mui-content">
+			<ul class="mui-table-view g-detail-equipment">
+				<li class="mui-table-view-cell">设备名称
+					<span class="mui-badge-right" id="stMachine"></span>
+				</li>
+				<li class="mui-table-view-cell">设备机器号
+					<span class="mui-badge-right" id="machineNumber"></span>
+				</li>
+				<li class="mui-table-view-cell">门店编号
+					<span class="mui-badge-right" id="storeNumber"></span>
+				</li>
+				<li class="mui-table-view-cell">设备类型
+					<span class="mui-badge-right" id="machineType"></span>
+				</li>
+				<li class="mui-table-view-cell">选择设备状态
+					
+					<span class="mui-badge-right choies-btn">
+							<select class="mui-btn mui-btn-block u-btn-option" id="statueNow">
+								<option class="good" value="0">正常</option>
+								<option class="good1" value="1">暂停</option>
+								<option class="good2" value="2">删除</option>	
+								<option class="good3" value="3">维修</option>
+							</select>
+					</span>
+					<span class="u-right-jupe">
+						>
+					</span>
+				</li>
+				<li class="mui-table-view-cell">创建时间
+					<!--<span class="mui-badge-center" style="margin-left:10%;">2018年1月1日</span>-->
+					<span class="mui-badge-right" id="foundTime"><!--20:30:20--></span>
+				</li>
+				<li class="mui-table-view-cell">设备变更描述
+					<div class="mui-input-row m-list-equipment" style="margin: 10px 5px;">
+						<textarea id="textarea" rows="5" placeholder="请输入"></textarea>
+					</div>
+				</li>
+				<li class="mui-table-view-cell">报修图片
+					<div class="push-picture">
+						<ul class="upload-ul clearfix">
+							<li class="upload-pick">
+								<div class="webuploader-container clearfix" id="goodsUpload"></div>
+							</li>
+						</ul>
+
+					</div>
+				</li>
+			</ul>
+
+		</div>
+		<!--/设备内容-->
+		<!--底部按钮-->
+		<div class="g-ditail-bar g-bottom-bar">
+			<button type="button" class="mui-btn mui-btn-primary bottom_btn u-bottom-btn" onclick="commint()">提交报修</button>
+		</div>
+		<!--/底部按钮-->
+
+		<script src="js/mui.min.js"></script>
+		<!--图片上传js文件-->
+		<script src="js/webuploader.min.js"></script>
+		<script src="js/diyUpload.js"></script>
+		<!--图片上传js文件-->
+		<script type="text/javascript" src="js/mui.picker.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var locations = localStorage.getItem("locations");
+			var cotoken = localStorage.getItem("cotoken");
+			var Authorization = "Bearer " + cotoken;
+			var shopID = localStorage.getItem("shopID"); //门店id
+			var data = JSON.parse(localStorage.getItem("statueAll")); //读取对应键名为statueAll的数据
+			var statueType = localStorage.getItem("statueType"); //设备类型，来自首页
+			var a=data.data[0].status;
+			$(function() {
+				//上传图片
+				var $tgaUpload = $('#goodsUpload').diyUpload({
+					url: '/uploadFilePath',
+					
+					success: function(data) {
+					},
+					error: function(err) {},
+					buttonText: '',
+					accept: {
+						title: "Images",
+						extensions: 'gif,jpg,jpeg,bmp,png'
+					},
+					thumb: {
+						width: 120,
+						height: 90,
+						quality: 100,
+						allowMagnify: true,
+						crop: true,
+						type: "image/jpeg"
+					}
+				});
+			});
+
+			//						渲染页面信息
+			function change() {
+				switch(statueType) {
+
+					case "1":
+						var eqpType = "接口控制";
+						break;
+					case "2":
+						var eqpType = "智能机器";
+						break;
+					case "3":
+						var eqpType = "pos";
+						break;
+					case "4":
+						var eqpType = "智能柜";
+						break;
+					case "5":
+						var eqpType = "点餐大屏";
+						break;
+					case "6":
+						var eqpType = "叫号大屏";
+						break;
+					case "7":
+						var eqpType = "取货终端";
+						break;
+					default:
+						break;
+				}
+				$("#stMachine").html(data.data[0].eqpName);
+				$("#machineNumber").html(data.data[0].eqpNo);
+				$("#storeNumber").html(data.data[0].shopId);
+				$("#machineType").html(eqpType);
+				$("#foundTime").html(data.data[0].createTime);
+				if(a == 0) {
+						$(".good").attr("selected", "selected");
+						$(".good1").removeAttr("selected", "selected");
+						$(".good2").removeAttr("selected", "selected");
+						$(".good3").removeAttr("selected", "selected");
+					} else if(a == 1) {
+						$(".good1").attr("selected", "selected");
+						$(".good").removeAttr("selected", "selected");
+						$(".good2").removeAttr("selected", "selected");
+						$(".good3").removeAttr("selected", "selected");
+					} else if(a == 2) {
+						$(".good2").attr("selected", "selected");
+						$(".good").removeAttr("selected", "selected");
+						$(".good1").removeAttr("selected", "selected");
+						$(".good3").removeAttr("selected", "selected");
+					} else if(a == 3) {
+						$(".good3").attr("selected", "selected");
+						$(".good").removeAttr("selected", "selected");
+						$(".good2").removeAttr("selected", "selected");
+						$(".good1").removeAttr("selected", "selected");
+					}
+			}
+			change();
+
+			//			上传变更内容
+			function commint() {
+				var status = $("#statueNow").val();
+				var remark = $("#textarea").val();
+				var eqpid = data.data[0].id;
+				var aaaaa=$(".viewThumb img").attr("src");
+				$.ajax({
+					type: "post",
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": Authorization
+					},
+					url: locations + "/eqp/editEqp.action",
+					data: {
+						"eqpId": eqpid, //设备id
+						"status": status, //设备状态
+						"remark": remark, //描述信息
+					},
+					dataType: 'json',
+					success: function(data) {
+						if(data.msg == "yes") {
+							alert("变更成功！");
+						} else {
+							alert(data.msg);
+						}
+						location.assign("statue_list_onlyOne.html");
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest.status);
+						alert(XMLHttpRequest.readyState);
+						alert(textStatus);
+					}
+				});
+			}
+//			上传设备图片功能
+			var imgNumber=0;
+			function putImgs(base64Str){
+				var fileType=9;//设备照片
+				var sourceType=7;//报修事件
+				var filename="img_"+imgNumber;//图片名
+				var base64Str=base64Str;
+				$.ajax({
+					type: "post",
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": Authorization
+					},
+					url: locations + "/system/addAttach.action",
+					data: {
+						"compId": statueType, 
+						"fileType": fileType, 
+						"sourceType": sourceType,
+						"filename": filename, 
+						"base64Str": base64Str
+					},
+					dataType: 'json',
+					success: function(data) {
+						if(data.msg == "yes") {
+							alert("图片提交成功！");
+							imgNumber++;
+						} else {
+							alert(data.msg);
+						}
+						//location.assign("statue_list_onlyOne.html");
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest.status);
+						alert(XMLHttpRequest.readyState);
+						alert(textStatus);
+					}
+				});
+			}
+			
+		</script>
+	</body>
+
+</html>

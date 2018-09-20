@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>物料柜</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:white ;"></a>
+			<h1 class="mui-title" style="color:white ;">物料柜总览</h1>
+			<!--<span id="" class="jjj">
+		    	<img src="img/jjj.PNG"/>
+		    </span>-->
+		</header>
+		<br /><br />
+		<!--物料柜第一列-->
+		<ul class="mui-table-view mui-grid-view mui-grid-9 g-cupboard-box">
+
+			<!--<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+				<a href="wuliao_moreMnue.list.html" class="u-cupboard-relative"><img src="img/wuliaozonglan_03.png" width="100%" /></a>
+				<div class="u-cupboard-num">
+					1
+				</div>
+				<div class="u-cupboard-first">
+					300ml
+				</div>
+				<div class="u-cupboard-second">
+					300ml
+				</div>
+				<div class="u-cupboard-third">
+					300ml
+				</div>
+				<div class="u-cupboard-round"></div>
+				<div class="mui-media-body u-cupboard-bottom">土豆</div>
+			</li>-->
+
+		</ul>
+		<!--/物料柜第一列-->
+		<!--物料柜第二列-->
+		<ul class="mui-table-view mui-grid-view mui-grid-9 g-cupboard-box2"></ul>
+		<!--/物料柜第二列-->
+		<!--物料柜第三列-->
+		<ul class="mui-table-view mui-grid-view mui-grid-9 g-cupboard-box3"></ul>
+		<!--/物料柜第三列-->
+		<!--点击事件的背景层-->
+		<div class="m-focus-bg z-display-none">
+		</div>
+		<!--点击事件的背景层-->
+		<!--弹窗-->
+		<div class="mui-card m-rideo-content z-display-none">
+			<form class="mui-input-group m-input-group">
+				<div class="mui-input-row mui-radio  send">
+					<label>给料仓添料</label>
+					<input class="a2" id="a1" name="radio1" type="radio" value="0">
+				</div>
+				<div class="mui-input-row mui-radio send">
+					<label>给合成料添加合成所需原料</label>
+					<input class="a2" id="a2" name="radio1" type="radio" value="1">
+				</div>
+				<div class="mui-input-row mui-radio mui-disabled m-buttom-box">
+
+					<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined u-bottom-switch confirm">
+							确定
+						</button>
+					<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined u-bottom-switch cancel">
+							取消
+						</button>
+				</div>
+			</form>
+		</div>
+		<!--弹窗-->
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="js/new_file.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var cotoken = localStorage.getItem("cotoken");
+				var Authorization = "Bearer " + cotoken;
+				var locations = localStorage.getItem("locations");
+				//获取物料柜接口调用 wuliaoguizonglan.html  ！(无参数状态)
+				function nothingCupboard() {
+					var html = "";
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/store/material.action',
+						data: {
+
+						},
+						dataType: 'json',
+						success: function(data) {
+							//console.log(JSON.stringify(data));
+							for(i in data.data.rows) {
+								html += "<li class='mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4' id-eqpId='" + data.data.rows[i].eqpId + "'>"
+								html += "<a class='u-cupboard-relative'>" + "<img src='img/wuliaozonglan_03.png' width='100%' />" + "</a>"
+								html += "<div class='u-cupboard-num' id-isProcessed='" + data.data.rows[i].isProcessed + "'>" + data.data.rows[i].cabId
+								html += "</div>"
+								html += "<div class='u-cupboard-first'>" + data.data.rows[i].sumInventory + data.data.rows[i].unitName
+								html += "</div>"
+								html += "<div class='u-cupboard-second'>" + data.data.rows[i].alarmPercent + data.data.rows[i].unitName
+								html += "</div>"
+								html += "<div class='u-cupboard-third'>"+data.data.rows[i].stopPercent + data.data.rows[i].unitName
+								html += "</div>"
+								html += "<div class='u-cupboard-round'>" + "</div>"
+								html += "<div class='mui-media-body u-cupboard-bottom' id-matId='" + data.data.rows[i].matid + "'>" + data.data.rows[i].matName + "</div>"
+								html += "</li>"
+							}
+							$('.g-cupboard-box').html(html);
+
+							$(".mui-media").click(function() {
+								var cabId = $(this).find(".u-cupboard-num").text(); //料柜Id
+								var matId = $(this).find(".mui-media-body").attr("id-matId"); //原料id
+								var eqpId = $(this).attr("id-eqpId"); //设备id
+								var isProcessed = $(this).find(".u-cupboard-num").attr("id-isProcessed"); //设备状态，是否为混合料柜
+								//alert(isProcessed);
+								//var sumInventory=$(this).find(".u-cupboard-first").text();//总库存量
+								//var sumInventory=$(this).find(".u-cupboard-second").text();//预警值
+								//var isProcessed = $(this).find(".u-cupboard-num").attr("id-isProcessed");
+								if(isProcessed == 1) { //0为不需要加工
+									//点击上下架样式模块
+									//$(".m-focus-bg,.m-rideo-content").show();//弹窗
+									mui.openWindow({
+										url: 'wuliao_moreMnueList.html',
+										id: 'wul'
+									})
+
+								} else {
+									mui.openWindow({
+										url: 'wuliaogui.html',
+										id: 'wuli'
+									})
+								}
+								localStorage.setItem("isProcessed", isProcessed); //设备状态，是否为混合料柜
+								localStorage.setItem("eqpId", eqpId); //设备id
+								localStorage.setItem("cabId", cabId); //物料柜id
+								localStorage.setItem("matIdWl", matId); //原料id
+							});
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(XMLHttpRequest.status);
+							alert(XMLHttpRequest.readyState);
+							alert(textStatus);
+						}
+					});
+				}
+				nothingCupboard();
+				
+//				$('.cancel').click(function() { //关闭弹窗
+//					$(".m-focus-bg,.m-rideo-content").hide();
+//				});
+//				$('.confirm').click(function() { //确定按钮
+//					val = $("input[name='radio1']:checked").val();
+//					$(".m-focus-bg,.m-rideo-content").hide();
+//					if(val == 0) {
+//						mui.openWindow({
+//							url: 'wuliao_addBox_page.html',
+//							id: 'wu'
+//						})
+//					} else {
+//						mui.openWindow({
+//							url: 'wuliao_moreMnueList.html',
+//							id: 'wul'
+//						})
+//					}
+//
+//				});
+				
+				$(".mui-action-back").click(function() {
+					localStorage.removeItem("cabId");
+				});
+			});
+		</script>
+	</body>
+
+</html>

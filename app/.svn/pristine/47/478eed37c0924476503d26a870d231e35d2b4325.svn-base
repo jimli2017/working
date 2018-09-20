@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>门店销量</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+		<script type="text/javascript" src="js/echarts.common.min.js"></script>
+	</head>
+
+	<body class="body-bg-color">
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">门店销量 </h1>
+		</header>
+		<!--/导航部分结束-->
+		<!--身体部分-->
+		<div class="mui-content body-bg-color">
+			<!--销量数显部分-->
+			<div class="mui-row g-volune-box">
+				<div class="mui-col-sm-6 mui-col-xs-6 g-volune-list">
+					<div class="m-volune-list z-float-left">
+						<div class="u-volune-detail">
+							上周订货量
+							<div class="u-volune-bok"></div>
+						</div>
+						<p class="z-clear-both">100</p>
+					</div>
+				</div>
+				<div class="mui-col-sm-6 mui-col-xs-6 g-volune-list">
+					<div class="m-volune-list z-folt-right">
+						<div class="u-volune-detail">
+							上周订货量
+							<div class="u-volune-bok u-volune-yeallo"></div>
+						</div>
+						<p class="z-clear-both">100</p>
+					</div>
+				</div>
+			</div>
+			<div class="mui-row g-volune-box">
+				<div class="mui-col-sm-6 mui-col-xs-6 g-volune-list">
+					<div class="m-volune-list z-float-left">
+						<div class="u-volune-detail">上周订货量
+							<div class="u-volune-bok u-volune-blue"></div>
+						</div>
+						<p class="z-clear-both">100</p>
+					</div>
+				</div>
+				<div class="mui-col-sm-6 mui-col-xs-6 g-volune-list">
+					<div class="m-volune-list z-folt-right">
+						<div class="u-volune-detail">上周订货量
+							<div class="u-volune-bok u-volune-green"></div>
+						</div>
+						<p class="z-clear-both">100</p>
+					</div>
+				</div>
+			</div>
+			<!--/销量数显部分-->
+			<!--echarts图标-->
+			<div class="g-volune-echarts" id="main">
+				<script type="text/javascript">
+					// 基于准备好的dom，初始化echarts实例
+					var myChart = echarts.init(document.getElementById('main'));
+
+					// 指定图表的配置项和数据
+					var option = {
+						title: {
+							show:false,
+							text: 'ECharts 入门示例'
+						},
+						tooltip: {
+							
+						},
+						legend: {
+							data: ['销量']
+						},
+						xAxis: {
+							data: ["aa", "bb", "cc", "dd", "ee", "ff"]
+						},
+						yAxis: {},
+						series: [
+//						{
+//							name: '销量',
+//							type: 'bar',
+//							data: [5, 20, 36, 10, 10, 20]
+//						},
+						{
+							name: '折线',
+							type: 'line',
+							data: [5, 20, 36, 10, 10, 20]
+						}
+						]
+					};
+
+					// 使用刚指定的配置项和数据显示图表。
+					myChart.setOption(option);
+				</script>
+
+			</div>
+			<!--/echarts图标-->
+		</div>
+		<!--/身体部分-->
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+	</body>
+
+</html>

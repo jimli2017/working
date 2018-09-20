@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/new_file.css" />
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			.g-index-box {
+				background-image: url(img/login_bg.jpg) !important;
+			}
+		</style>
+
+	</head>
+
+	<body class="g-index-box">
+		<div class="m-index-background">
+			<!--头像部分-->
+			<div class="u-index-titleImg">
+				<img src="img/QQtupian.png" />
+			</div>
+			<!--/头像部分-->
+			<!--表单填写部分-->
+			<div class="u-index-form">
+				<input type="text" placeholder="账号" id="username" value="" class="input01 u-index-input" /><br />
+				<input type="password" placeholder="密码" id="password" class="input02 u-index-input" /><br />
+				<input type="text" placeholder="验证码" id="code" class="input03 u-index-input" />
+				<img id="img" src="" class="u-code-img" />
+			</div><br />
+			<!--/表单填写部分-->
+			<!--<span class="u-index-forget">
+			忘记密码？
+			</span>-->
+			<!--登录按钮-->
+			<div class="u-index-loginBtn" id="login">
+				<button class="u-index-input">登录</button>
+			</div>
+			<!--/登录按钮-->
+			<!--其他操作-->
+			<div class="u-index-they">
+				<!--<span id="cotoken">
+					如果有其他操作请联系管理员1
+				</span>-->
+			</div>
+			<!--/其他操作-->
+		</div>
+
+		<script type="text/javascript">
+			//var locations="https://galigeigei.site/sale_inte";//开发路径
+			//var locations = "https://www.goodb2b.cn/sale_inte"; //测试路径（默认使用）
+			var locations = "https://www.goodb2b.cn/test/sale_inte"; //测试路径（开发用）
+			//var locations = "http://192.168.1.67:9876/sale_inte";//本地路径
+			localStorage.setItem("locations", locations);
+			var nnn = localStorage.getItem("locations");
+			var mc;
+			if(window.plus) {
+				plusReady();
+				alert('1');
+			} else {
+				document.addEventListener("plusready", plusReady, false);
+			};
+
+			function plusReady() {
+				mc = plus.device.imei; //获取机器设备信息
+				code(); //验证码
+			}
+
+			function code() {//获取验证码
+
+				$.ajax({
+					type: 'post',
+					url: locations + '/system/checkcode.action',
+					data: {
+						machineCode: mc
+					},
+					dataType: 'json',
+					success: function(data) {
+						$("#img").attr('src', "data:image/png;base64," + data.data);
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest.status);
+						alert(XMLHttpRequest.readyState);
+						alert(textStatus);
+					}
+				});
+			}
+
+			$("#img").click(function() { //点击调取验证码
+				$.ajax({
+					type: 'post',
+					url: locations + '/system/checkcode.action',
+					data: {
+						machineCode: mc
+					},
+					dataType: 'json',
+					success: function(data) {
+						$("#img").attr('src', "data:image/png;base64," + data.data);
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest.status);
+						alert(XMLHttpRequest.readyState);
+						alert(textStatus);
+					}
+				});
+			});
+
+			//switch语句 依次匹配
+			function aitin(mt) {
+				switch(mt) {
+					case "user":
+						f = false;
+						alert("账户名不能为空");
+						break;
+					case "pass":
+						f = false;
+						alert("密码不能为空");
+						break;
+					case "code":
+						f = false;
+						alert("验证码不能为空");
+						break;
+					default: //除了以上的所有情况 输出为真
+						f = true;
+				}
+			}
+
+			$("#login").on('click', function() { //点击登录按钮
+				if($("#username").val() !== "") {
+					username = $("#username").val();
+					if($("#password").val() !== "") {
+						password = $("#password").val();
+						if($("#code").val() !== "") {
+							code = $("#code").val();
+						} else {
+							aitin("code");
+							return;
+						}
+					} else {
+						aitin("pass");
+						return;
+					}
+				} else {
+					aitin("user");
+					return;
+				}
+				//		条件?正确的返回:错误的返回;三目运算 真执行 aitin("user") 假执行 username= $("#username")
+				//$("#username").val() == "" ? aitin("user") : username = $("#username").val();
+				//$("#password").val() == "" ? aitin("pass") : password = $("#password").val();
+				//$("#code").val() == "" ? aitin("code") : code = $("#code").val();
+				var machineCode = sessionStorage.getItem("timei");
+				$.ajax({
+					type: 'post',
+					url: locations + '/system/logon.action',
+					data: {
+						"userCode": username,
+						"password": password,
+						"checkCode": code,
+						"machineCode": mc
+					},
+					dataType: 'json',
+					success: function(data) {
+						if(data.code == 0) {
+							localStorage.setItem("cotoken", data.data);
+							
+						} else {
+							switch(data.msg) {
+								case "用户不存在":
+									alert("账号或密码输入有误");
+									break;
+								case "密码错误":
+									alert("账号或密码输入有误");
+									break;
+								default:
+									alert(data.msg);
+									$.ajax({
+										type: 'post',
+										url: locations + '/system/checkcode.action',
+										data: {
+											machineCode: mc
+										},
+										dataType: 'json',
+										success: function(data) {
+											$("#img").attr('src', "data:image/png;base64," + data.data);
+										},
+										error: function(XMLHttpRequest, textStatus, errorThrown) {
+											//alert(XMLHttpRequest.status);
+											//alert(XMLHttpRequest.readyState);
+											//alert(textStatus);
+										}
+									});
+									break;
+							}
+						}
+						//data.code == 0 ? localStorage.setItem("cotoken", data.data) : alert(data.msg); //存储名字为cotoken值为data.data的变量
+						if(data.data) {
+							var userNameText=$("#username").val();
+							localStorage.setItem("userNameText",userNameText);
+							location.assign("zhuye.html");
+						}
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						//alert(XMLHttpRequest.status);
+						//alert(XMLHttpRequest.readyState);
+						//alert(textStatus);
+					}
+				});
+			})
+			$("#username").val(localStorage.getItem("userNameText"));
+		</script>
+	</body>
+
+</html>

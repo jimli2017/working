@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>重置密码</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+	</head>
+
+	<body>
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">修改密码 </h1>
+		</header>
+		<!--导航部分结束-->
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>密码：</label>
+					<input type="password" id="pwd" class="mui-input-clear" value="" placeholder="原始密码">
+				</div>
+				<div class="mui-input-row">
+					<label>新密码：</label>
+					<input type="password" id="newPwd" class="mui-input-clear" value="" placeholder="新密码">
+				</div>
+				<div class="mui-input-row">
+					<label>新密码：</label>
+					<input type="password" id="newPwdCop" class="mui-input-clear" value="" placeholder="重新输入新密码">
+				</div>
+				<div class="mui-button-row">
+					<button type="button" class="mui-btn mui-btn-primary" onclick="return false;" id="confirm">确认</button>&nbsp;&nbsp;
+					<button type="button" class="mui-btn mui-btn-danger" onclick="return false;" id="cancel">取消</button>
+				</div>
+			</form>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			$(document).ready(function() {
+				var locations = localStorage.getItem("locations");
+				var cotoken = localStorage.getItem("cotoken");
+				var Authorization = "Bearer " + cotoken;
+				$("#cancel").click(function() {
+					mui.openWindow({
+						url: 'gerenxinxi.html',
+						id: 'gerenxinxi'
+					})
+				});
+				$("#confirm").click(function() {
+					if($("#pwd").val() !== "") {
+						if($("#newPwd").val() !== "") {
+							if($("#newPwd").val() !== "" && $("#newPwdCop").val() == $("#newPwd").val()) {
+								var pwd = $("#pwd").val();
+								var newPwd = $("#newPwdCop").val();
+								$(function() {
+									$.ajax({
+										type: 'post',
+										headers: {
+											"Content-Type": "application/x-www-form-urlencoded",
+											"Authorization": Authorization
+										},
+										url: locations + '/system/editPwd.action',
+										data: {
+											"pwd": pwd,
+											"newPwd": newPwd
+										},
+										dataType: 'json',
+										success: function(data) {
+											if(data.msg == "yes") {
+												alert("修改成功！");
+												mui.openWindow({
+													url: 'zhuye.html',
+													id: "zhu"
+												})
+											} else {
+												alert("修改失败！");
+											}
+
+										},
+										error: function(XMLHttpRequest, textStatus, errorThrown) {
+											//alert(XMLHttpRequest.status);
+											//alert(XMLHttpRequest.readyState);
+											//alert(textStatus);
+										}
+									})
+								})
+							} else {
+								alert("新密码两次输入不一致");
+								return;
+							}
+						} else {
+							alert("有未填写项");
+							return;
+						}
+
+					} else {
+						alert("有未填写项");
+						return;
+					}
+
+				})
+
+			})
+		</script>
+	</body>
+
+</html>

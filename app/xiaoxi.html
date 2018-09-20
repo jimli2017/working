@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:white ;"></a>
+			<h1 class="mui-title"><span style="color:white ;">消息列表</span></h1>
+		</header>
+		<div class="mui-g-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a>
+						<span class="u-xiaoxi-span z-float-left">
+	               	大屏设备有数据异常
+	               </span>
+						<span class="u-xiaoxi-span z-folt-right">
+	               来源：库存预警
+	               </span>
+
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a>
+						<span class="u-xiaoxi-span z-float-left">
+	               	大屏设备有数据异常
+	               </span>
+						<span class="u-xiaoxi-span z-folt-right">
+	               来源：库存预警
+	               </span>
+
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a>
+						<span class="u-xiaoxi-span z-float-left">
+	               	大屏设备有数据异常
+	               </span>
+						<span class="u-xiaoxi-span z-folt-right">
+	               来源：平台调控
+	               </span>
+
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a>
+						<span class="u-xiaoxi-span z-float-left">
+	               	大屏设备有数据异常
+	               </span>
+						<span class="u-xiaoxi-span z-folt-right">
+	               来源：平台调控
+	               </span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a>
+						<span class="u-xiaoxi-span z-float-left">
+	               	大屏设备有数据异常
+	               </span>
+						<span class="u-xiaoxi-span z-folt-right">
+	               来源：平台调控
+	               </span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a>
+						<span class="u-xiaoxi-span z-float-left">
+	               	大屏设备有数据异常
+	               </span>
+						<span class="u-xiaoxi-span z-folt-right">
+	               来源：平台管理
+	               </span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a>
+						<span class="u-xiaoxi-span z-float-left">
+	               	大屏设备有数据异常
+	               </span>
+						<span class="u-xiaoxi-span z-folt-right">
+	               来源：平台终端
+	               </span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a>
+						<span class="u-xiaoxi-span z-float-left">
+	               	大屏设备有数据异常
+	               </span>
+						<span style="float:right ;font-size:14px;">
+	               来源：平台终端
+	               </span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a>
+						<span class="u-xiaoxi-span z-float-left">
+	               	大屏设备有数据异常
+	               </span>
+						<span class="u-xiaoxi-span z-folt-right">
+	               来源：库存预警
+	               </span>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js" ></script>
+		<script type="text/javascript">
+			mui.init()
+			$(document).ready(function(){
+				var cotoken = localStorage.getItem("cotoken");
+				var Authorization = "Bearer " + cotoken;
+				var locations=localStorage.getItem("locations");
+				function caiping(){
+					$.ajax({
+					type: 'post',
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": Authorization
+					},
+					url: locations+'/system/store.action',
+					data: {
+
+					},
+					dataType: 'json',
+
+					success: function(data) {
+						
+						
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest.status);
+						alert(XMLHttpRequest.readyState);
+						alert(textStatus);
+					}
+				});
+				}
+				
+			})
+		</script>
+	</body>
+
+</html>

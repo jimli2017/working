@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/new_file.css" />
+		<link rel="stylesheet" href="css/function.css" />
+	</head>
+
+	<body>
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav g-statue-box">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">原料列表</h1>
+		</header>
+		<!--导航部分结束-->
+		<div class="mui-content">
+			<h5 class="mui-content-padded">原料列表</h5>
+			<div class="mui-card">
+				<form class="mui-input-group">
+					<!--<div class="mui-input-row mui-checkbox">
+						<label>原料：aa</label>
+						<input name="checkbox1" value="Item 1" type="checkbox">
+					</div>-->
+				</form>
+			</div>
+			<!--底部-->
+			<nav class="mui-bar mui-bar-tab g-ditail-bar">
+				<button type="button" class="mui-btn mui-btn-blue mui-btn-block bottom_btn f-margin-auto">确定</button>
+			</nav>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$(document).ready(function() {
+				var locations = localStorage.getItem("locations");
+				var cotoken = localStorage.getItem("cotoken");
+				var Authorization = "Bearer " + cotoken;
+				var matId = localStorage.getItem("matIdWl"); //原料id
+				var html = "";
+				function mnueList() {
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/eqp/orgProcessList.action',
+						data: {
+							"matId": matId
+						},
+						dataType: 'json',
+						success: function(data) {
+							for(var i in data.data) {
+								html += "<div class='mui-input-row mui-checkbox'>"
+								html += "<label>原料：" + data.data[i].matName + "</label>"
+								html += "<input name='checkbox1' value='" + data.data[i].matId + "' type='checkbox' onkeyup='value=value.replace(/[^\d]/g,'')'>"
+								html += "</div>"
+							}
+							$(".mui-input-group").append(html);
+
+							$(".mui-btn-block").click(function() { //获取多选框的值
+								text = $("input:checkbox[name='checkbox1']:checked").map(function(index, elem) {
+									return $(elem).val();
+								}).get().join(',');
+								if(text == "") {
+									alert("温馨提示，您还未选择要添加的原料。");
+									mui.openWindow({
+										url: 'wuliaogui.html',
+										id: 'wuli'
+									})
+//									mui.openWindow({
+//										url: 'wuliao_addBox_page.html',
+//										id: 'wu'
+//									})
+								} else {
+									localStorage.setItem("textMatIds", text); //原料id
+									mui.openWindow({
+										url: 'wuliao_moreDetail.html',
+										id: 'wuliao_moreDetail'
+									})
+								}
+
+							});
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(XMLHttpRequest.status);
+							alert(XMLHttpRequest.readyState);
+							alert(textStatus);
+						}
+					});
+				}
+				mnueList();
+				$(".mui-action-back").click(function() {
+					localStorage.removeItem("matIdWl");
+				});
+			})
+		</script>
+	</body>
+
+</html>

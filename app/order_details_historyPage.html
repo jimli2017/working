@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>单杯详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+	</head>
+
+	<body>
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">单杯详情 </h1>
+		</header>
+		<!--导航部分结束-->
+
+		<div class="mui-content">
+
+			<ul class="mui-table-view m-ul-order">
+				<li class="mui-table-view-cell">
+					<span>取货编号：</span>&nbsp;&nbsp;
+					<span class="u-orderDe-chtext" id="pickUpCode"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					<span>位置编码：</span>&nbsp;&nbsp;<span id="locationCode"> </span>
+				</li>
+				<li class="mui-table-view-cell">
+					<span>杯子喷码：</span>&nbsp;&nbsp;<span id="sprayCode"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					<span>产品状态：</span>&nbsp;&nbsp;<span id="status"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					<span>制作完成时间：</span>&nbsp;&nbsp;<span id="activeGoodTime"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					<span>取货时间：</span>&nbsp;&nbsp;<span id="ownGoodTime"></span>
+				</li>
+			</ul>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			$(document).ready(function() {
+				var locations = localStorage.getItem("locations");
+				var cotoken = localStorage.getItem("cotoken");
+				var Authorization = "Bearer " + cotoken;
+				var cupId = localStorage.getItem("cupId");
+				function danbei() { //调单杯详情
+					$.ajax({
+						type: 'post',
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+							"Authorization": Authorization
+						},
+						url: locations + '/order/cupDetail.action',
+						data: {
+							"cupId": cupId
+						},
+						dataType: 'json',
+						success: function(data) {
+							switch(data.data.status) {
+								case "1":
+									var status = "删除";
+									break;
+								case "2":
+									var status = "等待";
+									break;
+								case "3":
+									var status = "制作中";
+									break;
+								case "4":
+									var status = "制作失败";
+									break;
+								case "5":
+									var status = "待取货";
+									break;
+								case "6":
+									var status = "取货中";
+									break;
+								case "7":
+									var status = "已取货";
+									break;
+								default:
+									break;
+							}
+							$("#pickUpCode").html(data.data.pickUpCode);
+							$("#locationCode").html(data.data.locationCode);
+							$("#sprayCode").html(data.data.sprayCode);
+							$("#status").html(status);
+							$("#activeGoodTime").html(data.data.endTime);
+							$("#status").html(data.data.pickTime);
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(XMLHttpRequest.status);
+							alert(XMLHttpRequest.readyState);
+							alert(textStatus);
+						}
+					})
+				}
+				danbei(); //单杯详情
+
+			})
+		</script>
+	</body>
+
+</html>

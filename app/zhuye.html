@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/function.css" />
+		<link rel="stylesheet" type="text/css" href="css/img.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+		<script type="text/javascript" src="js/update.js"></script>
+		<style type="text/css">
+			.g-hd-scan img {
+				height: 30px;
+				position: relative;
+				top: 50%;
+				margin-top: -15px;
+				float: left;
+			}
+			
+			.mg-bg-color li {
+				border-right: none !important;
+			}
+			
+			.mg-bg-color {
+				background-color: white !important;
+				border-top: none !important;
+			}
+			
+			.mh-tubiao {
+				width: 80px;
+				height: 22px;
+				background-color: #2569AB;
+				text-align: center;
+				float: right;
+				font-size: 10px;
+				border-radius: 10px;
+				position: relative;
+				top: 10px;
+				color: #4AA1E0;
+			}
+			
+			#list {
+				/*避免导航边框和列表背景边框重叠，看起来像两条边框似得；*/
+				margin-top: -1px;
+			}
+		</style>
+		<script type="text/javascript" charset="utf-8">
+			//取消浏览器的所有事件，使得active的样式在手机上正常生效
+			document.addEventListener('touchstart', function() {
+				return false;
+			}, true);
+			// 禁止选择
+			document.oncontextmenu = function() {
+				return false;
+			};
+
+			mui.init({
+				//监听Android手机的menu按键
+				keyEventBind: {
+					backbutton: false, //Boolean(默认true)关闭back按键监听
+					menubutton: false //Boolean(默认true)关闭menu按键监听
+				}
+			});
+
+			// H5 plus事件处理
+			var as = 'pop-in'; // 默认窗口动画
+			function plusReady() {
+				// 隐藏滚动条
+				plus.webview.currentWebview().setStyle({ scrollIndicator: 'none' });
+				// Android处理返回键
+				plus.key.addEventListener('backbutton', function() {
+					if(confirm('确认退出？')) {
+						plus.runtime.quit();
+					}
+				}, false);
+				compatibleAdjust();
+			}
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			}
+			// DOMContentLoaded事件处理
+			var _domReady = false;
+			document.addEventListener('DOMContentLoaded', function() {
+				_domReady = true;
+				compatibleAdjust();
+			}, false);
+			// 兼容性样式调整
+			var _adjust = false;
+
+			function compatibleAdjust() {
+				if(_adjust || !window.plus || !_domReady) {
+					return;
+				}
+				_adjust = true;
+				// iOS平台特效
+				if('iOS' == plus.os.name) {
+					document.getElementById('content').className = 'scontent'; // 使用div的滚动条
+					if(navigator.userAgent.indexOf('StreamApp') >= 0) { // 在流应用模式下显示返回按钮
+						document.getElementById('back').style.visibility = 'visible';
+					}
+				}
+				// 预创建二级窗口
+				//	preateWebviews();
+				// 关闭启动界面
+				plus.navigator.setStatusBarBackground('#000');
+				if(plus.navigator.isImmersedStatusbar()) {
+					plus.navigator.setStatusBarStyle('UIStatusBarStyleBlackOpaque');
+				}
+				setTimeout(function() {
+					plus.navigator.closeSplashscreen();
+				}, 200);
+			}
+			// 处理点击事件
+			var _openw = null;
+			/**
+			 * 点击打开新窗口
+			 * @param {Object} id	加载的页面地址，也用作窗口标识
+			 * @param {Object} a	页面动画内心，默认使用全局as设置的值
+			 * @param {Object} s	是否不显示窗口
+			 */
+			function clicked(id, a, s) {
+				if(_openw) { return; }
+				a || (a = as);
+				_openw = preate[id];
+				if(_openw) {
+					_openw.showded = true;
+					_openw.show(a, null, function() {
+						_openw = null; //避免快速点击打开多个页面
+					});
+				} else {
+					//		var wa=plus.nativeUI.showWaiting();
+					//		_openw=plus.webview.create(id,id,{scrollIndicator:'none',scalable:false,popGesture:'hide'},{preate:true});//复用二级页面
+					_openw = plus.webview.create(id, id, { scrollIndicator: 'none', scalable: false, popGesture: 'close' });
+					preate[id] = _openw;
+					_openw.addEventListener('loaded', function() { //叶面加载完成后才显示
+						//		setTimeout(function(){//延后显示可避免低端机上动画时白屏
+						//			wa.close();
+						_openw.showded = true;
+						s || _openw.show(a, null, function() {
+							_openw = null; //避免快速点击打开多个页面
+						});
+						s && (_openw = null); //避免s模式下变量无法重置
+						//		},10);
+					}, false);
+					_openw.addEventListener('hide', function() {
+						_openw && (_openw.showded = true);
+						_openw = null;
+					}, false);
+					_openw.addEventListener('close', function() { //页面关闭后可再次打开
+						_openw = null;
+						preate[id] && (preate[id] = null); //兼容窗口的关闭
+					}, false);
+				}
+			}
+			// 预创建二级页面
+			var preate = {};
+
+			function preateWebviews() {
+				preateWebivew('plus/webview.html');
+				var plist = document.getElementById('plist').children;
+				// 由于启动是预创建过多Webview窗口会消耗较长的时间，所以这里限制仅创建5个
+				for(var i = 0; i < plist.length && i < 2; i++) {
+					var id = plist[i].id;
+					id && (id.length > 0) && preateWebivew(id);
+				}
+			}
+
+			function preateWebivew(id) {
+				if(!preate[id]) {
+					var w = plus.webview.create(id, id, { scrollIndicator: 'none', scalable: false, popGesture: 'hide' }, { preate: true });
+					preate[id] = w;
+					w.addEventListener('close', function() { //页面关闭后可再次打开
+						_openw = null;
+						preate[id] && (preate[id] = null); //兼容窗口的关闭
+					}, false);
+				}
+			}
+			// 清除预创建页面(仅)
+			function preateClear() {
+				for(var p in preate) {
+					var w = preate[p];
+					if(w && w.showded && !w.isVisible()) {
+						w.close();
+						preate[p] = null;
+					}
+				}
+			}
+		</script>
+	</head>
+
+	<body style="background-color:white;">
+
+		<header class="mui-bar mui-bar-nav g-hd-scan g-header-nav">
+			<img src="img/scan_03.png" onclick="clicked('barcode_scan.html',true,true)" />
+			<div class="mh-tubiao">
+				<span id="statueBoss"></span>
+			</div>
+			<h1 class="mui-title" style="color:white ;"></h1>
+		</header>
+		<div class="mui-g-content" style="background-color: #fff;">
+			<div style="margin-top:50px;">
+				<span style="padding-left:10px; font-size:16px ;">门店订单</span>
+				<ul class="mui-table-view mui-grid-view mui-grid-9 mg-bg-color">
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+						<a href="goods_list.html">
+							<img src="img/lalallaa_03.png" class="frit-img" />
+							<div class="mui-media-body"><span style="font-size:12px ;margin-top: 0px ;">大屏订单</span></div>
+						</a>
+					</li>
+
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+						<a href="goods_vip_list.html">
+							<img src="img/lalallaa_05.png" class="frit-img" />
+							<div class="mui-media-body"><span style="font-size:12px ;">会员订单</span></div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+						<a href="goods_refundment_list.html">
+							<img src="img/lalallaa_07.png" class="frit-img" />
+							<div class="mui-media-body"><span style="font-size:12px ;">订单退款</span></div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+						<a href="history_order_list.html">
+							<img src="img/lalallaa_09.png" class="frit-img" />
+							<div class="mui-media-body"><span style="font-size:12px ;">历史订单</span></div>
+						</a>
+					</li>
+				</ul>
+
+				<span style="padding-left:10px;font-size:16px;">
+	    	资源管理
+	    </span>
+
+				<ul class="mui-table-view mui-grid-view mui-grid-9 mg-bg-color">
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+						<a href="wuliaoguizonglan.html">
+							<img src="img/lalallaa_15.png" class="frit-img" />
+							<div class="mui-media-body"><span style="font-size:12px ;">物料柜</span></div>
+						</a>
+					</li>
+
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+						<a href="store_stock_list.html">
+							<img src="img/lalallaa_16.png" class="frit-img" />
+							<div class="mui-media-body"><span style="font-size:12px ;">门店库存</span></div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+						<a href="order_list.html">
+							<img src="img/lalallaa_17.png" class="frit-img" />
+							<div class="mui-media-body"><span style="font-size:12px ;">订货</span></div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+						<a href="order_schedule_list.html">
+							<img src="img/lalallaa_19.png" class="frit-img" />
+							<div class="mui-media-body"><span style="font-size:12px ;">订单进度</span></div>
+						</a>
+					</li>
+				</ul>
+				<span style="padding-left:10px ;font-size:16px ;">门店设备</span>
+
+				<ul class="mui-table-view mui-grid-view mui-grid-9 mg-bg-color">
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+						<a id="statue-one">
+							<img src="img/lalallaa_25.png" class="frit-img" />
+							<div class="mui-media-body"><span style="font-size:12px ;">接口控制</span></div>
+						</a>
+					</li>
+
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+						<a id="statue-two">
+							<img src="img/lalallaa_26.png" class="frit-img" />
+							<div class="mui-media-body"><span style="font-size:12px ;">智能机器</span></div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+						<a href="statue_list.html" id="statue-three">
+							<img src="img/lalallaa_28.png" class="frit-img" />
+							<div class="mui-media-body"><span style="font-size:12px ;">pos机</span></div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+						<a id="statue-free">
+							<img src="img/lalallaa_30.png" class="frit-img" />
+							<div class="mui-media-body"><span style="font-size:12px ;">智能柜</span></div>
+						</a>
+					</li>
+				</ul>
+				<!--更多显示部分-->
+				<ul id="machineMore" class="mui-table-view mui-grid-view mui-grid-9 mg-bg-color" style="display: none;">
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+						<a id="statue-five">
+							<img src="img/lalallaa_25.png" class="frit-img" />
+							<div class="mui-media-body"><span style="font-size:12px ;">点餐大屏</span></div>
+						</a>
+					</li>
+
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+						<a id="statue-six">
+							<img src="img/lalallaa_26.png" class="frit-img" />
+							<div class="mui-media-body"><span style="font-size:12px ;">叫号大屏</span></div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+						<a id="statue-seven">
+							<img src="img/lalallaa_28.png" class="frit-img" />
+							<div class="mui-media-body"><span style="font-size:12px ;">取货终端</span></div>
+						</a>
+					</li>
+
+				</ul>
+				<!--更多显示部分-->
+				<div style="text-align:center ; background-color:#D6D6D6 ;">
+					<span style="font-size:12px;" id="more">更多↡</span>
+				</div>
+
+			</div>
+
+			<span style="padding-left:10px ; font-size:16px ;">信息中心</span>
+			<ul class="mui-table-view mui-grid-view mui-grid-9 mg-bg-color">
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+					<a href="brand_menu.list.html">
+						<img src="img/lalallaa_35.png" class="frit-img" />
+						<div class="mui-media-body"><span style="font-size:14px ;">品牌菜品</span></div>
+					</a>
+				</li>
+
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+					<a href="store_salesVolune_detail.html">
+						<img src="img/lalallaa_37.png" class="frit-img" />
+						<div class="mui-media-body"><span style="font-size:14px ;">门店销量</span></div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+					<a href="gerenxinxi.html">
+						<img src="img/lalallaa_36.png" class="frit-img" />
+						<div class="mui-media-body"><span style="font-size:14px ;">个人信息</span></div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+					<a href="xiaoxi.html">
+						<img src="img/lalallaa_38.png" class="frit-img" />
+						<div class="mui-media-body"><span style="font-size:14px ;">信息列表</span></div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+					<a href="imgs_list.html">
+						<img src="img/lalallaa_16.png" class="frit-img" />
+						<div class="mui-media-body"><span style="font-size:12px ;">图片管理</span></div>
+					</a>
+				</li>
+			</ul>
+			  
+			<div class="button1">
+				<div class="m-bottom-peopleMsg" id="name"></div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/immersed.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="js/new_file.js"></script>
+		<script type="text/javascript">
+			String.prototype.endWith = function(s) {
+				if(s == null || s == "" || this.length == 0 || s.length > this.length)
+					return false;
+				if(this.substring(this.length - s.length) == s)
+					return true;
+				else
+					return false;
+				return true;
+			}
+
+			String.prototype.startWith = function(s) {
+				if(s == null || s == "" || this.length == 0 || s.length > this.length)
+					return false;
+				if(this.substr(0, s.length) == s)
+					return true;
+				else
+					return false;
+				return true;
+			}
+
+			var cotoken = localStorage.getItem("cotoken");
+			var Authorization = "Bearer " + cotoken;
+			var locations = localStorage.getItem("locations");
+			//获取人员和门店信息
+			function informationAll() {
+				$.ajax({
+					type: 'post',
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": Authorization
+					},
+					url: locations + '/system/store.action', //获取人员和门店信息接口
+					data: {
+
+					},
+					dataType: 'json',
+
+					success: function(data) {
+						$("#name").html(data.data.member.name);
+						$(".mui-title").html(data.data.shop.shopName);
+						if(data.data.member.isWorkOn == true) {
+							$("#statueBoss").html("当班中");
+							localStorage.setItem("jj", "1");
+						} else {
+							$("#statueBoss").html("非当班");
+							localStorage.setItem("jj", "-1");
+						}
+						localStorage.setItem("shopID", JSON.stringify(data.data.shop.id));
+						localStorage.setItem("shopName", JSON.stringify(data.data.shop.shopName)); //门店名称
+						localStorage.setItem("shopNo", JSON.stringify(data.data.shop.shopNo));
+						localStorage.setItem("pid", JSON.stringify(data.data.enterpriseEntity.id)); //品牌id
+						localStorage.setItem("cid", JSON.stringify(data.data.enterpriseEntity.parentEntId)); //企业id
+						localStorage.setItem("peopleId", JSON.stringify(data.data.dutys.id));
+
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest.status);
+						alert(XMLHttpRequest.readyState);
+						alert(textStatus);
+					}
+				});
+			}
+			informationAll();
+			//			更多效果
+			$("#more").click(function() {
+				$("#machineMore").fadeToggle('slow'); // 改变显隐状态
+				$(this).text($(this).text() == "更多↡" ? "收起↟" : "更多↡"); // 改变按钮的文字说明
+			});
+
+			$("#statue-one").click(function() { //调接口控制页
+				localStorage.setItem("statueType", 1);
+				location.assign("statue_list_onlyOne.html");
+			});
+			$("#statue-two").click(function() { //智能机器
+				localStorage.setItem("statueType", 2);
+				location.assign("statue_list_onlyOne.html");
+			});
+			$("#statue-three").click(function() { //POS收银机
+				localStorage.setItem("statueType", 3);
+				location.assign("statue_list_onlyOne.html");
+			});
+
+			$("#statue-free").click(function() { //智能柜
+				localStorage.setItem("statueType", 4);
+				location.assign("statue_list_onlyOne.html");
+			});
+			$("#statue-five").click(function() { //点餐大屏
+				localStorage.setItem("statueType", 5);
+				location.assign("statue_list.html");
+			});
+			$("#statue-six").click(function() { //叫号大屏
+				localStorage.setItem("statueType", 6);
+				location.assign("statue_list_onlyOne.html");
+			});
+			$("#statue-seven").click(function() { //取货终端
+				localStorage.setItem("statueType", 7);
+				location.assign("statue_list_onlyOne.html");
+			});
+
+			function finishWork(r) { //授权登录借口
+				$.ajax({
+					type: 'post',
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": Authorization
+					},
+					url: locations + '/system/codelogon.action', //登陆码设备启动接口
+					data: {
+						"qrCode": r,
+						"token": cotoken
+					},
+					dataType: 'json',
+
+					success: function(data) {
+						if(data.msg == "yes") {
+							$("#statueBoss").html("当班中");
+						} else {
+							alert(data.msg);
+						}
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest.status);
+						alert(XMLHttpRequest.readyState);
+						alert(textStatus);
+					}
+				});
+			}
+
+			function workstop(r) { //交接班接口
+				$.ajax({
+					type: 'post',
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": Authorization
+					},
+					url: locations + '/system/work.action', //登陆码设备启动接口
+					data: {
+						"join": r
+					},
+					dataType: 'json',
+					success: function(data) {
+
+						if(data.msg == "yes") {
+							window.location.reload();
+						} else {
+							alert(data.msg);
+						}
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest.status);
+						alert(XMLHttpRequest.readyState);
+						alert(textStatus);
+					}
+				});
+
+			}
+
+			type = Request['type']; //获取请求中的type参数
+			document.addEventListener("plusready", function() {
+				mui.init();
+			});
+			var img = null;
+			var blist = [];
+
+			function scaned(t, r, f) {
+
+				localStorage.setItem("finishWork", r);
+
+				if(r.startWith('check')) {
+					finishWork(r.substr(5)); //登录授权
+
+				} else {
+
+					workstop(r); //交接班
+				}
+			}
+
+			function selected(id) {
+				var h = blist[id];
+				update(h.type, h.result, h.file);
+				if(h.result.indexOf('http://') == 0 || h.result.indexOf('https://') == 0) {
+					plus.nativeUI.confirm(h.result, function(i) {
+						if(i.index == 0) {
+							plus.runtime.openURL(h.result);
+						}
+					}, '', ['打开', '取消']);
+				} else {
+					plus.nativeUI.alert(h.result);
+				}
+			}
+
+			function update(t, r, f) {
+				outSet('扫描成功：');
+				outLine(t);
+				outLine(r);
+				outLine('\n图片地址：' + f);
+				if(!f || f == 'null') {
+					img.src = '../img/barcode.png';
+				} else {
+					plus.io.resolveLocalFileSystemURL(f, function(entry) {
+						img.src = entry.toLocalURL();
+					});
+					//img.src = 'http://localhost:13131/'+f;
+				}
+			}
+
+			function onempty() {
+				if(window.plus) {
+					plus.nativeUI.alert('无扫描记录');
+				} else {
+					alert('无扫描记录');
+				}
+			}
+
+			function cleanHistroy() {
+
+				if(blist.length > 0) {
+					var hl = document.getElementById('history');
+					hl.innerHTML = '<li id="nohistory" class="ditem" onclick="onempty();">无历史记录	</li>';
+				}
+				plus.io.resolveLocalFileSystemURL('_doc/barcode/', function(entry) {
+					entry.removeRecursively(function() {
+						// Success
+					}, function(e) {
+						//alert( "failed"+e.message );
+					});
+				});
+
+			}
+			//			分割线
+		</script>
+	</body>
+
+</html>

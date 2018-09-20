@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>设备状态变更</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/function.css" />
+		<link rel="stylesheet" href="css/new_file.css" />
+		<style>
+			.clearBoth {
+				clear: both;
+			}
+			
+			.m-statue-padding ul {
+				display: none;
+			}
+			
+			.statue-div {
+				display: block !important;
+			}
+			
+			.deleteBtn {
+				position: relative;
+				left: 50%;
+				margin-left: -40%;
+				margin-top: 8px;
+				margin-bottom: 8px;
+			}
+		</style>
+		<script type="text/javascript">
+			var img = null;
+			var blist = [];
+
+			function selected(id) {
+				var h = blist[id];
+				update(h.type, h.result, h.file);
+				if(h.result.indexOf('http://') == 0 || h.result.indexOf('https://') == 0) {
+					plus.nativeUI.confirm(h.result, function(i) {
+						if(i.index == 0) {
+							plus.runtime.openURL(h.result);
+						}
+					}, '', ['打开', '取消']);
+				} else {
+					plus.nativeUI.alert(h.result);
+				}
+			}
+
+			function update(t, r, f) {
+				outSet('扫描成功：');
+				outLine(t);
+				outLine(r);
+				outLine('\n图片地址：' + f);
+				if(!f || f == 'null') {
+					img.src = '../img/barcode.png';
+				} else {
+					plus.io.resolveLocalFileSystemURL(f, function(entry) {
+						img.src = entry.toLocalURL();
+					});
+					//img.src = 'http://localhost:13131/'+f;
+				}
+			}
+
+			function onempty() {
+				if(window.plus) {
+					plus.nativeUI.alert('无扫描记录');
+				} else {
+					alert('无扫描记录');
+				}
+			}
+
+			function cleanHistroy() {
+				if(blist.length > 0) {
+					var hl = document.getElementById('history');
+					hl.innerHTML = '<li id="nohistory" class="ditem" onclick="onempty();">无历史记录	</li>';
+				}
+				plus.io.resolveLocalFileSystemURL('_doc/barcode/', function(entry) {
+					entry.removeRecursively(function() {
+						// Success
+					}, function(e) {
+						//alert( "failed"+e.message );
+					});
+				});
+			}
+		</script>
+	</head>
+
+	<body style="background-color: #fff;">
+		<div class="mui-content">
+			<!--导航部分-->
+			<header class="mui-bar mui-bar-nav g-header-nav g-statue-box">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title u-title">设备状态变更 </h1>
+			</header>
+			<!--导航部分结束-->
+			<div class="mui-content">
+				<!--图文列表-->
+				<ul class="mui-table-view m-ul-top m-statue-bg m-bot-mg">
+					<li class="g-table-view-cell mui-media">
+						<!--缩略图-->
+						<div class="m-eq-img" id="addImg-showImg">
+
+						</div>
+
+						<!--/缩略图-->
+						<div class="change-care" id="addImg">
+							<img onclick="clicked('barcode_scan.html',true,true)" class="mui-pull-left u-statue-img" src="img/upload-bj_01.png">
+						</div>
+
+					</li>
+
+				</ul>
+				<!--/图文列表-->
+
+				<!--设备内容-->
+				<div class="m-statue-padding">
+
+				</div>
+				<div class="m-unmber-box">
+
+				</div>
+				<!--/设备内容-->
+				<!--底部按钮-->
+				<!--<button type="button" class="mui-btn mui-btn-primary bottom_btn u-bottom-btn deleteBtn" onclick="deleteBtn()">取消绑定</button>-->
+				<!--/底部按钮-->
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="js/immersed.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var locations = localStorage.getItem("locations");
+			//$(document).ready(function() {
+			var shopNo = localStorage.getItem("shopNo");
+			var shopID = localStorage.getItem("shopID");
+			var cotoken = localStorage.getItem("cotoken");
+			var Authorization = "Bearer " + cotoken;
+			var html = "";
+			var statueType = localStorage.getItem("statueType");
+
+			//			返回扫描二维码的值
+			function scaned(t, r, f) {
+				store = r;
+				onceAgain(store); //重新绑定
+			}
+
+			//			重新绑定
+			function onceAgain(store) {
+				$.ajax({
+					type: 'post',
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": Authorization
+					},
+					url: locations + '/system/machinebind.action',
+					data: {
+						"machineCode": store,
+						"shopID": shopID,
+						"eqpType": statueType,
+						"flag": 0
+					},
+					dataType: 'json',
+
+					success: function(data) {
+						if(data.msg == "yes") {
+							alert("绑定成功！");
+						} else {
+							alert("绑定失败");
+						}
+					},
+					complete: function() {
+						window.location.reload();
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest.status);
+						alert(XMLHttpRequest.readyState);
+						alert(textStatus);
+					}
+				});
+			}
+			var num = 0;
+			var i = 0;
+			//			跟据类型查询设备信息
+			function reachType() {
+				$.ajax({
+					type: 'post',
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": Authorization
+					},
+					url: locations + '/system/equtype.action',
+					data: {
+						"type": statueType
+					},
+					dataType: 'json',
+					success: function(data) {
+						if(!data.data) {
+							alert("您还未绑定任何设备！");
+						} else {
+
+							html = '';
+
+							for(var i = 0; i < data.data.length; i++) {
+								
+								switch(data.data[i].status) {
+									case "0":
+										var statue = "正常";
+										break;
+									case "1":
+										var statue = "暂停";
+										break;
+									case "0":
+										var statue = "删除";
+										break;
+									case "0":
+										var statue = "维修";
+										break;
+									default:
+										var statue = "";
+										break;
+								}
+								switch(statueType) {
+
+									case "1":
+										var eqpType = "接口控制";
+										break;
+									case "2":
+										var eqpType = "智能机器";
+										break;
+									case "3":
+										var eqpType = "pos";
+										break;
+									case "4":
+										var eqpType = "智能柜";
+										break;
+									case "5":
+										var eqpType = "点餐大屏";
+										break;
+									case "6":
+										var eqpType = "叫号大屏";
+										break;
+									case "7":
+										var eqpType = "取货终端";
+										break;
+									default:
+										break;
+								}
+								num++;
+								if (data.data[i].eqpName==null) {
+									var eqpName="";
+								} else{
+									var eqpName=data.data[i].eqpName;
+								}
+								
+								//						添加设备信息内容模块
+								html += "<ul class='mui-table-view statueUl' id-eqpId='+'" + data.data[i].id + "'>"
+								html += "<li class='mui-table-view-cell'>设备名称："
+								html += "<span class='mui-badge-center mui-badge-right' id='machineName'>" + num + eqpName + "</span>"
+								html += "</li>"
+								html += "<li class='mui-table-view-cell'>" + "设备机器号"
+								html += "<span class='mui-badge-right eqpNo machineCodec' id='machineCode'>" + data.data[i].eqpNo + "</span>"
+								html += "</li>"
+								html += "<li class='mui-table-view-cell'>" + "门店编号"
+								html += "<span class='mui-badge-right shopId' id='shopID'>" + data.data[i].shopId + "</span>"
+								html += "</li>"
+								html += "<li class='mui-table-view-cell'>" + "设备类型"
+								html += "<span class='mui-badge-right' id='type'>" + eqpType + "</span>"
+								html += "</li>"
+								html += "<li class='mui-table-view-cell'>"
+								html += "<span class='u-statue-tline'>" + "设备状态" + "</span>"
+								html += "<span class='mui-badge-center'>"
+								html += "<a href='statue_detailMore.html'>"
+								html += "<button type='button' class='mui-btn u-btn-common u-btn-bg'>" + "&nbsp" + "报修"
+								html += "</button>"
+								html += "</a>"
+								html += "</span>"
+								html += "<span class='mui-badge-right' id='statue'>" + statue + "</span>"
+								html += "</li>"
+								html += "<li class='mui-table-view-cell'>" + "创建时间"
+								html += "<span class='mui-badge-right' id='time'>" + data.data[i].createTime + "</span>"
+								html += "</li>"
+								html += "<div class='clearBoth'></div>"
+								html += "<button type='button' class='mui-btn mui-btn-primary bottom_btn u-bottom-btn deleteBtn'>" + "取消绑定" + "</button>"
+								html += "</ul>"
+								add(); //拼缩略图方法
+							}
+							$(".m-statue-padding").html(html);
+							$(".m-statue-padding ul:first-child").addClass('statue-div').siblings().removeClass('statue-div');
+							//$('.statueUl:last').addClass('statue-div').siblings().removeClass('statue-div');
+							localStorage.setItem("statueAll", JSON.stringify(data));
+						}
+						//取消绑定操作
+						$(".deleteBtn").click(function() {
+							var a = $(this).parents(".statueUl").index();
+							var shopId = data.data[a].shopId;
+							var machineCode = data.data[a].eqpNo;
+
+							var btnArray = ['否', '是'];
+							mui.confirm('您要解除绑定，确认？', '解除绑定', btnArray, function(e) {
+								if(e.index == 1) {
+									$.ajax({
+
+										type: 'post',
+										headers: {
+											"Content-Type": "application/x-www-form-urlencoded",
+											"Authorization": Authorization
+										},
+										url: locations + '/system/machinedel.action',
+										data: {
+											"shopID": shopId,
+											"machineCode": machineCode
+										},
+										dataType: 'json',
+
+										success: function(data) {
+											if(data.msg == "yes") {
+												alert("解绑成功！");
+											} else {
+												alert(data.msg);
+											}
+										},
+										complete: function() {
+											window.location.reload();
+										},
+										error: function(XMLHttpRequest, textStatus, errorThrown) {
+											alert(XMLHttpRequest.status);
+											alert(XMLHttpRequest.readyState);
+											alert(textStatus);
+										}
+									});
+								} else {
+
+								}
+							})
+
+						});
+						//取消绑定操作结束。	
+
+						//变更按钮点击事件，获取当下设备信息详情，并存储
+						$(".u-btn-bg").click(function() {
+							var statueArr = []
+							var nowDetail = $(this).parents(".statueUl").index();
+							var eqpName = data.data[nowDetail].eqpName;
+							var eqpNo = data.data[nowDetail].eqpNo;
+							var shopId = data.data[nowDetail].shopId;
+							var eqpType = data.data[nowDetail].eqpType;
+							var createTime = data.data[nowDetail].createTime;
+							var statue = data.data[nowDetail].status;
+							var eqpid = data.data[nowDetail].id;
+							var statuea = { //建立一个对象,默认的存储是按字符串
+								eqpName: eqpName, //设备名称
+								eqpNo: eqpNo, //机器编号
+								shopId: JSON.parse(data.data[nowDetail].shopId), //门店编号
+								eqpType: eqpType, //设备类型
+								status: statue, //设备状态
+								createTime: createTime, //创建时间
+								eqpid: eqpid, //设备id
+							}
+							statueArr.push(statuea);
+							localStorage.setItem("statuess", JSON.stringify(statueArr));
+						})
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest.status);
+						alert(XMLHttpRequest.readyState);
+						alert(textStatus);
+					}
+				});
+			}
+
+			//			添加缩略图方法及显示隐藏内容部分
+
+			function add() {
+
+				var htme = "";
+				var indexer = "";
+				htme += "<div class='change-care u-suolvto-img'>"
+				htme += "<img class='mui-pull-left u-statue-img' src='img/statue_list_03.jpg'>"
+				htme += "</div>"
+				$("#addImg-showImg").append(htme);
+				$('.u-suolvto-img').click(function() {
+					var indexer = $(this).index();
+					$('.statueUl').eq(indexer).addClass("statue-div").siblings().removeClass("statue-div");
+				});
+			}
+
+			reachType(); //调跟据类型查询设备信息
+
+			//			$(".mui-action-back").click(function() {
+			//				localStorage.removeItem("statueAll");
+			//			});
+
+			//});
+		</script>
+	</body>
+
+</html>

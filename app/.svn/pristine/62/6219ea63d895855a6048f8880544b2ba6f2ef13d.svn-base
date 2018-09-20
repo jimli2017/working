@@ -1,0 +1,275 @@
+/*内容框空出导航高度*/
+.mui-g-content {
+	margin-top: 44px;
+}
+
+/*---时间输入框 搜索弹出部分---*/
+.z-reach-data {
+	width: 100%;
+	display: none;
+	z-index: 1;
+	position: absolute;
+	padding: 10px 10px 0px 10px;
+	background-color: #999999;
+}
+
+.m-reach-left {
+	width: 40%;
+}
+
+.m-reach-img img {
+	height: 26px;
+}
+
+.m-reach-img {
+	width: 26px;
+	padding-top: 10px;
+	position: relative;
+	right: -12px;
+}
+/*--浮动设置--*/
+.z-float-left {
+	float: left;
+}
+
+.z-folt-right {
+	float: right;
+}
+.z-clear-both{
+	clear: both;
+}
+.z-text-align{
+	text-align: center;
+}
+/*--头部导航heaer模块--*/
+
+.g-header-nav {
+	background: -webkit-linear-gradient(left, #16B1FF , #0E85F8); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, #16B1FF , #0E85F8); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right,#16B1FF , #0E85F8); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, #16B1FF , #0E85F8); /* 标准的语法（必须放在最后） */
+   	box-shadow: none;
+}
+
+.g-header-nav .u-title {
+	color: #fff;
+}
+
+.g-header-nav img {
+	height: 24px;
+	float: right;
+	margin-bottom: 10px;
+	vertical-align: bottom;
+	position: relative;
+	bottom: -10px;
+}
+.g-header-nav a {
+	color:#fff;
+}
+
+/*--订单详情页表单部分--*/
+
+.m-detail-table {
+	border-spacing: 0;
+	border-collapse: collapse;
+	margin: 0 auto;
+	width: 90%;
+	border: none;
+}
+
+.m-detail-table tr {
+	border-bottom: 1px solid #F2F2F2;
+}
+
+.m-detail-table th {
+	text-align: left;
+}
+
+.m-detail-table th,
+.m-detail-table td {
+	height: 40px;
+}
+
+
+/*--订单详情页底部按钮--*/
+
+.g-ditail-bar {
+	text-align: center;
+}
+
+.bottom_btn {
+	width: 80%;
+	border-radius: 10px;
+	height: 40px;
+	font-size: 16px;
+}
+.f-margin-auto{
+	margin: 0 auto;
+}
+/*--分割线-订单详情页--*/
+
+.z-line {
+	height: 10px;
+	width: 100%;
+	background-color: #F5F5F5;
+}
+
+/*--提示时字体颜色--*/
+.z-prompt-color {
+	color: #F6BC60 !important;
+}
+
+.z-clear-border {
+	border: none;
+}
+/*--清除图文列表margin-top值--*/
+.m-ul-top{
+	margin-top: 0px !important;
+}
+/*--列表中间的span居中--*/
+.mui-badge-center{
+	/*position: absolute;*/
+    top: 50%;
+    right: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    color: #8f8f94;
+}
+/*--列表中间的span居右--*/
+.mui-badge-right{
+	position: absolute;
+    top: 50%;
+    right: 15px;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    color: #8f8f94;
+}
+/*--普通按钮--*/
+.u-btn-common{
+	color: #fff;
+    border-radius: 16px;
+    width: 108px;
+}
+/*--底部固定按钮--*/
+.g-bottom-bar{
+	background-color: #fff;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	padding-bottom: 8px;
+	padding-top: 8px;
+}
+.u-bottom-btn{	
+    width: 80%;
+    border-radius: 10px;
+}
+/*--底部固定按钮,三个按钮并排展示--*/
+.bottom_threebtn{
+	width: 30%;
+	margin-bottom: 16px;
+	border-radius: 12px;	
+}
+.m-ft-threeBtn{
+	display: flex;
+	justify-content: space-around;
+}
+/*----底部并排两个按钮展示----*/
+.m-btn-bottom{
+	width: 46%;
+	height: 36px;
+	margin-bottom: 16px;
+}
+.g-ditail-barTwo{
+	display: flex;
+	justify-content: space-around;
+}
+/*--消除顶端间隙--*/
+.g-ul-marginTop{
+	margin-top: 0px !important;
+}
+/*列表内容字体颜色*/
+
+.title-color{
+	color: #363636;
+}
+
+/*列表字体样式*/
+.z-list-fontStyle{
+	font-size: 18px;
+	color: #000;
+}
+/*---卡片中字体样式---*/
+.u-font-careStyle{
+	font-size: 14px;
+}
+/*--单行文本超出隐藏样式--*/
+.text-overflow{
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+}
+
+/*去a标签的点击效果*/
+.mui-table-view-cell>a:not(.mui-btn).mui-active{
+	background-color: #fff !important;
+}
+
+/*--显示隐藏--*/
+.z-display-none{
+	display: none;
+}
+.z-display-block{
+	display: block;
+}
+/*--body的浅蓝色背景--*/
+.body-bg-color{
+	background-color: #F0F8FB;
+}
+/*------相对定位------*/
+.f-position-relative{
+	position: relative;
+}
+/*------弹出框模块-----*/
+.m-pop-window{
+	position: fixed;
+    top: 50%;
+    z-index: 999;
+    width: 90%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+}
+.ui-text{
+	padding: 6px;
+	height: 33px;
+    display: inline-block;
+    width: 158px;
+    margin-top: 10px;
+}
+.ui-m-botLlie{
+	border-bottom: 1px solid rgba(200, 199, 204, 0.6);
+}
+.ui-dataTime{
+	margin: 10px 15px;
+	display: inline-block;
+}
+/*------门店图片管理,取消内容部分的margin-top值-----*/
+.m-top-margin{
+	margin-top: 0px !important;
+}
+.z-color-white{
+	color: #fff;
+}
+.u-img-delate{
+	position: absolute;
+    top: 8px;
+    right: -2px;
+}
+/*------弹窗关闭x号------*/
+.u-close{
+	float: right;
+    padding: 2px 5px 5px 5px;
+    position: relative;
+    left: -10px;
+    top: -1px;
+    z-index: 100;
+}

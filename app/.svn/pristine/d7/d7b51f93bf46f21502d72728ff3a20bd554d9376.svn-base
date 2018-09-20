@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>大屏订单</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/function.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/new_file.css" />
+	</head>
+
+	<body>
+
+		<!--导航部分-->
+		<header class="mui-bar mui-bar-nav g-header-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title u-title">大屏订单 </h1>
+			<span><img id="reach" src="img/reach.png"/></span>
+		</header>
+		<!--导航部分结束-->
+		<!--搜索框-->
+		<div class="m-focus-bg z-display-none">
+		</div>
+		<div class="mui-card m-rideo-goodsContent z-display-none">
+			<form class="mui-input-group m-input-group">
+				<div class="mui-input-row mui-radio  send">
+					<label>待支付</label>
+					<input class="a2" name="radio1" type="radio" value="2" checked="checked">
+				</div>
+				<div class="mui-input-row mui-radio send">
+					<label>等待</label>
+					<input class="a2" name="radio1" type="radio" value="3">
+				</div>
+				<div class="mui-input-row mui-radio  send">
+					<label>制作中</label>
+					<input class="a2" name="radio1" type="radio" value="4">
+				</div>
+				<div class="mui-input-row mui-radio  send">
+					<label>完成（可退单）</label>
+					<input class="a2" name="radio1" type="radio" value="5">
+				</div>
+				<div class="mui-input-row mui-radio send">
+					<label>退款中</label>
+					<input class="a2" name="radio1" type="radio" value="7">
+				</div>
+				<div class="mui-input-row mui-radio mui-disabled m-buttom-box">
+
+					<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined u-bottom-switch confirm">
+							确定
+						</button>
+					<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined u-bottom-switch cancel">
+							取消
+						</button>
+				</div>
+			</form>
+		</div>
+		<!--搜索框-->
+		<!--内容部分-->
+		<div class="mui-g-content">
+			<ul class="mui-table-view m-content-bottom gl-list">
+				<!--<li class="mui-table-view-cell mui-media">
+						<a>
+							<div class="mui-media-object mui-pull-left u-pull-img" src="img/wite_money (1).jpg">aaaaaa</div>
+							<div class="mui-media-body">
+								<p class="u-detail-bot"><span class="u-title-hd" id="goodNumber">订单号：cc1225423124</span>&nbsp;
+									<span class="z-folt-right u-title-money">￥60</span></p>
+
+								<p class="mui-ellipsis u-top-line"><span>点单台</span><span class="z-folt-right">2017-03-01</span></p>
+							</div>
+						</a>
+					</li>-->
+			</ul>
+
+		</div>
+		<!--内容部分结束-->
+
+		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/new_file.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var html = '';
+			var aa = "";
+			var cotoken = localStorage.getItem("cotoken");
+			var Authorization = "Bearer " + cotoken;
+			var locations = localStorage.getItem("locations");
+			$('#reach').click(function() {
+				$(".m-focus-bg,.m-rideo-goodsContent").show();
+			});
+			$('.cancel').click(function() {
+				$(".m-focus-bg,.m-rideo-goodsContent").hide();
+			});
+			//console.log(locations);
+			//var aaaa=locations+'/system/orderon.action';
+			//console.log(typeof aaaa);
+			function getList(fsend) {
+				$.ajax({
+
+					type: 'post',
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Authorization": Authorization
+					},
+					url: locations + '/system/orderon.action',
+					data: {
+						"type": fsend,
+						"ordSource": "2"
+					},
+
+					dataType: 'json',
+					success: function(data) {
+						//console.log(JSON.stringify(data.data));
+						html = '';
+						if(data.data.rows.length == "") {
+							alert("数据为空！");
+						}
+						for(i in data.data.rows) {
+							var str = data.data.rows[i].ordNo
+							var ordNo = str.substring(18);
+							var statue = data.data.rows[i].status;
+							html += "<li class='mui-table-view-cell mui-media'>"
+							html += "<a>"
+							if(fsend == 2) {
+								html += "<img class='mui-media-object mui-pull-left u-pull-img' src='img/wite_money_1.jpg'>"
+							} else if(fsend == 3) {
+								html += "<img class='mui-media-object mui-pull-left u-pull-img' src='img/wite_money_2.jpg'>"
+							} else if(fsend == 4) {
+								html += "<img class='mui-media-object mui-pull-left u-pull-img' src='img/wite_money_3.jpg'>"
+							} else if(fsend == 5) {
+								html += "<img class='mui-media-object mui-pull-left u-pull-img' src='img/wite_money_4.jpg'>"
+							} else if(fsend == 7) {
+								html += "<img class='mui-media-object mui-pull-left u-pull-img' src='img/tuikuan_03.png'>"
+							}
+							html += "<div class='mui-media-body'>"
+							html += "<p class='u-detail-bot'>"
+							html += "<span class='u-title-hd' id='goodNumber'>订单号：" + ordNo + "</span>"
+							html += "<input class='u-input-vip' type='hidden' value='" + data.data.rows[i].ordId + "'>"
+							html += "<span class='z-folt-right u-title-money'>￥" + data.data.rows[i].totalPrice + "</span>"
+							html += "</p>"
+							html += "<p class='mui-ellipsis u-top-line'>"
+							//html += "<span>" + data.data.rows[i].ordSource + "</span>"
+							html += "<span class='z-folt-right'>" + data.data.rows[i].createTime + "</span>"
+							html += "</p>"
+							html += "</div>"
+							html += "</a>"
+							html += "</li>"
+						}
+						$('.gl-list').html(html);
+
+						$(".mui-media").click(function() {
+							var orderNum = $(this).find(".u-input-vip").val();
+							localStorage.setItem("ordId", orderNum);
+							localStorage.setItem("jupeOrderType", 2);
+							var webview = mui.openWindow({
+								url: 'order_details.html',
+							});
+						})
+
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest.status);
+						alert(XMLHttpRequest.readyState);
+						alert(textStatus);
+					}
+				})
+			}
+			getList(3);
+			$('.confirm').click(function() {
+				var typen = $("input[name='radio1']:checked").val();
+				$(".m-focus-bg,.m-rideo-goodsContent").hide();
+				getList(typen);
+			});
+			$(".mui-action-back").click(function() {
+				localStorage.removeItem("ordId");
+			})
+			mui.back = function() {
+				location.href = "zhuye.html";
+			}
+		</script>
+
+	</body>
+
+</html>

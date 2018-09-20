@@ -1,0 +1,1016 @@
+{
+  "index.html": {
+    "resources": [
+      "js/jquery-2.1.1.min.js",
+      "js/common.js",
+      "img/login_bg.jpg",
+      "img/QQtupian.png",
+      "zhuye.html",
+      "css/new_file.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/update.js"
+    ],
+    "refer": [
+      "zhuye.html"
+    ]
+  },
+  "zhuye.html": {
+    "resources": [
+      "css/function.css",
+      "css/img.css",
+      "img/lalallaa_35.png",
+      "img/lalallaa_19.png",
+      "img/lalallaa_05.png",
+      "img/lalallaa_07.png",
+      "img/lalallaa_09.png",
+      "img/scan_03.png",
+      "img/lalallaa_17.png",
+      "img/lalallaa_26.png",
+      "js/immersed.js",
+      "img/lalallaa_30.png",
+      "img/lalallaa_15.png",
+      "img/lalallaa_37.png",
+      "js/mui.min.js",
+      "img/lalallaa_25.png",
+      "css/mui.min.css",
+      "img/lalallaa_16.png",
+      "img/lalallaa_38.png",
+      "img/lalallaa_36.png",
+      "img/lalallaa_28.png",
+      "img/lalallaa_03.png",
+      "goods_vip_list.html",
+      "goods_list.html",
+      "statue_list.html",
+      "history_order_list.html",
+      "js/jquery-2.1.1.min.js",
+      "js/common.js",
+      "wuliaoguizonglan.html",
+      "store_stock_list.html",
+      "order_list.html",
+      "gerenxinxi.html",
+      "statue_list_onlyOne.html",
+      "brand_menu.list.html",
+      "store_salesVolune_detail.html",
+      "xiaoxi.html",
+      "js/new_file.js",
+      "barcode_scan.html",
+      "order_schedule_list.html",
+      "index.html",
+      "goods_refundment_list.html",
+      "css/new_file.css",
+      "js/update.js",
+      "aaa.html",
+      "js/shortcut.js",
+      "imgs_list.html"
+    ],
+    "refer": [
+      "statue_list.html",
+      "goods_list.html",
+      "goods_vip_list.html",
+      "history_order_list.html",
+      "wuliaoguizonglan.html",
+      "store_stock_list.html",
+      "order_list.html",
+      "gerenxinxi.html",
+      "barcode_scan.html",
+      "statue_list_onlyOne.html",
+      "brand_menu.list.html",
+      "store_salesVolune_detail.html",
+      "xiaoxi.html",
+      "order_schedule_list.html",
+      "index.html",
+      "dingdanjindu.html",
+      "goods_refundment_list.html",
+      "goods_refundment_detail.html",
+      "order_details.html",
+      "aaa.html",
+      "imgs_list.html"
+    ]
+  },
+  "goods_vip_list.html": {
+    "resources": [
+      "css/new_file.css",
+      "css/function.css",
+      "css/mui.min.css",
+      "js/My97DatePicker/skin/WdatePicker.css",
+      "zhuye.html",
+      "js/My97DatePicker/WdatePicker.js",
+      "img/reach.png",
+      "img/wite_money (1).jpg",
+      "fonts/mui.ttf",
+      "order_details.html",
+      "js/jquery-2.1.1.min.js",
+      "js/common.js",
+      "js/mui.min.js",
+      "img/wite_money_2.jpg",
+      "img/wite_money_1.jpg",
+      "img/wite_money_3.jpg",
+      "img/wite_money_4.jpg"
+    ],
+    "refer": [
+      "zhuye.html",
+      "order_details.html"
+    ]
+  },
+  "goods_list.html": {
+    "resources": [
+      "zhuye.html",
+      "css/new_file.css",
+      "js/My97DatePicker/WdatePicker.js",
+      "css/function.css",
+      "img/reach.png",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/My97DatePicker/skin/WdatePicker.css",
+      "img/wite_money (1).jpg",
+      "img/wite_money (3).jpg",
+      "img/wite_money (4).jpg",
+      "img/wite_money (2).jpg",
+      "goods_detail_relevance.html",
+      "history_order_list.html",
+      "js/mui.picker.min.js",
+      "js/jquery-2.1.1.min.js",
+      "js/common.js",
+      "js/mui.min.js",
+      "css/mui.picker.css",
+      "js/new_file.js",
+      "img/wite_money_1.jpg",
+      "img/wite_money_2.jpg",
+      "img/wite_money_3.jpg",
+      "img/wite_money_4.jpg"
+    ],
+    "refer": [
+      "zhuye.html",
+      "goods_detail_relevance.html",
+      "history_order_list.html",
+      "order_details.html"
+    ]
+  },
+  "statue_list.html": {
+    "resources": [
+      "zhuye.html",
+      "css/new_file.css",
+      "img/statue_list_03.jpg",
+      "css/mui.min.css",
+      "js/jquery-2.1.1.min.js",
+      "css/function.css",
+      "js/common.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "js/immersed.js",
+      "statue_detail.html",
+      "img/upload-bj_01.png",
+      "barcode_scan.html",
+      "store_confirmOrder_page.html",
+      "statue_detailMore.html"
+    ],
+    "refer": [
+      "zhuye.html",
+      "barcode_scan.html",
+      "statue_detail.html",
+      "store_confirmOrder_page.html",
+      "statue_detailMore.html",
+      "statue_massage_page.html",
+      "statue_servicing_page.html"
+    ]
+  },
+  "history_order_list.html": {
+    "resources": [
+      "css/new_file.css",
+      "js/My97DatePicker/WdatePicker.js",
+      "img/reach.png",
+      "css/mui.min.css",
+      "js/My97DatePicker/skin/WdatePicker.css",
+      "fonts/mui.ttf",
+      "zhuye.html",
+      "css/function.css",
+      "img/hostry_coder_03.png",
+      "js/jquery-2.1.1.min.js",
+      "js/mui.min.js",
+      "js/common.js",
+      "js/new_file.js",
+      "img/wite_money_4.jpg",
+      "js/mui.picker.min.js",
+      "css/mui.picker.min.css",
+      "img/yituidan_03.png"
+    ],
+    "refer": [
+      "zhuye.html",
+      "order_details.html",
+      "order_details_history.html"
+    ]
+  },
+  "barcode_scan.html": {
+    "resources": [
+      "css/common.css",
+      "js/common.js"
+    ],
+    "refer": []
+  },
+  "statue_detail.html": {
+    "resources": [
+      "js/diyUpload.js",
+      "css/new_file.css",
+      "css/function.css",
+      "css/globle.css",
+      "js/mui.picker.min.js",
+      "js/mui.min.js",
+      "js/webuploader.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/mui.picker.css",
+      "images/upload-bj.png",
+      "images/bgblack.png",
+      "images/upload-icon1.png",
+      "statue_list.html",
+      "js/jquery-2.1.1.min.js",
+      "statue_list_onlyOne.html"
+    ],
+    "refer": [
+      "statue_list.html",
+      "statue_list_onlyOne.html",
+      "store_confirmOrder_page.html",
+      "zhuye.html"
+    ]
+  },
+  "goods_detail_relevance.html": {
+    "resources": [
+      "css/mui.min.css",
+      "goods_list.html"
+    ],
+    "refer": [
+      "goods_list.html"
+    ]
+  },
+  "wuliaoguizonglan.html": {
+    "resources": [
+      "img/wuliao5.png",
+      "img/wuliao1.png",
+      "img/wuliao10.png",
+      "img/jjj.PNG",
+      "img/wuliao12.png",
+      "css/mui.min.css",
+      "img/wuliao2.png",
+      "wuliaogui.html",
+      "zhuye.html",
+      "css/function.css",
+      "fonts/mui.ttf",
+      "css/new_file.css",
+      "js/new_file.js",
+      "img/wuliaoguizonglan_03.png",
+      "js/jquery-2.1.1.min.js",
+      "js/mui.min.js",
+      "wuliao_moreMnue.list.html",
+      "wuliao_moreDetail.html",
+      "img/wuliaoguizonglan_06.png",
+      "img/wuliaozonglan_03.png"
+    ],
+    "refer": [
+      "wuliaogui.html",
+      "zhuye.html",
+      "wuliao_moreMnue.list.html",
+      "wuliao_moreDetail.html",
+      "wuliao_addBox_page.html",
+      "wuliao_moreMnueList.html"
+    ]
+  },
+  "wuliaogui.html": {
+    "resources": [
+      "css/mui.min.css",
+      "instruct_operate_list.html",
+      "wuliaoguizonglan.html",
+      "css/function.css",
+      "css/new_file.css",
+      "js/jquery-2.1.1.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "instruct_operate_list.html",
+      "wuliaoguizonglan.html"
+    ]
+  },
+  "instruct_operate_list.html": {
+    "resources": [
+      "css/new_file.css",
+      "img/instruct-operate_27.png",
+      "img/instruct-operate_03.png",
+      "css/function.css",
+      "img/instruct-operate_15.png",
+      "img/instruct-operate_23.png",
+      "img/instruct-operate_11.png",
+      "img/instruct-operate_06.png",
+      "img/instruct-operate_19.png",
+      "wuliaogui.html",
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "js/jquery-2.1.1.min.js",
+      "img/wuliaoguizonglan_06.png"
+    ],
+    "refer": [
+      "wuliaogui.html"
+    ]
+  },
+  "store_stock_list.html": {
+    "resources": [
+      "js/My97DatePicker/WdatePicker.js",
+      "img/store-stock.png",
+      "css/mui.min.css",
+      "js/My97DatePicker/skin/WdatePicker.css",
+      "dingdanrukubiao.html",
+      "zhuye.html",
+      "index.html",
+      "css/new_file.css",
+      "fonts/mui.ttf",
+      "history.html",
+      "dingdanruku.html",
+      "css/function.css",
+      "js/jquery-2.1.1.min.js",
+      "js/common.js",
+      "history_order_list.html",
+      "js/mui.min.js",
+      "store_stock_detail.html",
+      "store_detail_relevance.html",
+      "store_sendOrder_page.html",
+      "order_schedule_list.html"
+    ],
+    "refer": [
+      "dingdanrukubiao.html",
+      "zhuye.html",
+      "index.html",
+      "history.html",
+      "dingdanruku.html",
+      "history_order_list.html",
+      "store_stock_detail.html",
+      "store_detail_relevance.html",
+      "store_sendOrder_page.html",
+      "order_schedule_list.html"
+    ]
+  },
+  "dingdanrukubiao.html": {
+    "resources": [
+      "store_stock_list.html",
+      "css/mui.min.css",
+      "dingdanruku.html",
+      "store_detail_relevance.html"
+    ],
+    "refer": [
+      "store_stock_list.html",
+      "dingdanruku.html",
+      "store_detail_relevance.html"
+    ]
+  },
+  "history.html": {
+    "resources": [
+      "css/mui.min.css",
+      "store_stock_list.html",
+      "css/function.css",
+      "css/new_file.css"
+    ],
+    "refer": [
+      "store_stock_list.html"
+    ]
+  },
+  "dingdanruku.html": {
+    "resources": [
+      "css/mui.min.css",
+      "store_stock_list.html",
+      "css/function.css",
+      "dingdanrukubiao.html"
+    ],
+    "refer": [
+      "store_stock_list.html",
+      "dingdanrukubiao.html"
+    ]
+  },
+  "order_list.html": {
+    "resources": [
+      "img/brand_03.png",
+      "css/new_file.css",
+      "dinghuodan.html",
+      "css/mui.min.css",
+      "zhuye.html",
+      "js/jquery-2.1.1.min.js",
+      "css/function.css",
+      "fonts/mui.ttf",
+      "store_finishOrder_page.html",
+      "store_finishOrderMore_page.html",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "dinghuodan.html",
+      "zhuye.html",
+      "store_finishOrder_page.html",
+      "store_finishOrderMore_page.html"
+    ]
+  },
+  "dinghuodan.html": {
+    "resources": [
+      "css/mui.min.css",
+      "order_list.html",
+      "store_stock_list.html",
+      "store_confirmOrder_page.html"
+    ],
+    "refer": [
+      "order_list.html",
+      "store_stock_list.html",
+      "store_confirmOrder_page.html"
+    ]
+  },
+  "gerenxinxi.html": {
+    "resources": [
+      "js/diyUpload.js",
+      "css/new_file.css",
+      "css/globle.css",
+      "js/mui.picker.min.js",
+      "js/webuploader.min.js",
+      "css/mui.picker.css",
+      "images/upload-bj.png",
+      "zhuye.html",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "images/bgblack.png",
+      "css/function.css",
+      "img/QQtupian.png",
+      "js/jquery-2.1.1.min.js",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "zhuye.html",
+      "resetPassword_page.html",
+      "version_information_page.html"
+    ]
+  },
+  "xiaoxi.html": {
+    "resources": [
+      "css/mui.min.css",
+      "zhuye.html",
+      "css/function.css",
+      "fonts/mui.ttf",
+      "css/new_file.css",
+      "js/jquery-2.1.1.min.js",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "zhuye.html"
+    ]
+  },
+  "brand_menu.list.html": {
+    "resources": [
+      "css/new_file.css",
+      "img/brand-menu_08.jpg",
+      "caipin.html",
+      "img/brand-menu_06.jpg",
+      "img/brand-menu_03.jpg",
+      "css/mui.min.css",
+      "zhuye.html",
+      "fonts/mui.ttf",
+      "css/function.css",
+      "js/jquery-2.1.1.min.js",
+      "img/upLine.png",
+      "img/downLine.png",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "caipin.html",
+      "zhuye.html"
+    ]
+  },
+  "caipin.html": {
+    "resources": [
+      "css/mui.picker.css",
+      "brand_menu.list.html",
+      "css/mui.min.css",
+      "css/function.css",
+      "css/new_file.css",
+      "js/jquery-2.1.1.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "brand_menu.list.html"
+    ]
+  },
+  "store_salesVolune_detail.html": {
+    "resources": [
+      "js/echarts.common.min.js",
+      "css/new_file.css",
+      "zhuye.html",
+      "css/mui.min.css",
+      "css/function.css",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "zhuye.html"
+    ]
+  },
+  "statue_list_onlyOne.html": {
+    "resources": [
+      "css/new_file.css",
+      "img/statue_list_03.jpg",
+      "fonts/mui.ttf",
+      "zhuye.html",
+      "css/mui.min.css",
+      "statue_detail.html",
+      "css/function.css",
+      "js/common.js",
+      "img/upload-bj_01.png",
+      "js/immersed.js",
+      "js/jquery-2.1.1.min.js",
+      "js/mui.min.js",
+      "index.html"
+    ],
+    "refer": [
+      "barcode_scan.html",
+      "zhuye.html",
+      "statue_detail.html",
+      "index.html",
+      "statue_massage_page.html",
+      "statue_servicing_page.html"
+    ]
+  },
+  "store_stock_detail.html": {
+    "resources": [
+      "zhuye.html",
+      "css/new_file.css",
+      "css/mui.min.css",
+      "css/function.css",
+      "store_stock_list.html",
+      "store_finishOrder_page.html",
+      "js/new_file.js",
+      "js/jquery-2.1.1.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "zhuye.html",
+      "store_stock_list.html",
+      "store_finishOrder_page.html"
+    ]
+  },
+  "order_details.html": {
+    "resources": [
+      "css/new_file.css",
+      "js/new_file.js",
+      "js/My97DatePicker/WdatePicker.js",
+      "css/function.css",
+      "js/jquery-2.1.1.min.js",
+      "js/common.js",
+      "js/mui.min.js",
+      "img/reach.png",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/My97DatePicker/skin/WdatePicker.css",
+      "js/immersed.js",
+      "goods_vip_list.html",
+      "img/upLine.png"
+    ],
+    "refer": [
+      "goods_vip_list.html",
+      "goods_refundment_page.html",
+      "order_details_goods.html"
+    ]
+  },
+  "store_detail_relevance.html": {
+    "resources": [
+      "css/mui.min.css",
+      "dingdanrukubiao.html",
+      "css/new_file.css",
+      "store_stock_list.html",
+      "store_confirmOrder_page.html",
+      "css/function.css"
+    ],
+    "refer": [
+      "dingdanrukubiao.html",
+      "store_stock_list.html",
+      "store_confirmOrder_page.html"
+    ]
+  },
+  "store_confirmOrder_page.html": {
+    "resources": [
+      "zhuye.html",
+      "css/mui.min.css",
+      "dinghuodan.html",
+      "store_finishOrder_page.html",
+      "statue_list.html",
+      "store_stock_list.html",
+      "js/jquery-2.1.1.min.js",
+      "css/new_file.css",
+      "css/function.css",
+      "store_detail_relevance.html",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "dingdanjindu.html"
+    ],
+    "refer": [
+      "zhuye.html",
+      "dinghuodan.html",
+      "store_finishOrder_page.html",
+      "statue_list.html",
+      "store_stock_list.html",
+      "store_detail_relevance.html",
+      "dingdanjindu.html"
+    ]
+  },
+  "store_finishOrder_page.html": {
+    "resources": [
+      "zhuye.html",
+      "css/mui.min.css",
+      "store_sendOrder_page.html",
+      "store_stock_detail.html",
+      "order_list.html",
+      "css/new_file.css",
+      "js/jquery-2.1.1.min.js",
+      "css/function.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "zhuye.html",
+      "store_sendOrder_page.html",
+      "store_stock_detail.html",
+      "order_list.html"
+    ]
+  },
+  "store_sendOrder_page.html": {
+    "resources": [
+      "css/mui.min.css",
+      "zhuye.html",
+      "store_finishOrder_page.html",
+      "css/new_file.css",
+      "css/function.css",
+      "js/jquery-2.1.1.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "zhuye.html",
+      "store_finishOrder_page.html"
+    ]
+  },
+  "order_schedule_list.html": {
+    "resources": [
+      "css/new_file.css",
+      "js/My97DatePicker/WdatePicker.js",
+      "img/hostry_coder_06.png",
+      "img/reach.png",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "img/hostry_coder_08.png",
+      "js/My97DatePicker/skin/WdatePicker.css",
+      "img/hostry_coder_03.png",
+      "zhuye.html",
+      "css/function.css",
+      "dingdanjindu.html",
+      "js/jquery-2.1.1.min.js",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "zhuye.html",
+      "dingdanjindu.html"
+    ]
+  },
+  "dingdanjindu.html": {
+    "resources": [
+      "css/mui.min.css",
+      "order_schedule_list.html",
+      "css/function.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/new_file.css",
+      "js/jquery-2.1.1.min.js",
+      "store_confirmOrder_page.html"
+    ],
+    "refer": [
+      "order_schedule_list.html",
+      "store_confirmOrder_page.html",
+      "zhuye.html"
+    ]
+  },
+  "goods_refundment_list.html": {
+    "resources": [
+      "img/wite_money (1).jpg",
+      "css/new_file.css",
+      "img/reach.png",
+      "js/jquery-2.1.1.min.js",
+      "css/function.css",
+      "js/common.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "img/wite_money (4).jpg",
+      "zhuye.html",
+      "img/wite_money_4.jpg",
+      "img/yituidan_03.png",
+      "goods_refundment_list.html",
+      "js/mui.picker.min.js",
+      "css/mui.picker.min.css"
+    ],
+    "refer": [
+      "order_details.html",
+      "zhuye.html",
+      "goods_refundment_detail.html",
+      "goods_refundment_list.html"
+    ]
+  },
+  "goods_refundment_page.html": {
+    "resources": [
+      "css/new_file.css",
+      "css/mui.min.css",
+      "css/mui.picker.css",
+      "css/function.css",
+      "js/mui.picker.min.js",
+      "js/jquery-2.1.1.min.js",
+      "js/common.js",
+      "js/mui.min.js",
+      "img/reach.png",
+      "fonts/mui.ttf",
+      "js/immersed.js"
+    ],
+    "refer": [
+      "zhuye.html",
+      "order_details.html",
+      "goods_list.html"
+    ]
+  },
+  "goods_refundment_detail.html": {
+    "resources": [
+      "css/new_file.css",
+      "js/My97DatePicker/WdatePicker.js",
+      "css/mui.min.css",
+      "js/My97DatePicker/skin/WdatePicker.css",
+      "js/immersed.js",
+      "css/function.css",
+      "js/jquery-2.1.1.min.js",
+      "js/common.js",
+      "js/mui.min.js",
+      "img/reach.png",
+      "fonts/mui.ttf"
+    ],
+    "refer": []
+  },
+  "store_finishOrderMore_page.html": {
+    "resources": [
+      "order_list.html",
+      "css/mui.min.css",
+      "store_sendOrder_page.html",
+      "store_sendOrderMore_page.html",
+      "css/new_file.css",
+      "css/function.css",
+      "js/jquery-2.1.1.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "order_list.html",
+      "store_sendOrder_page.html",
+      "store_sendOrderMore_page.html"
+    ]
+  },
+  "store_sendOrderMore_page.html": {
+    "resources": [
+      "zhuye.html",
+      "store_finishOrderMore_page.html",
+      "css/mui.min.css",
+      "css/new_file.css",
+      "css/function.css"
+    ],
+    "refer": [
+      "zhuye.html",
+      "store_finishOrderMore_page.html",
+      "order_list.html"
+    ]
+  },
+  "statue_detailMore.html": {
+    "resources": [
+      "css/globle.css",
+      "css/mui.picker.css",
+      "statue_list.html",
+      "css/mui.min.css",
+      "js/diyUpload.js",
+      "js/mui.picker.min.js",
+      "js/webuploader.min.js",
+      "images/upload-bj.png",
+      "css/new_file.css",
+      "zhuye.html",
+      "css/function.css",
+      "images/bgblack.png"
+    ],
+    "refer": [
+      "statue_list.html",
+      "zhuye.html"
+    ]
+  },
+  "order_details_goods.html": {
+    "resources": [
+      "css/new_file.css",
+      "css/mui.min.css",
+      "js/jquery-2.1.1.min.js",
+      "css/function.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "js/qrcode.js"
+    ],
+    "refer": [
+      "order_details.html"
+    ]
+  },
+  "wuliao_moreMnue.list.html": {
+    "resources": [
+      "css/mui.min.css",
+      "wuliaoguizonglan.html",
+      "css/new_file.css",
+      "js/jquery-2.1.1.min.js",
+      "css/function.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "wuliaoguizonglan.html",
+      "wuliao_moreDetail.html"
+    ]
+  },
+  "wuliao_moreDetail.html": {
+    "resources": [
+      "css/new_file.css",
+      "js/jquery-2.1.1.min.js",
+      "css/function.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "wuliaoguizonglan.html"
+    ],
+    "refer": [
+      "instruct_operate_list.html",
+      "wuliaoguizonglan.html",
+      "wuliao_addOriginal_page.html"
+    ]
+  },
+  "resetPassword_page.html": {
+    "resources": [
+      "css/new_file.css",
+      "css/mui.min.css",
+      "js/jquery-2.1.1.min.js",
+      "css/function.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "gerenxinxi.html"
+    ]
+  },
+  "aaa.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "img/hostry_coder_03.png",
+      "zhuye.html",
+      "img/reach.png",
+      "css/mui.min.css"
+    ],
+    "refer": [
+      "zhuye.html"
+    ]
+  },
+  "order_details_history.html": {
+    "resources": [
+      "js/common.js",
+      "js/immersed.js",
+      "css/new_file.css",
+      "css/function.css",
+      "css/mui.min.css",
+      "js/jquery-2.1.1.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "order_details_historyPage.html"
+    ]
+  },
+  "wuliao_moreMnueList.html": {
+    "resources": [
+      "css/new_file.css",
+      "js/jquery-2.1.1.min.js",
+      "css/function.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ],
+    "refer": [
+      "wuliao_moreDetail.html",
+      "wuliaogui.html"
+    ]
+  },
+  "wuliao_addBox_page.html": {
+    "resources": [
+      "css/new_file.css",
+      "js/jquery-2.1.1.min.js",
+      "css/function.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ],
+    "refer": [
+      "instruct_operate_list.html",
+      "wuliaoguizonglan.html"
+    ]
+  },
+  "wuliao_addOriginal_page.html": {
+    "resources": [
+      "css/mui.min.css",
+      "css/new_file.css",
+      "js/jquery-2.1.1.min.js",
+      "css/function.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "wuliao_moreDetail.html"
+    ]
+  },
+  "order_details_historyPage.html": {
+    "resources": [
+      "css/mui.min.css",
+      "css/new_file.css",
+      "js/jquery-2.1.1.min.js",
+      "css/function.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": []
+  },
+  "imgs_list.html": {
+    "resources": [
+      "css/new_file.css",
+      "js/jquery-2.1.1.min.js",
+      "css/function.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/mui.zoom.js",
+      "img/brand-menu_08.jpg",
+      "js/mui.previewimage.js",
+      "zhuye.html"
+    ],
+    "refer": [
+      "imgs_push_page.html",
+      "zhuye.html"
+    ]
+  },
+  "imgs_push_page.html": {
+    "resources": [
+      "js/diyUpload.js",
+      "css/globle.css",
+      "js/webuploader.min.js",
+      "images/upload-bj.png",
+      "css/mui.min.css",
+      "images/bgblack.png",
+      "images/upload-icon1.png",
+      "css/new_file.css",
+      "js/jquery-2.1.1.min.js",
+      "css/function.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": []
+  },
+  "statue_massage_page.html": {
+    "resources": [
+      "css/mui.min.css",
+      "css/new_file.css",
+      "js/jquery-2.1.1.min.js",
+      "css/function.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "statue_list_onlyOne.html",
+      "statue_list.html"
+    ]
+  },
+  "statue_servicing_page.html": {
+    "resources": [
+      "css/new_file.css",
+      "img/store-stock.png",
+      "css/function.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/update.js",
+      "js/jquery-2.1.1.min.js"
+    ]
+  },
+  "version_information_page.html": {
+    "resources": [
+      "css/new_file.css",
+      "js/jquery-2.1.1.min.js",
+      "css/function.css",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "img/version.png"
+    ]
+  }
+}
